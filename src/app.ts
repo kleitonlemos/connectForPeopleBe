@@ -7,6 +7,7 @@ import Fastify from 'fastify';
 import { env } from './config/env.js';
 import { authRoutes } from './features/auth/routes.js';
 import { documentsRoutes } from './features/documents/routes.js';
+import { emailsRoutes } from './features/emails/routes.js';
 import { healthRoutes } from './features/health/routes.js';
 import { interviewsRoutes } from './features/interviews/routes.js';
 import { organizationsRoutes } from './features/organizations/routes.js';
@@ -60,6 +61,7 @@ await app.register(documentsRoutes, { prefix: '/api/documents' });
 await app.register(surveysRoutes, { prefix: '/api/surveys' });
 await app.register(interviewsRoutes, { prefix: '/api/interviews' });
 await app.register(reportsRoutes, { prefix: '/api/reports' });
+await app.register(emailsRoutes, { prefix: '/api/emails' });
 
 const start = async (): Promise<void> => {
   try {
