@@ -27,7 +27,8 @@
       "@shared/*": ["./shared/*"],
       "@features/*": ["./features/*"],
       "@config/*": ["./config/*"],
-      "@types/*": ["./types/*"]
+      "@types/*": ["./types/*"],
+      "@prisma/client": ["src/generated/prisma/client"]
     }
   },
   "include": ["src/**/*"],
