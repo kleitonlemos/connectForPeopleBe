@@ -1,0 +1,145 @@
+import OpenAI from 'openai';
+import { prisma } from '../../config/database.js';
+import { env } from '../../config/env.js';
+
+const openai = new OpenAI({
+  apiKey: env.OPENAI_API_KEY,
+});
+
+interface AnalysisResult {
+  sentiment: 'positive' | 'neutral' | 'negative' | 'mixed';
+  sentimentScore: number;
+  themes: string[];
+  keyInsights: string[];
+  anonymizedSummary: string;
+  actionItems: string[];
+}
+
+export const aiService = {
+  async analyzeInterview(
+    projectId: string,
+    interviewId: string,
+    transcription: string
+  ): Promise<AnalysisResult> {
+    let conversation = await prisma.aIConversation.findFirst({
+      where: { projectId, purpose: 'interview_analysis' },
+    });
+
+    if (!conversation) {
+      conversation = await prisma.aIConversation.create({
+        data: {
+          projectId,
+          purpose: 'interview_analysis',
+          model: 'gpt-4o-mini',
+        },
+      });
+    }
+
+    const systemPrompt = `Você é um especialista em análise de entrevistas de diagnóstico organizacional.
+Sua tarefa é analisar transcrições de entrevistas e extrair insights valiosos.
+
+REGRAS IMPORTANTES:
+1. NUNCA identifique o entrevistado diretamente
+2. Foque em padrões de comportamento e sentimentos
+3. Extraia temas recorrentes e dores
+4. Mantenha total anonimato nas citações
+5. Seja objetivo e profissional
+
+Responda SEMPRE em JSON válido com a estrutura:
+{
+  "sentiment": "positive|neutral|negative|mixed",
+  "sentimentScore": 0.0 a 1.0,
+  "themes": ["tema1", "tema2"],
+  "keyInsights": ["insight1", "insight2"],
+  "anonymizedSummary": "resumo sem identificação",
+  "actionItems": ["ação1", "ação2"]
+}`;
+
+    const response = await openai.responses.create({
+      model: conversation.model,
+      input: [
+        { role: 'system', content: systemPrompt },
+        {
+          role: 'user',
+          content: `Analise a seguinte transcrição de entrevista:\n\n${transcription}`,
+        },
+      ],
+      ...(conversation.lastResponseId && { previous_response_id: conversation.lastResponseId }),
+    });
+
+    await prisma.aIConversation.update({
+      where: { id: conversation.id },
+      data: {
+        lastResponseId: response.id,
+        totalTokensUsed: { increment: response.usage?.total_tokens ?? 0 },
+      },
+    });
+
+    await prisma.aIMessage.create({
+      data: {
+        conversationId: conversation.id,
+        role: 'user',
+        content: transcription.substring(0, 1000),
+        tokensUsed: response.usage?.input_tokens ?? 0,
+      },
+    });
+
+    const outputText = response.output_text;
+    await prisma.aIMessage.create({
+      data: {
+        conversationId: conversation.id,
+        role: 'assistant',
+        content: outputText,
+        responseId: response.id,
+        tokensUsed: response.usage?.output_tokens ?? 0,
+      },
+    });
+
+    const analysis = JSON.parse(outputText) as AnalysisResult;
+
+    await prisma.interview.update({
+      where: { id: interviewId },
+      data: {
+        aiConversationId: conversation.id,
+        analysisResult: analysis as object,
+        sentimentScore: analysis.sentimentScore,
+        keyThemes: analysis.themes,
+        anonymizedSummary: analysis.anonymizedSummary,
+        status: 'ANALYZED',
+      },
+    });
+
+    return analysis;
+  },
+
+  async generateReportSection(
+    projectId: string,
+    sectionType: 'executive_summary' | 'cultural_analysis' | 'climate_indicators' | 'action_plan',
+    contextData: Record<string, unknown>
+  ): Promise<string> {
+    const prompts: Record<string, string> = {
+      executive_summary: 'Gere um resumo executivo profissional baseado nos dados fornecidos.',
+      cultural_analysis: 'Analise a cultura organizacional com base nos documentos e pesquisas.',
+      climate_indicators: 'Compile os indicadores de clima organizacional em formato narrativo.',
+      action_plan: 'Sugira um plano de ação baseado nos problemas identificados.',
+    };
+
+    const response = await openai.responses.create({
+      model: 'gpt-4o-mini',
+      input: [
+        {
+          role: 'system',
+          content: `Você é um consultor de RH especializado em diagnóstico organizacional.
+${prompts[sectionType]}
+Escreva de forma profissional e objetiva.`,
+        },
+        {
+          role: 'user',
+          content: JSON.stringify(contextData),
+        },
+      ],
+    });
+
+    return response.output_text;
+  },
+};

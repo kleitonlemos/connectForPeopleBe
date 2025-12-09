@@ -1,0 +1,76 @@
+import cors from '@fastify/cors';
+import helmet from '@fastify/helmet';
+import jwt from '@fastify/jwt';
+import multipart from '@fastify/multipart';
+import rateLimit from '@fastify/rate-limit';
+import Fastify from 'fastify';
+import { env } from './config/env.js';
+import { authRoutes } from './features/auth/routes.js';
+import { documentsRoutes } from './features/documents/routes.js';
+import { healthRoutes } from './features/health/routes.js';
+import { interviewsRoutes } from './features/interviews/routes.js';
+import { organizationsRoutes } from './features/organizations/routes.js';
+import { projectsRoutes } from './features/projects/routes.js';
+import { reportsRoutes } from './features/reports/routes.js';
+import { surveysRoutes } from './features/surveys/routes.js';
+import { tenantsRoutes } from './features/tenants/routes.js';
+import { errorHandler } from './shared/middlewares/errorHandler.js';
+
+const app = Fastify({
+  logger: {
+    level: env.NODE_ENV === 'development' ? 'debug' : 'info',
+    transport:
+      env.NODE_ENV === 'development'
+        ? { target: 'pino-pretty', options: { colorize: true } }
+        : undefined,
+  },
+});
+
+await app.register(cors, {
+  origin: env.FRONTEND_URL,
+  credentials: true,
+});
+
+await app.register(helmet);
+
+await app.register(rateLimit, {
+  max: 100,
+  timeWindow: '1 minute',
+});
+
+await app.register(jwt, {
+  secret: env.JWT_SECRET,
+  sign: { expiresIn: env.JWT_EXPIRES_IN },
+});
+
+await app.register(multipart, {
+  limits: {
+    fileSize: 50 * 1024 * 1024,
+  },
+});
+
+app.setErrorHandler(errorHandler);
+
+await app.register(healthRoutes, { prefix: '/api' });
+await app.register(authRoutes, { prefix: '/api/auth' });
+await app.register(tenantsRoutes, { prefix: '/api/tenants' });
+await app.register(organizationsRoutes, { prefix: '/api/organizations' });
+await app.register(projectsRoutes, { prefix: '/api/projects' });
+await app.register(documentsRoutes, { prefix: '/api/documents' });
+await app.register(surveysRoutes, { prefix: '/api/surveys' });
+await app.register(interviewsRoutes, { prefix: '/api/interviews' });
+await app.register(reportsRoutes, { prefix: '/api/reports' });
+
+const start = async (): Promise<void> => {
+  try {
+    await app.listen({ port: env.PORT, host: '0.0.0.0' });
+    console.log(`🚀 Server running on http://localhost:${env.PORT}`);
+  } catch (err) {
+    app.log.error(err);
+    process.exit(1);
+  }
+};
+
+start();
+
+export { app };
