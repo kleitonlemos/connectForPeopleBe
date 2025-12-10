@@ -156,4 +156,131 @@ Escreva de forma profissional e objetiva.`,
 
     return response.output_text;
   },
+
+  async generateReport(input: {
+    projectId: string;
+    includeSurveys: boolean;
+    includeInterviews: boolean;
+    includeDocuments: boolean;
+    customInstructions?: string;
+  }) {
+    const { projectId, includeSurveys, includeInterviews, includeDocuments, customInstructions } =
+      input;
+
+    const contextParts: string[] = [];
+
+    if (includeSurveys) {
+      const surveys = await prisma.survey.findMany({
+        where: { projectId },
+        include: {
+          responses: { include: { answers: true } },
+          sections: { include: { questions: true } },
+        },
+      });
+      if (surveys.length > 0) {
+        contextParts.push(`## Dados das Pesquisas\n${JSON.stringify(surveys, null, 2)}`);
+      }
+    }
+
+    if (includeInterviews) {
+      const interviews = await prisma.interview.findMany({
+        where: { projectId },
+        select: {
+          id: true,
+          intervieweeRole: true,
+          analysisResult: true,
+          keyThemes: true,
+          sentimentScore: true,
+        },
+      });
+      if (interviews.length > 0) {
+        contextParts.push(`## Análise das Entrevistas\n${JSON.stringify(interviews, null, 2)}`);
+      }
+    }
+
+    if (includeDocuments) {
+      const documents = await prisma.document.findMany({
+        where: { projectId, status: 'VALIDATED' },
+        select: { type: true, name: true, description: true },
+      });
+      if (documents.length > 0) {
+        contextParts.push(`## Documentos Validados\n${JSON.stringify(documents, null, 2)}`);
+      }
+    }
+
+    const customPart = customInstructions
+      ? `\n\n## Instruções Adicionais do Consultor\n${customInstructions}`
+      : '';
+
+    let conversation = await prisma.aIConversation.findFirst({
+      where: { projectId, purpose: 'full_report' },
+    });
+
+    if (!conversation) {
+      conversation = await prisma.aIConversation.create({
+        data: {
+          projectId,
+          purpose: 'full_report',
+          model: AI_MODEL,
+        },
+      });
+    }
+
+    const response = await openai.responses.create({
+      model: AI_MODEL,
+      instructions: `Você é um consultor sênior de RH e diagnóstico organizacional.
+Gere um relatório executivo completo baseado nos dados fornecidos.
+
+O relatório deve conter:
+1. Sumário Executivo
+2. Metodologia
+3. Análise de Clima Organizacional
+4. Pontos Fortes Identificados
+5. Áreas de Melhoria
+6. Recomendações Estratégicas
+7. Plano de Ação Sugerido
+
+Seja profissional, objetivo e baseie-se exclusivamente nos dados fornecidos.
+${customPart}`,
+      input: contextParts.join('\n\n'),
+      ...(conversation.lastResponseId && { previous_response_id: conversation.lastResponseId }),
+      reasoning: { effort: 'high' },
+    });
+
+    await prisma.aIConversation.update({
+      where: { id: conversation.id },
+      data: {
+        lastResponseId: response.id,
+        totalTokensUsed: { increment: response.usage?.total_tokens ?? 0 },
+      },
+    });
+
+    const existingReport = await prisma.report.findFirst({
+      where: { projectId },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    if (existingReport) {
+      const updated = await prisma.report.update({
+        where: { id: existingReport.id },
+        data: {
+          executiveSummary: response.output_text,
+          generatedContent: { fullReport: response.output_text },
+          status: 'DRAFT',
+          metadata: {
+            includedSurveys: includeSurveys,
+            includedInterviews: includeInterviews,
+            includedDocuments: includeDocuments,
+            customInstructions: customInstructions ?? null,
+            generatedAt: new Date().toISOString(),
+          },
+        },
+      });
+      return updated;
+    }
+
+    return {
+      message: 'Relatório gerado. Crie um relatório na página de relatórios para salvá-lo.',
+    };
+  },
 };

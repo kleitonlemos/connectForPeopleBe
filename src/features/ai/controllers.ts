@@ -1,11 +1,20 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { success } from '../../shared/utils/response.js';
 import { aiChatService } from './chatService.js';
+import { aiService } from './services.js';
 
 interface ChatBody {
   message: string;
   projectId: string;
   conversationId?: string;
+}
+
+interface GenerateReportBody {
+  projectId: string;
+  includeSurveys: boolean;
+  includeInterviews: boolean;
+  includeDocuments: boolean;
+  customInstructions?: string;
 }
 
 export const aiController = {
@@ -37,5 +46,24 @@ export const aiController = {
     const { id } = request.params;
     const messages = await aiChatService.getMessages(id);
     success(reply, messages);
+  },
+
+  async generateReport(request: FastifyRequest<{ Body: GenerateReportBody }>, reply: FastifyReply) {
+    const { projectId, includeSurveys, includeInterviews, includeDocuments, customInstructions } =
+      request.body;
+
+    if (!projectId) {
+      return reply.status(400).send({ success: false, error: 'projectId é obrigatório' });
+    }
+
+    const report = await aiService.generateReport({
+      projectId,
+      includeSurveys,
+      includeInterviews,
+      includeDocuments,
+      customInstructions,
+    });
+
+    success(reply, report);
   },
 };
