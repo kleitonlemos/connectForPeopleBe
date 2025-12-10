@@ -113,7 +113,7 @@ Responda SEMPRE em JSON válido com a estrutura:
   },
 
   async generateReportSection(
-    projectId: string,
+    _projectId: string,
     sectionType: 'executive_summary' | 'cultural_analysis' | 'climate_indicators' | 'action_plan',
     contextData: Record<string, unknown>
   ): Promise<string> {

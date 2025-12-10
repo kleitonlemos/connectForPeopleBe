@@ -4,7 +4,7 @@ import { tenantsService } from './services.js';
 import { createTenantSchema, updateTenantSchema } from './validators.js';
 
 export const tenantsController = {
-  async list(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+  async list(_request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const tenants = await tenantsService.list();
     success(reply, tenants);
   },
