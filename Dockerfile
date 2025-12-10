@@ -9,6 +9,9 @@ RUN npm ci
 
 COPY . .
 
+ENV DIRECT_URL="postgresql://dummy:dummy@localhost:5432/dummy"
+ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy"
+
 RUN npm run prisma:generate
 RUN npm run build
 
