@@ -10,4 +10,5 @@ export async function authRoutes(app: FastifyInstance): Promise<void> {
 
   app.get('/me', { preHandler: [authenticate] }, authController.me);
   app.post('/change-password', { preHandler: [authenticate] }, authController.changePassword);
+  app.put('/me', { preHandler: [authenticate] }, authController.updateProfile);
 }

@@ -7,6 +7,7 @@ import {
   loginSchema,
   registerSchema,
   resetPasswordSchema,
+  updateProfileSchema,
 } from './validators.js';
 
 export const authController = {
@@ -58,6 +59,13 @@ export const authController = {
 
   async me(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const result = await authService.getProfile(request.user.id);
+
+    success(reply, result);
+  },
+
+  async updateProfile(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const validated = updateProfileSchema.parse(request.body);
+    const result = await authService.updateProfile(request.user.id, validated);
 
     success(reply, result);
   },

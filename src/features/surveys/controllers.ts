@@ -65,4 +65,10 @@ export const surveysController = {
     const count = await surveysService.sendInvitations(id, data);
     success(reply, { sent: count });
   },
+
+  async sendReminders(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const { id } = request.params as { id: string };
+    const count = await surveysService.sendReminders(id);
+    success(reply, { sent: count });
+  },
 };

@@ -28,8 +28,15 @@ export const changePasswordSchema = z.object({
   newPassword: z.string().min(6, 'Nova senha deve ter no mínimo 6 caracteres'),
 });
 
+export const updateProfileSchema = z.object({
+  firstName: z.string().min(2, 'Nome deve ter no mínimo 2 caracteres').optional(),
+  lastName: z.string().min(2, 'Sobrenome deve ter no mínimo 2 caracteres').optional(),
+  phone: z.string().optional().nullable(),
+});
+
 export type LoginInput = z.infer<typeof loginSchema>;
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
 export type ChangePasswordInput = z.infer<typeof changePasswordSchema>;
+export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;

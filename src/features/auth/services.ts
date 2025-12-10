@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import { ConflictError, NotFoundError, UnauthorizedError } from '../../shared/errors/appError.js';
 import { generateResetToken } from '../../shared/utils/generateCode.js';
 import { authRepository } from './repositories.js';
-import type { LoginInput, RegisterInput } from './validators.js';
+import type { LoginInput, RegisterInput, UpdateProfileInput } from './validators.js';
 
 interface AuthResult {
   user: Omit<User, 'passwordHash'>;
@@ -132,6 +132,18 @@ export const authService = {
     if (!user) {
       throw new NotFoundError('Usuário');
     }
+
+    const { passwordHash, ...userWithoutPassword } = user;
+
+    return { user: userWithoutPassword };
+  },
+
+  async updateProfile(userId: string, input: UpdateProfileInput): Promise<AuthResult> {
+    const user = await authRepository.updateProfile(userId, {
+      firstName: input.firstName,
+      lastName: input.lastName,
+      phone: input.phone ?? undefined,
+    });
 
     const { passwordHash, ...userWithoutPassword } = user;
 

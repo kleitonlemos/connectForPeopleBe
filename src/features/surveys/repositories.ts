@@ -66,6 +66,22 @@ export const surveysRepository = {
     });
   },
 
+  async findPendingInvitationsForReminder(
+    surveyId: string,
+    maxReminders: number,
+    minLastReminderDate: Date
+  ): Promise<SurveyInvitation[]> {
+    return prisma.surveyInvitation.findMany({
+      where: {
+        surveyId,
+        status: 'PENDING',
+        remindersSent: { lt: maxReminders },
+        OR: [{ lastReminderAt: null }, { lastReminderAt: { lt: minLastReminderDate } }],
+      },
+      orderBy: { createdAt: 'asc' },
+    });
+  },
+
   async createInvitations(surveyId: string, emails: string[]): Promise<number> {
     const result = await prisma.surveyInvitation.createMany({
       data: emails.map(email => ({
@@ -75,6 +91,22 @@ export const surveysRepository = {
       })),
       skipDuplicates: true,
     });
+    return result.count;
+  },
+
+  async incrementReminders(ids: string[]): Promise<number> {
+    if (ids.length === 0) {
+      return 0;
+    }
+
+    const result = await prisma.surveyInvitation.updateMany({
+      where: { id: { in: ids } },
+      data: {
+        remindersSent: { increment: 1 },
+        lastReminderAt: new Date(),
+      },
+    });
+
     return result.count;
   },
 

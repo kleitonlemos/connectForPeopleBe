@@ -27,6 +27,7 @@ export const updateProjectSchema = z.object({
   startDate: z.string().optional().nullable(),
   targetEndDate: z.string().optional().nullable(),
   progress: z.number().min(0).max(100).optional(),
+  settings: z.record(z.unknown()).optional(),
 });
 
 export type CreateProjectInput = z.infer<typeof createProjectSchema>;

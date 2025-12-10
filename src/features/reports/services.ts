@@ -1,6 +1,11 @@
 import type { Report, ReportVersion } from '@prisma/client';
+import { env } from '../../config/env.js';
 import { NotFoundError } from '../../shared/errors/appError.js';
 import { aiService } from '../ai/services.js';
+import { authRepository } from '../auth/repositories.js';
+import { emailsService } from '../emails/services.js';
+import { organizationsRepository } from '../organizations/repositories.js';
+import { projectsRepository } from '../projects/repositories.js';
 import { reportsRepository } from './repositories.js';
 import type { GenerateReportInput, UpdateSectionInput } from './validators.js';
 
@@ -85,11 +90,46 @@ export const reportsService = {
       changedBy: 'system',
     });
 
-    return reportsRepository.update(id, {
+    const updated = await reportsRepository.update(id, {
       status: 'PUBLISHED',
       publishedAt: new Date(),
       version: { increment: 1 },
     });
+
+    try {
+      const project = await projectsRepository.findById(report.projectId);
+
+      if (!project) {
+        throw new NotFoundError('Projeto');
+      }
+
+      const organization = await organizationsRepository.findById(project.organizationId);
+
+      const clientUser = project.clientUserId
+        ? await authRepository.findById(project.clientUserId)
+        : null;
+
+      const recipientEmail = clientUser?.email ?? organization?.contactEmail;
+      const companyName = organization?.name ?? 'Organização';
+
+      if (recipientEmail) {
+        const recipientName = clientUser
+          ? `${clientUser.firstName} ${clientUser.lastName}`
+          : companyName;
+
+        await emailsService.sendReportPublished({
+          recipientName,
+          recipientEmail,
+          reportTitle: updated.title,
+          reportUrl: `${env.FRONTEND_URL}/dashboard/reports/${updated.id}`,
+          companyName,
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao enviar e-mail de relatório publicado', error);
+    }
+
+    return updated;
   },
 
   async getVersions(id: string): Promise<ReportVersion[]> {

@@ -29,6 +29,16 @@ export const authRepository = {
     return prisma.user.create({ data });
   },
 
+  async updateProfile(
+    id: string,
+    data: Pick<Prisma.UserUpdateInput, 'firstName' | 'lastName' | 'phone'>
+  ): Promise<User> {
+    return prisma.user.update({
+      where: { id },
+      data,
+    });
+  },
+
   async updatePassword(id: string, passwordHash: string): Promise<User> {
     return prisma.user.update({
       where: { id },

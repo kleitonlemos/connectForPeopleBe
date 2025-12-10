@@ -1,6 +1,9 @@
-import type { DocumentChecklist, Project, ProjectActivity } from '@prisma/client';
+import type { DocumentChecklist, Prisma, Project, ProjectActivity } from '@prisma/client';
+import { env } from '../../config/env.js';
 import { NotFoundError } from '../../shared/errors/appError.js';
 import { generateProjectCode } from '../../shared/utils/generateCode.js';
+import { emailsService } from '../emails/services.js';
+import { organizationsRepository } from '../organizations/repositories.js';
 import { projectsRepository } from './repositories.js';
 import type { CreateProjectInput, UpdateProjectInput } from './validators.js';
 
@@ -23,7 +26,7 @@ export const projectsService = {
   async create(consultantId: string, input: CreateProjectInput): Promise<Project> {
     const code = generateProjectCode();
 
-    return projectsRepository.create({
+    const project = await projectsRepository.create({
       organization: { connect: { id: input.organizationId } },
       consultant: { connect: { id: consultantId } },
       code,
@@ -32,6 +35,24 @@ export const projectsService = {
       startDate: input.startDate ? new Date(input.startDate) : null,
       targetEndDate: input.targetEndDate ? new Date(input.targetEndDate) : null,
     });
+
+    try {
+      const organization = await organizationsRepository.findById(input.organizationId);
+
+      if (organization?.contactEmail) {
+        await emailsService.sendWelcomeEmail({
+          recipientName: organization.tradeName || organization.name,
+          recipientEmail: organization.contactEmail,
+          projectName: project.name,
+          companyName: organization.name,
+          loginUrl: `${env.FRONTEND_URL}/login`,
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao enviar e-mail de boas-vindas do projeto', error);
+    }
+
+    return project;
   },
 
   async update(id: string, input: UpdateProjectInput): Promise<Project> {
@@ -39,11 +60,34 @@ export const projectsService = {
     if (!project) {
       throw new NotFoundError('Projeto');
     }
+    const { settings, ...rest } = input;
+
+    let mergedSettings: Prisma.InputJsonValue | undefined;
+
+    if (settings) {
+      const existingSettings = (project.settings ?? {}) as Record<string, unknown>;
+      const incomingSettings = settings as Record<string, unknown>;
+
+      const existingOnboarding =
+        (existingSettings['onboarding'] as Record<string, unknown> | undefined) ?? {};
+      const incomingOnboarding =
+        (incomingSettings['onboarding'] as Record<string, unknown> | undefined) ?? {};
+
+      mergedSettings = {
+        ...existingSettings,
+        ...incomingSettings,
+        onboarding: {
+          ...existingOnboarding,
+          ...incomingOnboarding,
+        },
+      } as Prisma.InputJsonValue;
+    }
 
     return projectsRepository.update(id, {
-      ...input,
+      ...rest,
       startDate: input.startDate ? new Date(input.startDate) : undefined,
       targetEndDate: input.targetEndDate ? new Date(input.targetEndDate) : undefined,
+      ...(settings && { settings: mergedSettings }),
     });
   },
 

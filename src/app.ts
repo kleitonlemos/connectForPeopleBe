@@ -15,6 +15,7 @@ import { projectsRoutes } from './features/projects/routes.js';
 import { reportsRoutes } from './features/reports/routes.js';
 import { surveysRoutes } from './features/surveys/routes.js';
 import { tenantsRoutes } from './features/tenants/routes.js';
+import { usersRoutes } from './features/users/routes.js';
 import { errorHandler } from './shared/middlewares/errorHandler.js';
 
 const app = Fastify({
@@ -62,6 +63,7 @@ await app.register(surveysRoutes, { prefix: '/api/surveys' });
 await app.register(interviewsRoutes, { prefix: '/api/interviews' });
 await app.register(reportsRoutes, { prefix: '/api/reports' });
 await app.register(emailsRoutes, { prefix: '/api/emails' });
+await app.register(usersRoutes, { prefix: '/api/users' });
 
 const start = async (): Promise<void> => {
   try {

@@ -1,5 +1,6 @@
 import type { UserRole } from '@prisma/client';
 import type { FastifyReply, FastifyRequest } from 'fastify';
+import { env } from '../../config/env.js';
 import { ForbiddenError, UnauthorizedError } from '../errors/appError.js';
 
 export interface JwtPayload {
@@ -58,4 +59,24 @@ export function organizationGuard(request: FastifyRequest): void {
       throw new ForbiddenError('Acesso negado a esta organização');
     }
   }
+}
+
+export function cronOrAuthorize(...allowedRoles: UserRole[]) {
+  return async (request: FastifyRequest, reply: FastifyReply): Promise<void> => {
+    const headerSecret = request.headers['x-cron-secret'] as string | undefined;
+
+    if (env.CRON_SECRET && headerSecret && headerSecret === env.CRON_SECRET) {
+      return;
+    }
+
+    await authenticate(request, reply);
+
+    if (!request.user) {
+      throw new UnauthorizedError();
+    }
+
+    if (!allowedRoles.includes(request.user.role)) {
+      throw new ForbiddenError('Você não tem permissão para acessar este recurso');
+    }
+  };
 }
