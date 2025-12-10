@@ -71,4 +71,9 @@ export const surveysController = {
     const count = await surveysService.sendReminders(id);
     success(reply, { sent: count });
   },
+
+  async sendAllReminders(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const result = await surveysService.sendAllReminders();
+    success(reply, result);
+  },
 };

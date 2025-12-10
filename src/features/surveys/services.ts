@@ -207,4 +207,24 @@ export const surveysService = {
 
     return invitations.length;
   },
+
+  async sendAllReminders(): Promise<{ surveysProcessed: number; totalReminders: number }> {
+    const activeSurveys = await surveysRepository.findActiveSurveys();
+
+    let totalReminders = 0;
+
+    for (const survey of activeSurveys) {
+      try {
+        const count = await this.sendReminders(survey.id);
+        totalReminders += count;
+      } catch (error) {
+        console.error(`Erro ao enviar lembretes para pesquisa ${survey.id}:`, error);
+      }
+    }
+
+    return {
+      surveysProcessed: activeSurveys.length,
+      totalReminders,
+    };
+  },
 };

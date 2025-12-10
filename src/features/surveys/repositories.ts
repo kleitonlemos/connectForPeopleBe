@@ -12,6 +12,17 @@ export const surveysRepository = {
     });
   },
 
+  async findActiveSurveys(): Promise<Survey[]> {
+    const now = new Date();
+    return prisma.survey.findMany({
+      where: {
+        status: 'ACTIVE',
+        OR: [{ endsAt: null }, { endsAt: { gt: now } }],
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  },
+
   async findById(id: string): Promise<Survey | null> {
     return prisma.survey.findUnique({
       where: { id },

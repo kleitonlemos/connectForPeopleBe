@@ -8,12 +8,17 @@ export async function surveysRoutes(app: FastifyInstance): Promise<void> {
 
   app.register(async protectedRoutes => {
     protectedRoutes.get('/', { preHandler: [authenticate] }, surveysController.listByProject);
-    protectedRoutes.get('/:id', { preHandler: [authenticate] }, surveysController.getById);
     protectedRoutes.post(
       '/',
       { preHandler: [authenticate, authorize('SUPER_ADMIN', 'ADMIN', 'CONSULTANT')] },
       surveysController.create
     );
+    protectedRoutes.post(
+      '/cron/send-all-reminders',
+      { preHandler: [cronOrAuthorize('SUPER_ADMIN', 'ADMIN')] },
+      surveysController.sendAllReminders
+    );
+    protectedRoutes.get('/:id', { preHandler: [authenticate] }, surveysController.getById);
     protectedRoutes.put(
       '/:id',
       { preHandler: [authenticate, authorize('SUPER_ADMIN', 'ADMIN', 'CONSULTANT')] },
