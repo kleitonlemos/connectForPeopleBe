@@ -26,6 +26,7 @@ const envSchema = z.object({
   CRON_SECRET: z.string().optional(),
 
   FRONTEND_URL: z.string().url().default('http://localhost:3000'),
+  CORS_ORIGIN: z.string().default('http://localhost:3000'),
 });
 
 const parsed = envSchema.safeParse(process.env);
