@@ -19,4 +19,9 @@ export async function aiRoutes(app: FastifyInstance) {
     { preHandler: [authenticate] },
     aiController.getMessages as any
   );
+  app.delete(
+    '/ai/conversations/:id',
+    { preHandler: [authenticate] },
+    aiController.deleteConversation as any
+  );
 }

@@ -144,4 +144,14 @@ export const aiChatService = {
 
     return messages;
   },
+
+  async deleteConversation(conversationId: string) {
+    await prisma.aIMessage.deleteMany({
+      where: { conversationId },
+    });
+
+    await prisma.aIConversation.delete({
+      where: { id: conversationId },
+    });
+  },
 };

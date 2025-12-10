@@ -48,6 +48,15 @@ export const aiController = {
     success(reply, messages);
   },
 
+  async deleteConversation(
+    request: FastifyRequest<{ Params: { id: string } }>,
+    reply: FastifyReply
+  ) {
+    const { id } = request.params;
+    await aiChatService.deleteConversation(id);
+    success(reply, { deleted: true });
+  },
+
   async generateReport(request: FastifyRequest<{ Body: GenerateReportBody }>, reply: FastifyReply) {
     const { projectId, includeSurveys, includeInterviews, includeDocuments, customInstructions } =
       request.body;

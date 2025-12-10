@@ -17,20 +17,33 @@ export const documentsController = {
   },
 
   async upload(request: FastifyRequest, reply: FastifyReply): Promise<void> {
-    const file = await request.file();
-    if (!file) {
+    const parts = request.parts();
+    let fileBuffer: Buffer | null = null;
+    let fileName = '';
+    let mimeType = '';
+    let metadataStr = '{}';
+
+    for await (const part of parts) {
+      if (part.type === 'file') {
+        fileBuffer = await part.toBuffer();
+        fileName = part.filename;
+        mimeType = part.mimetype;
+      } else if (part.fieldname === 'metadata') {
+        metadataStr = part.value as string;
+      }
+    }
+
+    if (!fileBuffer) {
       throw new Error('Arquivo não enviado');
     }
 
-    const buffer = await file.toBuffer();
-    const body = request.body as Record<string, unknown>;
-    const metadata = uploadDocumentSchema.parse(JSON.parse((body['metadata'] as string) || '{}'));
+    const metadata = uploadDocumentSchema.parse(JSON.parse(metadataStr));
 
     const doc = await documentsService.upload(
       metadata,
-      buffer,
-      file.filename,
-      file.mimetype,
+      fileBuffer,
+      fileName,
+      mimeType,
       request.user.id,
       request.user.organizationId ?? ''
     );

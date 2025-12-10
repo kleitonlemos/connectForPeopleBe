@@ -36,6 +36,63 @@ export const projectsService = {
       targetEndDate: input.targetEndDate ? new Date(input.targetEndDate) : null,
     });
 
+    const defaultChecklistItems = [
+      {
+        documentType: 'ORGANIZATION_CHART',
+        instructions: 'Organograma atualizado da empresa',
+        order: 1,
+        isRequired: true,
+      },
+      {
+        documentType: 'STRATEGIC_PLAN',
+        instructions: 'Planejamento estratégico vigente',
+        order: 2,
+        isRequired: false,
+      },
+      {
+        documentType: 'HR_POLICY',
+        instructions: 'Políticas de RH e benefícios',
+        order: 3,
+        isRequired: true,
+      },
+      {
+        documentType: 'JOB_DESCRIPTIONS',
+        instructions: 'Descrições de cargos',
+        order: 4,
+        isRequired: false,
+      },
+      {
+        documentType: 'EMPLOYEE_LIST',
+        instructions: 'Lista de colaboradores com departamento e cargo',
+        order: 5,
+        isRequired: true,
+      },
+      {
+        documentType: 'PERFORMANCE_DATA',
+        instructions: 'Dados de avaliação de desempenho',
+        order: 6,
+        isRequired: false,
+      },
+      {
+        documentType: 'TURNOVER_DATA',
+        instructions: 'Dados de turnover dos últimos 12 meses',
+        order: 7,
+        isRequired: false,
+      },
+      {
+        documentType: 'BENEFITS_PACKAGE',
+        instructions: 'Pacote de benefícios oferecidos',
+        order: 8,
+        isRequired: false,
+      },
+    ];
+
+    try {
+      await projectsRepository.createChecklistItems(project.id, defaultChecklistItems);
+    } catch (error) {
+      console.error('Erro ao criar checklist do projeto', error);
+    }
+
     try {
       const organization = await organizationsRepository.findById(input.organizationId);
 
@@ -109,7 +166,70 @@ export const projectsService = {
   },
 
   async getChecklist(id: string): Promise<DocumentChecklist[]> {
-    return projectsRepository.findChecklist(id);
+    const checklist = await projectsRepository.findChecklist(id);
+
+    if (checklist.length === 0) {
+      const defaultChecklistItems = [
+        {
+          documentType: 'ORGANIZATION_CHART',
+          instructions: 'Organograma atualizado da empresa',
+          order: 1,
+          isRequired: true,
+        },
+        {
+          documentType: 'STRATEGIC_PLAN',
+          instructions: 'Planejamento estratégico vigente',
+          order: 2,
+          isRequired: false,
+        },
+        {
+          documentType: 'HR_POLICY',
+          instructions: 'Políticas de RH e benefícios',
+          order: 3,
+          isRequired: true,
+        },
+        {
+          documentType: 'JOB_DESCRIPTIONS',
+          instructions: 'Descrições de cargos',
+          order: 4,
+          isRequired: false,
+        },
+        {
+          documentType: 'EMPLOYEE_LIST',
+          instructions: 'Lista de colaboradores com departamento e cargo',
+          order: 5,
+          isRequired: true,
+        },
+        {
+          documentType: 'PERFORMANCE_DATA',
+          instructions: 'Dados de avaliação de desempenho',
+          order: 6,
+          isRequired: false,
+        },
+        {
+          documentType: 'TURNOVER_DATA',
+          instructions: 'Dados de turnover dos últimos 12 meses',
+          order: 7,
+          isRequired: false,
+        },
+        {
+          documentType: 'BENEFITS_PACKAGE',
+          instructions: 'Pacote de benefícios oferecidos',
+          order: 8,
+          isRequired: false,
+        },
+      ];
+
+      try {
+        await projectsRepository.createChecklistItems(id, defaultChecklistItems);
+        return projectsRepository.findChecklist(id);
+      } catch (error) {
+        console.error('Erro ao criar checklist padrão', error);
+        return [];
+      }
+    }
+
+    return checklist;
   },
 
   async getActivities(id: string): Promise<ProjectActivity[]> {
