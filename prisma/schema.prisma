@@ -179,26 +179,32 @@ model Tenant {
 }
 
 model Organization {
-    id           String    @id @default(uuid())
-    tenantId     String
-    name         String
-    tradeName    String?
-    cnpj         String?
-    industry     String?
-    size         String?
-    foundedAt    DateTime?
-    website      String?
-    logoUrl      String?
-    address      Json?
-    contactEmail String?
-    contactPhone String?
-    mission      String?
-    vision       String?
-    values       String?
-    isActive     Boolean   @default(true)
-    metadata     Json      @default("{}")
-    createdAt    DateTime  @default(now())
-    updatedAt    DateTime  @updatedAt
+    id                  String    @id @default(uuid())
+    tenantId            String
+    name                String
+    tradeName           String?
+    cnpj                String?
+    industry            String?
+    size                String?
+    foundedAt           DateTime?
+    website             String?
+    logoUrl             String?
+    addressStreet       String?
+    addressNumber       String?
+    addressComplement   String?
+    addressNeighborhood String?
+    addressCity         String?
+    addressState        String?
+    addressZipCode      String?
+    contactEmail        String?
+    contactPhone        String?
+    mission             String?   @db.Text
+    vision              String?   @db.Text
+    values              String?   @db.Text
+    isActive            Boolean   @default(true)
+    metadata            Json      @default("{}")
+    createdAt           DateTime  @default(now())
+    updatedAt           DateTime  @updatedAt
 
     tenant      Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
     users       User[]
