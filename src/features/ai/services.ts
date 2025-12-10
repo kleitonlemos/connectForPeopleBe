@@ -6,6 +6,8 @@ const openai = new OpenAI({
   apiKey: env.OPENAI_API_KEY,
 });
 
+const AI_MODEL = 'gpt-5.1-mini';
+
 interface AnalysisResult {
   sentiment: 'positive' | 'neutral' | 'negative' | 'mixed';
   sentimentScore: number;
@@ -30,7 +32,7 @@ export const aiService = {
         data: {
           projectId,
           purpose: 'interview_analysis',
-          model: 'gpt-4o-mini',
+          model: AI_MODEL,
         },
       });
     }
@@ -56,15 +58,11 @@ Responda SEMPRE em JSON válido com a estrutura:
 }`;
 
     const response = await openai.responses.create({
-      model: conversation.model,
-      input: [
-        { role: 'system', content: systemPrompt },
-        {
-          role: 'user',
-          content: `Analise a seguinte transcrição de entrevista:\n\n${transcription}`,
-        },
-      ],
+      model: AI_MODEL,
+      instructions: systemPrompt,
+      input: `Analise a seguinte transcrição de entrevista:\n\n${transcription}`,
       ...(conversation.lastResponseId && { previous_response_id: conversation.lastResponseId }),
+      reasoning: { effort: 'high' },
     });
 
     await prisma.aIConversation.update({
@@ -113,7 +111,7 @@ Responda SEMPRE em JSON válido com a estrutura:
   },
 
   async generateReportSection(
-    _projectId: string,
+    projectId: string,
     sectionType: 'executive_summary' | 'cultural_analysis' | 'climate_indicators' | 'action_plan',
     contextData: Record<string, unknown>
   ): Promise<string> {
@@ -124,20 +122,36 @@ Responda SEMPRE em JSON válido com a estrutura:
       action_plan: 'Sugira um plano de ação baseado nos problemas identificados.',
     };
 
+    let conversation = await prisma.aIConversation.findFirst({
+      where: { projectId, purpose: `report_${sectionType}` },
+    });
+
+    if (!conversation) {
+      conversation = await prisma.aIConversation.create({
+        data: {
+          projectId,
+          purpose: `report_${sectionType}`,
+          model: AI_MODEL,
+        },
+      });
+    }
+
     const response = await openai.responses.create({
-      model: 'gpt-4o-mini',
-      input: [
-        {
-          role: 'system',
-          content: `Você é um consultor de RH especializado em diagnóstico organizacional.
+      model: AI_MODEL,
+      instructions: `Você é um consultor de RH especializado em diagnóstico organizacional.
 ${prompts[sectionType]}
 Escreva de forma profissional e objetiva.`,
-        },
-        {
-          role: 'user',
-          content: JSON.stringify(contextData),
-        },
-      ],
+      input: JSON.stringify(contextData),
+      ...(conversation.lastResponseId && { previous_response_id: conversation.lastResponseId }),
+      reasoning: { effort: 'high' },
+    });
+
+    await prisma.aIConversation.update({
+      where: { id: conversation.id },
+      data: {
+        lastResponseId: response.id,
+        totalTokensUsed: { increment: response.usage?.total_tokens ?? 0 },
+      },
     });
 
     return response.output_text;

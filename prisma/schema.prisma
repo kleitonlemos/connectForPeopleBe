@@ -615,7 +615,7 @@ model AIConversation {
     reportId        String?
     contextType     AIContextType @default(PROJECT_OVERVIEW)
     purpose         String
-    model           String        @default("gpt-4o-mini")
+    model           String        @default("gpt-5.1-mini")
     lastResponseId  String?
     totalTokensUsed Int           @default(0)
     metadata        Json          @default("{}")
