@@ -2,11 +2,13 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@prisma/client';
 import { env } from './env.js';
 
+type PrismaClientInstance = InstanceType<typeof PrismaClient>;
+
 const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined;
+  prisma: PrismaClientInstance | undefined;
 };
 
-function createPrismaClient(): PrismaClient {
+function createPrismaClient(): PrismaClientInstance {
   const adapter = new PrismaPg({ connectionString: env.DATABASE_URL });
   return new PrismaClient({
     adapter,

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/app.ts",
-    "build": "tsc",
+    "build": "tsc && tsc-alias",
     "start": "node dist/app.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
@@ -47,6 +47,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "tsc-alias": "^1.8.10",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^22.10.2",
     "@types/nodemailer": "^7.0.4",
