@@ -1,11 +1,24 @@
 import type { Organization, TeamMember } from '@prisma/client';
-import { NotFoundError } from '../../shared/errors/appError.js';
+import { ConflictError, NotFoundError } from '../../shared/errors/appError.js';
 import { organizationsRepository } from './repositories.js';
 import type {
   CreateOrganizationInput,
   ImportTeamMembersInput,
   UpdateOrganizationInput,
 } from './validators.js';
+
+const emptyToNull = (value: string | null | undefined): string | null =>
+  value === '' || value === undefined ? null : value;
+
+const normalizeInput = <T extends Record<string, unknown>>(input: T): T => {
+  const result = { ...input };
+  for (const key of Object.keys(result)) {
+    if (typeof result[key] === 'string') {
+      (result as Record<string, unknown>)[key] = emptyToNull(result[key] as string);
+    }
+  }
+  return result;
+};
 
 export const organizationsService = {
   async list(tenantId: string): Promise<Organization[]> {
@@ -21,9 +34,18 @@ export const organizationsService = {
   },
 
   async create(tenantId: string, input: CreateOrganizationInput): Promise<Organization> {
+    const normalized = normalizeInput(input);
+
+    if (normalized.cnpj) {
+      const existing = await organizationsRepository.findByCnpj(tenantId, normalized.cnpj);
+      if (existing) {
+        throw new ConflictError('Já existe uma organização cadastrada com este CNPJ');
+      }
+    }
+
     return organizationsRepository.create({
       tenant: { connect: { id: tenantId } },
-      ...input,
+      ...normalized,
     });
   },
 
@@ -32,7 +54,8 @@ export const organizationsService = {
     if (!org) {
       throw new NotFoundError('Organização');
     }
-    return organizationsRepository.update(id, input);
+    const normalized = normalizeInput(input);
+    return organizationsRepository.update(id, normalized);
   },
 
   async delete(id: string): Promise<void> {

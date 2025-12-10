@@ -137,4 +137,10 @@ export const surveysRepository = {
       data,
     });
   },
+
+  async delete(id: string): Promise<void> {
+    await prisma.survey.delete({
+      where: { id },
+    });
+  },
 };

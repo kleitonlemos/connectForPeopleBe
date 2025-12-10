@@ -76,4 +76,10 @@ export const surveysController = {
     const result = await surveysService.sendAllReminders();
     success(reply, result);
   },
+
+  async delete(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const { id } = request.params as { id: string };
+    await surveysService.delete(id);
+    success(reply, { deleted: true });
+  },
 };

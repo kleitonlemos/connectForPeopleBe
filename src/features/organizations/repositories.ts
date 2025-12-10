@@ -15,6 +15,12 @@ export const organizationsRepository = {
     });
   },
 
+  async findByCnpj(tenantId: string, cnpj: string): Promise<Organization | null> {
+    return prisma.organization.findFirst({
+      where: { tenantId, cnpj },
+    });
+  },
+
   async create(data: Prisma.OrganizationCreateInput): Promise<Organization> {
     return prisma.organization.create({ data });
   },

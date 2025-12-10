@@ -1,5 +1,23 @@
 import { z } from 'zod';
 
+const questionSchema = z.object({
+  text: z.string().min(1),
+  type: z.enum([
+    'TEXT',
+    'TEXTAREA',
+    'SINGLE_CHOICE',
+    'MULTIPLE_CHOICE',
+    'SCALE',
+    'NPS',
+    'RATING',
+    'DATE',
+    'FILE',
+  ]),
+  isRequired: z.boolean().default(true),
+  order: z.number().optional(),
+  options: z.array(z.string()).optional(),
+});
+
 export const createSurveySchema = z.object({
   projectId: z.string().uuid(),
   type: z.enum(['PARTNERS', 'LEADERSHIP', 'CLIMATE', 'CUSTOM']),
@@ -9,6 +27,7 @@ export const createSurveySchema = z.object({
   isAnonymous: z.boolean().default(true),
   startsAt: z.string().optional(),
   endsAt: z.string().optional(),
+  questions: z.array(questionSchema).optional(),
 });
 
 export const updateSurveySchema = createSurveySchema.partial().omit({ projectId: true });

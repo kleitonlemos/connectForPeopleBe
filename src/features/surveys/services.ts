@@ -36,6 +36,30 @@ export const surveysService = {
   async create(input: CreateSurveyInput): Promise<Survey> {
     const accessCode = crypto.randomUUID().split('-')[0]?.toUpperCase() ?? 'DEFAULT';
 
+    const sectionsData =
+      input.questions && input.questions.length > 0
+        ? {
+            sections: {
+              create: [
+                {
+                  title: 'Perguntas',
+                  order: 0,
+                  isRequired: true,
+                  questions: {
+                    create: input.questions.map((q, index) => ({
+                      type: q.type,
+                      text: q.text,
+                      isRequired: q.isRequired ?? true,
+                      order: q.order ?? index,
+                      options: q.options && q.options.length > 0 ? { choices: q.options } : {},
+                    })),
+                  },
+                },
+              ],
+            },
+          }
+        : {};
+
     return surveysRepository.create({
       project: { connect: { id: input.projectId } },
       type: input.type as SurveyType,
@@ -46,6 +70,7 @@ export const surveysService = {
       isAnonymous: input.isAnonymous,
       startsAt: input.startsAt ? new Date(input.startsAt) : null,
       endsAt: input.endsAt ? new Date(input.endsAt) : null,
+      ...sectionsData,
     });
   },
 
@@ -226,5 +251,13 @@ export const surveysService = {
       surveysProcessed: activeSurveys.length,
       totalReminders,
     };
+  },
+
+  async delete(id: string): Promise<void> {
+    const survey = await surveysRepository.findById(id);
+    if (!survey) {
+      throw new NotFoundError('Pesquisa');
+    }
+    await surveysRepository.delete(id);
   },
 };

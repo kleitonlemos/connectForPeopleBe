@@ -44,5 +44,10 @@ export async function surveysRoutes(app: FastifyInstance): Promise<void> {
       { preHandler: [authenticate] },
       surveysController.getStatistics
     );
+    protectedRoutes.delete(
+      '/:id',
+      { preHandler: [authenticate, authorize('SUPER_ADMIN', 'ADMIN', 'CONSULTANT')] },
+      surveysController.delete
+    );
   });
 }

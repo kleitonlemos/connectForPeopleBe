@@ -6,7 +6,7 @@ const openai = new OpenAI({
   apiKey: env.OPENAI_API_KEY,
 });
 
-const AI_MODEL = 'gpt-5.1-mini';
+const AI_MODEL = 'gpt-5-mini';
 
 interface AnalysisResult {
   sentiment: 'positive' | 'neutral' | 'negative' | 'mixed';
