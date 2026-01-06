@@ -6,7 +6,7 @@ export const createOrganizationSchema = z.object({
   cnpj: z.string().optional().nullable(),
   industry: z.string().optional().nullable(),
   size: z.string().optional().nullable(),
-  website: z.string().url().optional().nullable().or(z.literal('')),
+  website: z.string().optional().nullable().or(z.literal('')),
   addressStreet: z.string().optional().nullable(),
   addressNumber: z.string().optional().nullable(),
   addressComplement: z.string().optional().nullable(),
