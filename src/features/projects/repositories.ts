@@ -1,4 +1,10 @@
-import type { DocumentChecklist, Prisma, Project, ProjectActivity } from '@prisma/client';
+import type {
+  DocumentChecklist,
+  DocumentType,
+  Prisma,
+  Project,
+  ProjectActivity,
+} from '@prisma/client';
 import { prisma } from '../../config/database.js';
 
 export const projectsRepository = {
@@ -79,7 +85,7 @@ export const projectsRepository = {
   async createChecklistItems(
     projectId: string,
     items: Array<{
-      documentType: string;
+      documentType: DocumentType;
       instructions?: string;
       order: number;
       isRequired?: boolean;
@@ -88,9 +94,7 @@ export const projectsRepository = {
     const result = await prisma.documentChecklist.createMany({
       data: items.map(item => ({
         projectId,
-        documentType: item.documentType as Parameters<
-          typeof prisma.documentChecklist.create
-        >[0]['data']['documentType'],
+        documentType: item.documentType,
         instructions: item.instructions,
         order: item.order,
         isRequired: item.isRequired ?? true,

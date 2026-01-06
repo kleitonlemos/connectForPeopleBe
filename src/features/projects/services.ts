@@ -1,4 +1,10 @@
-import type { DocumentChecklist, Prisma, Project, ProjectActivity } from '@prisma/client';
+import type {
+  DocumentChecklist,
+  DocumentType,
+  Prisma,
+  Project,
+  ProjectActivity,
+} from '@prisma/client';
 import { env } from '../../config/env.js';
 import { NotFoundError } from '../../shared/errors/appError.js';
 import { generateProjectCode } from '../../shared/utils/generateCode.js';
@@ -36,52 +42,57 @@ export const projectsService = {
       targetEndDate: input.targetEndDate ? new Date(input.targetEndDate) : null,
     });
 
-    const defaultChecklistItems = [
+    const defaultChecklistItems: Array<{
+      documentType: DocumentType;
+      instructions: string;
+      order: number;
+      isRequired: boolean;
+    }> = [
       {
-        documentType: 'ORGANIZATION_CHART',
-        instructions: 'Organograma atualizado da empresa',
+        documentType: 'MISSION_VISION_VALUES',
+        instructions: 'Missão, visão e valores da empresa',
         order: 1,
         isRequired: true,
       },
       {
-        documentType: 'STRATEGIC_PLAN',
-        instructions: 'Planejamento estratégico vigente',
+        documentType: 'CULTURE_FACTORS',
+        instructions: 'Fatores culturais e contexto organizacional',
         order: 2,
-        isRequired: false,
+        isRequired: true,
       },
       {
-        documentType: 'HR_POLICY',
-        instructions: 'Políticas de RH e benefícios',
+        documentType: 'ORGANIZATIONAL_CHART',
+        instructions: 'Organograma atualizado da empresa',
         order: 3,
         isRequired: true,
       },
       {
-        documentType: 'JOB_DESCRIPTIONS',
-        instructions: 'Descrições de cargos',
+        documentType: 'GOALS_OBJECTIVES',
+        instructions: 'Metas e objetivos atuais',
         order: 4,
         isRequired: false,
       },
       {
-        documentType: 'EMPLOYEE_LIST',
-        instructions: 'Lista de colaboradores com departamento e cargo',
+        documentType: 'PRODUCTS_SERVICES',
+        instructions: 'Portfólio de produtos e/ou serviços',
         order: 5,
-        isRequired: true,
-      },
-      {
-        documentType: 'PERFORMANCE_DATA',
-        instructions: 'Dados de avaliação de desempenho',
-        order: 6,
         isRequired: false,
       },
       {
-        documentType: 'TURNOVER_DATA',
-        instructions: 'Dados de turnover dos últimos 12 meses',
+        documentType: 'TEAM_LIST',
+        instructions: 'Lista de colaboradores (departamento e cargo)',
+        order: 6,
+        isRequired: true,
+      },
+      {
+        documentType: 'POLICY_MANUAL',
+        instructions: 'Manual de políticas internas (se houver)',
         order: 7,
         isRequired: false,
       },
       {
-        documentType: 'BENEFITS_PACKAGE',
-        instructions: 'Pacote de benefícios oferecidos',
+        documentType: 'FINANCIAL_DATA',
+        instructions: 'Dados financeiros relevantes (se aplicável)',
         order: 8,
         isRequired: false,
       },
@@ -169,52 +180,57 @@ export const projectsService = {
     const checklist = await projectsRepository.findChecklist(id);
 
     if (checklist.length === 0) {
-      const defaultChecklistItems = [
+      const defaultChecklistItems: Array<{
+        documentType: DocumentType;
+        instructions: string;
+        order: number;
+        isRequired: boolean;
+      }> = [
         {
-          documentType: 'ORGANIZATION_CHART',
-          instructions: 'Organograma atualizado da empresa',
+          documentType: 'MISSION_VISION_VALUES',
+          instructions: 'Missão, visão e valores da empresa',
           order: 1,
           isRequired: true,
         },
         {
-          documentType: 'STRATEGIC_PLAN',
-          instructions: 'Planejamento estratégico vigente',
+          documentType: 'CULTURE_FACTORS',
+          instructions: 'Fatores culturais e contexto organizacional',
           order: 2,
-          isRequired: false,
+          isRequired: true,
         },
         {
-          documentType: 'HR_POLICY',
-          instructions: 'Políticas de RH e benefícios',
+          documentType: 'ORGANIZATIONAL_CHART',
+          instructions: 'Organograma atualizado da empresa',
           order: 3,
           isRequired: true,
         },
         {
-          documentType: 'JOB_DESCRIPTIONS',
-          instructions: 'Descrições de cargos',
+          documentType: 'GOALS_OBJECTIVES',
+          instructions: 'Metas e objetivos atuais',
           order: 4,
           isRequired: false,
         },
         {
-          documentType: 'EMPLOYEE_LIST',
-          instructions: 'Lista de colaboradores com departamento e cargo',
+          documentType: 'PRODUCTS_SERVICES',
+          instructions: 'Portfólio de produtos e/ou serviços',
           order: 5,
-          isRequired: true,
-        },
-        {
-          documentType: 'PERFORMANCE_DATA',
-          instructions: 'Dados de avaliação de desempenho',
-          order: 6,
           isRequired: false,
         },
         {
-          documentType: 'TURNOVER_DATA',
-          instructions: 'Dados de turnover dos últimos 12 meses',
+          documentType: 'TEAM_LIST',
+          instructions: 'Lista de colaboradores (departamento e cargo)',
+          order: 6,
+          isRequired: true,
+        },
+        {
+          documentType: 'POLICY_MANUAL',
+          instructions: 'Manual de políticas internas (se houver)',
           order: 7,
           isRequired: false,
         },
         {
-          documentType: 'BENEFITS_PACKAGE',
-          instructions: 'Pacote de benefícios oferecidos',
+          documentType: 'FINANCIAL_DATA',
+          instructions: 'Dados financeiros relevantes (se aplicável)',
           order: 8,
           isRequired: false,
         },

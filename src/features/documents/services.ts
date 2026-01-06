@@ -1,4 +1,4 @@
-import type { Document, DocumentType } from '@prisma/client';
+import type { Document } from '@prisma/client';
 import { NotFoundError } from '../../shared/errors/appError.js';
 import { storageService } from '../../shared/services/storageService.js';
 import { documentsRepository } from './repositories.js';
@@ -42,7 +42,7 @@ export const documentsService = {
       storagePath: path,
       fileSize: file.length,
       mimeType,
-      type: input.documentType as DocumentType,
+      type: input.documentType,
       description: input.description,
       status: 'UPLOADED',
     });

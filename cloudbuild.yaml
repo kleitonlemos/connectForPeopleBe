@@ -32,7 +32,7 @@ steps:
       - 'managed'
       - '--allow-unauthenticated'
       - '--set-env-vars'
-      - 'NODE_ENV=production,JWT_EXPIRES_IN=7d,SUPABASE_URL=https://sgnwjpioqdqkfdraflwb.supabase.co,SMTP_HOST=smtp.example.com,SMTP_PORT=587,SMTP_USER=your-email@example.com,SMTP_FROM=Connect For People <noreply@connectforpeople.com>,FRONTEND_URL=https://connect-for-people-fe-umbf.vercel.app,CORS_ORIGIN=https://connect-for-people-fe-umbf.vercel.app'
+      - 'NODE_ENV=production,JWT_EXPIRES_IN=7d,SUPABASE_URL=https://sgnwjpioqdqkfdraflwb.supabase.co,SMTP_HOST=smtp.gmail.com,SMTP_PORT=587,SMTP_USER=gestao@connectforpeople.com,SMTP_FROM=Connect For People <gestao@connectforpeople.com>,FRONTEND_URL=https://connect-for-people-fe.vercel.app,CORS_ORIGIN=https://connect-for-people-fe.vercel.app'
       - '--set-secrets'
       - 'DATABASE_URL=conecta-database-url:latest,DIRECT_URL=conecta-direct-url:latest,JWT_SECRET=conecta-jwt-secret:latest,OPENAI_API_KEY=conecta-openai-api-key:latest,SUPABASE_ANON_KEY=conecta-supabase-anon-key:latest,SUPABASE_SERVICE_ROLE_KEY=conecta-supabase-service-role-key:latest,SMTP_PASS=conecta-smtp-pass:latest,CRON_SECRET=conecta-cron-secret:latest'
 

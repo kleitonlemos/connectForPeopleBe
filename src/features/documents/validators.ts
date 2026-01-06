@@ -1,9 +1,10 @@
+import { DocumentType } from '@prisma/client';
 import { z } from 'zod';
 
 export const uploadDocumentSchema = z.object({
   projectId: z.string().uuid(),
   checklistItemId: z.string().uuid().optional(),
-  documentType: z.string(),
+  documentType: z.nativeEnum(DocumentType),
   description: z.string().optional(),
 });
 
