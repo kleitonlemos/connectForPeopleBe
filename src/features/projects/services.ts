@@ -24,7 +24,10 @@ export const projectsService = {
   ): Promise<Project[]> {
     const finalFilters = { ...filters };
 
-    if (userRole === 'CLIENT' && userOrganizationId) {
+    if (userRole === 'CLIENT') {
+      if (!userOrganizationId) {
+        return [];
+      }
       finalFilters.organizationId = userOrganizationId;
     }
 
@@ -150,7 +153,7 @@ export const projectsService = {
           recipientEmail: organization.contactEmail,
           projectName: project.name,
           companyName: organization.name,
-          loginUrl: `${env.FRONTEND_URL}/reset-password?token=${resetToken}`,
+          loginUrl: `${env.FRONTEND_URL}/onboarding?token=${resetToken}`,
         });
       }
     } catch (error) {
