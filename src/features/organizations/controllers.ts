@@ -15,7 +15,12 @@ export const organizationsController = {
 
   async getById(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const { id } = request.params as { id: string };
-    const org = await organizationsService.getById(id);
+    const org = await organizationsService.getById(
+      id,
+      request.user.tenantId,
+      request.user.role,
+      request.user.organizationId ?? undefined
+    );
     success(reply, org);
   },
 

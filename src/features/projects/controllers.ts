@@ -9,10 +9,15 @@ export const projectsController = {
       organizationId?: string;
       consultantId?: string;
     };
-    const projects = await projectsService.list(request.user.tenantId, {
-      organizationId,
-      consultantId,
-    });
+    const projects = await projectsService.list(
+      request.user.tenantId,
+      {
+        organizationId,
+        consultantId,
+      },
+      request.user.role,
+      request.user.organizationId ?? undefined
+    );
     success(reply, projects);
   },
 

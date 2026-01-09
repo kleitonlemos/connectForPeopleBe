@@ -14,7 +14,7 @@ export async function projectsRoutes(app: FastifyInstance): Promise<void> {
   );
   app.put(
     '/:id',
-    { preHandler: [authorize('SUPER_ADMIN', 'ADMIN', 'CONSULTANT')] },
+    { preHandler: [authorize('SUPER_ADMIN', 'ADMIN', 'CONSULTANT', 'CLIENT')] },
     projectsController.update
   );
   app.get('/:id/progress', projectsController.getProgress);

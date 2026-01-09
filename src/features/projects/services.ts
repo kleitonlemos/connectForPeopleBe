@@ -18,9 +18,17 @@ import type { CreateProjectInput, UpdateProjectInput } from './validators.js';
 export const projectsService = {
   async list(
     tenantId: string,
-    filters?: { organizationId?: string; consultantId?: string }
+    filters?: { organizationId?: string; consultantId?: string },
+    userRole?: string,
+    userOrganizationId?: string
   ): Promise<Project[]> {
-    return projectsRepository.findAll(tenantId, filters);
+    const finalFilters = { ...filters };
+
+    if (userRole === 'CLIENT' && userOrganizationId) {
+      finalFilters.organizationId = userOrganizationId;
+    }
+
+    return projectsRepository.findAll(tenantId, finalFilters);
   },
 
   async getById(id: string): Promise<Project> {

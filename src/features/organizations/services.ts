@@ -25,11 +25,25 @@ export const organizationsService = {
     return organizationsRepository.findAll(tenantId);
   },
 
-  async getById(id: string): Promise<Organization> {
+  async getById(
+    id: string,
+    tenantId?: string,
+    userRole?: string,
+    userOrganizationId?: string
+  ): Promise<Organization> {
     const org = await organizationsRepository.findById(id);
     if (!org) {
       throw new NotFoundError('Organização');
     }
+
+    if (tenantId && org.tenantId !== tenantId) {
+      throw new NotFoundError('Organização');
+    }
+
+    if (userRole === 'CLIENT' && userOrganizationId && org.id !== userOrganizationId) {
+      throw new NotFoundError('Organização');
+    }
+
     return org;
   },
 
