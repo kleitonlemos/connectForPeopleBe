@@ -126,7 +126,7 @@ export const emailsController = {
       recipientEmail: data.email,
       projectName: 'Projeto de Teste',
       companyName: 'Empresa Teste',
-      loginUrl: `${env.FRONTEND_URL}/login`,
+      loginUrl: `${env.FRONTEND_URL}/reset-password`,
     });
 
     if (!result.success) {
