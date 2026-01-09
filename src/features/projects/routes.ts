@@ -20,4 +20,9 @@ export async function projectsRoutes(app: FastifyInstance): Promise<void> {
   app.get('/:id/progress', projectsController.getProgress);
   app.get('/:id/checklist', projectsController.getChecklist);
   app.get('/:id/activities', projectsController.getActivities);
+  app.delete(
+    '/:id',
+    { preHandler: [authorize('SUPER_ADMIN', 'ADMIN', 'CONSULTANT')] },
+    projectsController.delete
+  );
 }

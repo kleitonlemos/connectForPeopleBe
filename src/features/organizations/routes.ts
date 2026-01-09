@@ -27,4 +27,9 @@ export async function organizationsRoutes(app: FastifyInstance): Promise<void> {
     { preHandler: [authorize('SUPER_ADMIN', 'ADMIN', 'CONSULTANT')] },
     organizationsController.importTeamMembers
   );
+  app.delete(
+    '/:id',
+    { preHandler: [authorize('SUPER_ADMIN', 'ADMIN', 'CONSULTANT')] },
+    organizationsController.delete
+  );
 }

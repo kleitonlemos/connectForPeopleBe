@@ -304,4 +304,11 @@ export const projectsService = {
       metadata: metadata ? JSON.parse(JSON.stringify(metadata)) : undefined,
     });
   },
+  async delete(id: string): Promise<void> {
+    const project = await projectsRepository.findById(id);
+    if (!project) {
+      throw new NotFoundError('Projeto');
+    }
+    await projectsRepository.delete(id);
+  },
 };

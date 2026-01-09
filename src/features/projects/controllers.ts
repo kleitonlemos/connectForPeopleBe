@@ -57,4 +57,9 @@ export const projectsController = {
     const activities = await projectsService.getActivities(id);
     success(reply, activities);
   },
+  async delete(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const { id } = request.params as { id: string };
+    await projectsService.delete(id);
+    success(reply, null);
+  },
 };

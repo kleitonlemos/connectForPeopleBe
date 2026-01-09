@@ -49,4 +49,10 @@ export const organizationsController = {
     const count = await organizationsService.importTeamMembers(id, data);
     success(reply, { imported: count });
   },
+
+  async delete(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const { id } = request.params as { id: string };
+    await organizationsService.delete(id);
+    success(reply, null);
+  },
 };
