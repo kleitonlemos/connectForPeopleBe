@@ -44,6 +44,7 @@ export type OrganizationMinAggregateOutputType = {
   addressZipCode: string | null
   contactEmail: string | null
   contactPhone: string | null
+  contactName: string | null
   mission: string | null
   vision: string | null
   values: string | null
@@ -72,6 +73,7 @@ export type OrganizationMaxAggregateOutputType = {
   addressZipCode: string | null
   contactEmail: string | null
   contactPhone: string | null
+  contactName: string | null
   mission: string | null
   vision: string | null
   values: string | null
@@ -100,6 +102,7 @@ export type OrganizationCountAggregateOutputType = {
   addressZipCode: number
   contactEmail: number
   contactPhone: number
+  contactName: number
   mission: number
   vision: number
   values: number
@@ -131,6 +134,7 @@ export type OrganizationMinAggregateInputType = {
   addressZipCode?: true
   contactEmail?: true
   contactPhone?: true
+  contactName?: true
   mission?: true
   vision?: true
   values?: true
@@ -159,6 +163,7 @@ export type OrganizationMaxAggregateInputType = {
   addressZipCode?: true
   contactEmail?: true
   contactPhone?: true
+  contactName?: true
   mission?: true
   vision?: true
   values?: true
@@ -187,6 +192,7 @@ export type OrganizationCountAggregateInputType = {
   addressZipCode?: true
   contactEmail?: true
   contactPhone?: true
+  contactName?: true
   mission?: true
   vision?: true
   values?: true
@@ -289,6 +295,7 @@ export type OrganizationGroupByOutputType = {
   addressZipCode: string | null
   contactEmail: string | null
   contactPhone: string | null
+  contactName: string | null
   mission: string | null
   vision: string | null
   values: string | null
@@ -339,6 +346,7 @@ export type OrganizationWhereInput = {
   addressZipCode?: Prisma.StringNullableFilter<"Organization"> | string | null
   contactEmail?: Prisma.StringNullableFilter<"Organization"> | string | null
   contactPhone?: Prisma.StringNullableFilter<"Organization"> | string | null
+  contactName?: Prisma.StringNullableFilter<"Organization"> | string | null
   mission?: Prisma.StringNullableFilter<"Organization"> | string | null
   vision?: Prisma.StringNullableFilter<"Organization"> | string | null
   values?: Prisma.StringNullableFilter<"Organization"> | string | null
@@ -373,6 +381,7 @@ export type OrganizationOrderByWithRelationInput = {
   addressZipCode?: Prisma.SortOrderInput | Prisma.SortOrder
   contactEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   contactPhone?: Prisma.SortOrderInput | Prisma.SortOrder
+  contactName?: Prisma.SortOrderInput | Prisma.SortOrder
   mission?: Prisma.SortOrderInput | Prisma.SortOrder
   vision?: Prisma.SortOrderInput | Prisma.SortOrder
   values?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -411,6 +420,7 @@ export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
   addressZipCode?: Prisma.StringNullableFilter<"Organization"> | string | null
   contactEmail?: Prisma.StringNullableFilter<"Organization"> | string | null
   contactPhone?: Prisma.StringNullableFilter<"Organization"> | string | null
+  contactName?: Prisma.StringNullableFilter<"Organization"> | string | null
   mission?: Prisma.StringNullableFilter<"Organization"> | string | null
   vision?: Prisma.StringNullableFilter<"Organization"> | string | null
   values?: Prisma.StringNullableFilter<"Organization"> | string | null
@@ -445,6 +455,7 @@ export type OrganizationOrderByWithAggregationInput = {
   addressZipCode?: Prisma.SortOrderInput | Prisma.SortOrder
   contactEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   contactPhone?: Prisma.SortOrderInput | Prisma.SortOrder
+  contactName?: Prisma.SortOrderInput | Prisma.SortOrder
   mission?: Prisma.SortOrderInput | Prisma.SortOrder
   vision?: Prisma.SortOrderInput | Prisma.SortOrder
   values?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -480,6 +491,7 @@ export type OrganizationScalarWhereWithAggregatesInput = {
   addressZipCode?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
   contactEmail?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
   contactPhone?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  contactName?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
   mission?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
   vision?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
   values?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
@@ -508,6 +520,7 @@ export type OrganizationCreateInput = {
   addressZipCode?: string | null
   contactEmail?: string | null
   contactPhone?: string | null
+  contactName?: string | null
   mission?: string | null
   vision?: string | null
   values?: string | null
@@ -542,6 +555,7 @@ export type OrganizationUncheckedCreateInput = {
   addressZipCode?: string | null
   contactEmail?: string | null
   contactPhone?: string | null
+  contactName?: string | null
   mission?: string | null
   vision?: string | null
   values?: string | null
@@ -574,6 +588,7 @@ export type OrganizationUpdateInput = {
   addressZipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vision?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   values?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -608,6 +623,7 @@ export type OrganizationUncheckedUpdateInput = {
   addressZipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vision?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   values?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -641,6 +657,7 @@ export type OrganizationCreateManyInput = {
   addressZipCode?: string | null
   contactEmail?: string | null
   contactPhone?: string | null
+  contactName?: string | null
   mission?: string | null
   vision?: string | null
   values?: string | null
@@ -669,6 +686,7 @@ export type OrganizationUpdateManyMutationInput = {
   addressZipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vision?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   values?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -698,6 +716,7 @@ export type OrganizationUncheckedUpdateManyInput = {
   addressZipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vision?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   values?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -742,6 +761,7 @@ export type OrganizationCountOrderByAggregateInput = {
   addressZipCode?: Prisma.SortOrder
   contactEmail?: Prisma.SortOrder
   contactPhone?: Prisma.SortOrder
+  contactName?: Prisma.SortOrder
   mission?: Prisma.SortOrder
   vision?: Prisma.SortOrder
   values?: Prisma.SortOrder
@@ -771,6 +791,7 @@ export type OrganizationMaxOrderByAggregateInput = {
   addressZipCode?: Prisma.SortOrder
   contactEmail?: Prisma.SortOrder
   contactPhone?: Prisma.SortOrder
+  contactName?: Prisma.SortOrder
   mission?: Prisma.SortOrder
   vision?: Prisma.SortOrder
   values?: Prisma.SortOrder
@@ -799,6 +820,7 @@ export type OrganizationMinOrderByAggregateInput = {
   addressZipCode?: Prisma.SortOrder
   contactEmail?: Prisma.SortOrder
   contactPhone?: Prisma.SortOrder
+  contactName?: Prisma.SortOrder
   mission?: Prisma.SortOrder
   vision?: Prisma.SortOrder
   values?: Prisma.SortOrder
@@ -940,6 +962,7 @@ export type OrganizationCreateWithoutTenantInput = {
   addressZipCode?: string | null
   contactEmail?: string | null
   contactPhone?: string | null
+  contactName?: string | null
   mission?: string | null
   vision?: string | null
   values?: string | null
@@ -972,6 +995,7 @@ export type OrganizationUncheckedCreateWithoutTenantInput = {
   addressZipCode?: string | null
   contactEmail?: string | null
   contactPhone?: string | null
+  contactName?: string | null
   mission?: string | null
   vision?: string | null
   values?: string | null
@@ -1034,6 +1058,7 @@ export type OrganizationScalarWhereInput = {
   addressZipCode?: Prisma.StringNullableFilter<"Organization"> | string | null
   contactEmail?: Prisma.StringNullableFilter<"Organization"> | string | null
   contactPhone?: Prisma.StringNullableFilter<"Organization"> | string | null
+  contactName?: Prisma.StringNullableFilter<"Organization"> | string | null
   mission?: Prisma.StringNullableFilter<"Organization"> | string | null
   vision?: Prisma.StringNullableFilter<"Organization"> | string | null
   values?: Prisma.StringNullableFilter<"Organization"> | string | null
@@ -1062,6 +1087,7 @@ export type OrganizationCreateWithoutUsersInput = {
   addressZipCode?: string | null
   contactEmail?: string | null
   contactPhone?: string | null
+  contactName?: string | null
   mission?: string | null
   vision?: string | null
   values?: string | null
@@ -1095,6 +1121,7 @@ export type OrganizationUncheckedCreateWithoutUsersInput = {
   addressZipCode?: string | null
   contactEmail?: string | null
   contactPhone?: string | null
+  contactName?: string | null
   mission?: string | null
   vision?: string | null
   values?: string | null
@@ -1142,6 +1169,7 @@ export type OrganizationUpdateWithoutUsersInput = {
   addressZipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vision?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   values?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1175,6 +1203,7 @@ export type OrganizationUncheckedUpdateWithoutUsersInput = {
   addressZipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vision?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   values?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1206,6 +1235,7 @@ export type OrganizationCreateWithoutTeamMembersInput = {
   addressZipCode?: string | null
   contactEmail?: string | null
   contactPhone?: string | null
+  contactName?: string | null
   mission?: string | null
   vision?: string | null
   values?: string | null
@@ -1239,6 +1269,7 @@ export type OrganizationUncheckedCreateWithoutTeamMembersInput = {
   addressZipCode?: string | null
   contactEmail?: string | null
   contactPhone?: string | null
+  contactName?: string | null
   mission?: string | null
   vision?: string | null
   values?: string | null
@@ -1286,6 +1317,7 @@ export type OrganizationUpdateWithoutTeamMembersInput = {
   addressZipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vision?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   values?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1319,6 +1351,7 @@ export type OrganizationUncheckedUpdateWithoutTeamMembersInput = {
   addressZipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vision?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   values?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1350,6 +1383,7 @@ export type OrganizationCreateWithoutProjectsInput = {
   addressZipCode?: string | null
   contactEmail?: string | null
   contactPhone?: string | null
+  contactName?: string | null
   mission?: string | null
   vision?: string | null
   values?: string | null
@@ -1383,6 +1417,7 @@ export type OrganizationUncheckedCreateWithoutProjectsInput = {
   addressZipCode?: string | null
   contactEmail?: string | null
   contactPhone?: string | null
+  contactName?: string | null
   mission?: string | null
   vision?: string | null
   values?: string | null
@@ -1430,6 +1465,7 @@ export type OrganizationUpdateWithoutProjectsInput = {
   addressZipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vision?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   values?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1463,6 +1499,7 @@ export type OrganizationUncheckedUpdateWithoutProjectsInput = {
   addressZipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vision?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   values?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1494,6 +1531,7 @@ export type OrganizationCreateWithoutDocumentsInput = {
   addressZipCode?: string | null
   contactEmail?: string | null
   contactPhone?: string | null
+  contactName?: string | null
   mission?: string | null
   vision?: string | null
   values?: string | null
@@ -1527,6 +1565,7 @@ export type OrganizationUncheckedCreateWithoutDocumentsInput = {
   addressZipCode?: string | null
   contactEmail?: string | null
   contactPhone?: string | null
+  contactName?: string | null
   mission?: string | null
   vision?: string | null
   values?: string | null
@@ -1574,6 +1613,7 @@ export type OrganizationUpdateWithoutDocumentsInput = {
   addressZipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vision?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   values?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1607,6 +1647,7 @@ export type OrganizationUncheckedUpdateWithoutDocumentsInput = {
   addressZipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vision?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   values?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1638,6 +1679,7 @@ export type OrganizationCreateManyTenantInput = {
   addressZipCode?: string | null
   contactEmail?: string | null
   contactPhone?: string | null
+  contactName?: string | null
   mission?: string | null
   vision?: string | null
   values?: string | null
@@ -1666,6 +1708,7 @@ export type OrganizationUpdateWithoutTenantInput = {
   addressZipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vision?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   values?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1698,6 +1741,7 @@ export type OrganizationUncheckedUpdateWithoutTenantInput = {
   addressZipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vision?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   values?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1730,6 +1774,7 @@ export type OrganizationUncheckedUpdateManyWithoutTenantInput = {
   addressZipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vision?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   values?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1817,6 +1862,7 @@ export type OrganizationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   addressZipCode?: boolean
   contactEmail?: boolean
   contactPhone?: boolean
+  contactName?: boolean
   mission?: boolean
   vision?: boolean
   values?: boolean
@@ -1852,6 +1898,7 @@ export type OrganizationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   addressZipCode?: boolean
   contactEmail?: boolean
   contactPhone?: boolean
+  contactName?: boolean
   mission?: boolean
   vision?: boolean
   values?: boolean
@@ -1882,6 +1929,7 @@ export type OrganizationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   addressZipCode?: boolean
   contactEmail?: boolean
   contactPhone?: boolean
+  contactName?: boolean
   mission?: boolean
   vision?: boolean
   values?: boolean
@@ -1912,6 +1960,7 @@ export type OrganizationSelectScalar = {
   addressZipCode?: boolean
   contactEmail?: boolean
   contactPhone?: boolean
+  contactName?: boolean
   mission?: boolean
   vision?: boolean
   values?: boolean
@@ -1921,7 +1970,7 @@ export type OrganizationSelectScalar = {
   updatedAt?: boolean
 }
 
-export type OrganizationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "name" | "tradeName" | "cnpj" | "industry" | "size" | "foundedAt" | "website" | "logoUrl" | "addressStreet" | "addressNumber" | "addressComplement" | "addressNeighborhood" | "addressCity" | "addressState" | "addressZipCode" | "contactEmail" | "contactPhone" | "mission" | "vision" | "values" | "isActive" | "metadata" | "createdAt" | "updatedAt", ExtArgs["result"]["organization"]>
+export type OrganizationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "name" | "tradeName" | "cnpj" | "industry" | "size" | "foundedAt" | "website" | "logoUrl" | "addressStreet" | "addressNumber" | "addressComplement" | "addressNeighborhood" | "addressCity" | "addressState" | "addressZipCode" | "contactEmail" | "contactPhone" | "contactName" | "mission" | "vision" | "values" | "isActive" | "metadata" | "createdAt" | "updatedAt", ExtArgs["result"]["organization"]>
 export type OrganizationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   users?: boolean | Prisma.Organization$usersArgs<ExtArgs>
@@ -1966,6 +2015,7 @@ export type $OrganizationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     addressZipCode: string | null
     contactEmail: string | null
     contactPhone: string | null
+    contactName: string | null
     mission: string | null
     vision: string | null
     values: string | null
@@ -2420,6 +2470,7 @@ export interface OrganizationFieldRefs {
   readonly addressZipCode: Prisma.FieldRef<"Organization", 'String'>
   readonly contactEmail: Prisma.FieldRef<"Organization", 'String'>
   readonly contactPhone: Prisma.FieldRef<"Organization", 'String'>
+  readonly contactName: Prisma.FieldRef<"Organization", 'String'>
   readonly mission: Prisma.FieldRef<"Organization", 'String'>
   readonly vision: Prisma.FieldRef<"Organization", 'String'>
   readonly values: Prisma.FieldRef<"Organization", 'String'>

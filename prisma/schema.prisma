@@ -198,6 +198,7 @@ model Organization {
     addressZipCode      String?
     contactEmail        String?
     contactPhone        String?
+    contactName         String?
     mission             String?   @db.Text
     vision              String?   @db.Text
     values              String?   @db.Text

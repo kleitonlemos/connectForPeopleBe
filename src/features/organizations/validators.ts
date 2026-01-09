@@ -16,6 +16,7 @@ export const createOrganizationSchema = z.object({
   addressZipCode: z.string().optional().nullable(),
   contactEmail: z.string().email().optional().nullable().or(z.literal('')),
   contactPhone: z.string().optional().nullable(),
+  contactName: z.string().optional().nullable(),
   mission: z.string().optional().nullable(),
   vision: z.string().optional().nullable(),
   values: z.string().optional().nullable(),

@@ -5,9 +5,11 @@ import type {
   Project,
   ProjectActivity,
 } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 import { env } from '../../config/env.js';
 import { NotFoundError } from '../../shared/errors/appError.js';
-import { generateProjectCode } from '../../shared/utils/generateCode.js';
+import { generateProjectCode, generateResetToken } from '../../shared/utils/generateCode.js';
+import { authRepository } from '../auth/repositories.js';
 import { emailsService } from '../emails/services.js';
 import { organizationsRepository } from '../organizations/repositories.js';
 import { projectsRepository } from './repositories.js';
@@ -108,16 +110,43 @@ export const projectsService = {
       const organization = await organizationsRepository.findById(input.organizationId);
 
       if (organization?.contactEmail) {
+        const tenantId = organization.tenantId;
+        let user = await authRepository.findByEmail(tenantId, organization.contactEmail);
+
+        if (!user) {
+          const tempPassword = await bcrypt.hash(Math.random().toString(36), 12);
+          const [firstName, ...lastNameParts] = (organization.contactName || 'Usuário').split(' ');
+
+          user = await authRepository.create({
+            tenant: { connect: { id: tenantId } },
+            organization: { connect: { id: organization.id } },
+            email: organization.contactEmail,
+            passwordHash: tempPassword,
+            firstName,
+            lastName: lastNameParts.join(' ') || 'Cliente',
+            role: 'CLIENT',
+            status: 'PENDING',
+          });
+        }
+
+        const resetToken = generateResetToken();
+        const expires = new Date(Date.now() + 1000 * 60 * 60 * 24); // 24 horas para ativação
+        await authRepository.setResetToken(user.id, resetToken, expires);
+
+        await projectsRepository.update(project.id, {
+          clientUser: { connect: { id: user.id } },
+        });
+
         await emailsService.sendWelcomeEmail({
-          recipientName: organization.tradeName || organization.name,
+          recipientName: organization.contactName || organization.tradeName || organization.name,
           recipientEmail: organization.contactEmail,
           projectName: project.name,
           companyName: organization.name,
-          loginUrl: `${env.FRONTEND_URL}/login`,
+          loginUrl: `${env.FRONTEND_URL}/reset-password?token=${resetToken}`,
         });
       }
     } catch (error) {
-      console.error('Erro ao enviar e-mail de boas-vindas do projeto', error);
+      console.error('Erro ao processar onboarding do cliente e enviar e-mail', error);
     }
 
     return project;

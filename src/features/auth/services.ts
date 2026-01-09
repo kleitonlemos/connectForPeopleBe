@@ -1,5 +1,6 @@
 import type { User, UserRole } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+import { prisma } from '../../config/database.js';
 import { ConflictError, NotFoundError, UnauthorizedError } from '../../shared/errors/appError.js';
 import { generateResetToken } from '../../shared/utils/generateCode.js';
 import { authRepository } from './repositories.js';
@@ -102,6 +103,13 @@ export const authService = {
     const passwordHash = await bcrypt.hash(newPassword, 12);
 
     await authRepository.updatePassword(user.id, passwordHash);
+
+    if (user.status === 'PENDING') {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { status: 'ACTIVE', emailVerifiedAt: new Date() },
+      });
+    }
   },
 
   async changePassword(

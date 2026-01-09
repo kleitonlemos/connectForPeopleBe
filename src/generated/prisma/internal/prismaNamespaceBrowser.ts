@@ -135,6 +135,7 @@ export const OrganizationScalarFieldEnum = {
   addressZipCode: 'addressZipCode',
   contactEmail: 'contactEmail',
   contactPhone: 'contactPhone',
+  contactName: 'contactName',
   mission: 'mission',
   vision: 'vision',
   values: 'values',

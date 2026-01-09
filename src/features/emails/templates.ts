@@ -67,25 +67,29 @@ function wrapHtml(content: string): string {
 export function welcomeTemplate(data: WelcomeEmailData): EmailTemplate {
   const html = wrapHtml(`
     <h2 style="color: #024383; margin-top: 0;">Bem-vindo(a) ao Connect For People!</h2>
-    
+
     <p>Olá, <strong>${data.recipientName}</strong>!</p>
-    
+
     <p>É com grande satisfação que damos as boas-vindas ao projeto de <strong>Diagnóstico Organizacional</strong> da <strong>${data.companyName}</strong>.</p>
-    
+
     <p>O projeto <strong>${data.projectName}</strong> foi iniciado e você foi designado(a) como ponto focal. Através da nossa plataforma, você poderá:</p>
-    
+
     <ul style="padding-left: 20px;">
       <li>Enviar documentos importantes da empresa</li>
       <li>Acompanhar o progresso das pesquisas</li>
       <li>Visualizar os relatórios quando publicados</li>
     </ul>
-    
+
+    <p style="background-color: #f1f5f9; padding: 15px; border-radius: 6px; margin: 20px 0;">
+      Para começar, você precisa ativar sua conta e definir uma senha de acesso.
+    </p>
+
     <div style="text-align: center;">
-      <a href="${data.loginUrl}" style="${buttonStyle}">Acessar a Plataforma</a>
+      <a href="${data.loginUrl}" style="${buttonStyle}">Ativar Minha Conta</a>
     </div>
-    
+
     <p>Se tiver qualquer dúvida, entre em contato com nosso consultor responsável.</p>
-    
+
     <p>Atenciosamente,<br><strong>Equipe Connect For People</strong></p>
   `);
 
@@ -98,14 +102,14 @@ Olá, ${data.recipientName}!
 
 O projeto ${data.projectName} foi iniciado e você foi designado(a) como ponto focal.
 
-Acesse a plataforma: ${data.loginUrl}
+Para começar, você precisa ativar sua conta e definir uma senha de acesso: ${data.loginUrl}
 
 Atenciosamente,
 Equipe Connect For People
   `.trim();
 
   return {
-    subject: `Bem-vindo ao projeto ${data.projectName} - Connect For People`,
+    subject: `Bem-vindo ao projeto ${data.projectName} - Ative sua conta`,
     html,
     text,
   };
@@ -116,27 +120,27 @@ export function surveyInviteTemplate(data: SurveyInviteEmailData): EmailTemplate
 
   const html = wrapHtml(`
     <h2 style="color: #024383; margin-top: 0;">Você foi convidado(a) a participar de uma pesquisa</h2>
-    
+
     ${data.recipientName ? `<p>Olá, <strong>${data.recipientName}</strong>!</p>` : '<p>Olá!</p>'}
-    
+
     <p>A <strong>${
       data.companyName
     }</strong> está realizando um importante processo de diagnóstico organizacional e sua participação é fundamental.</p>
-    
+
     <p>Convidamos você a responder a pesquisa: <strong>${data.surveyName}</strong></p>
-    
+
     ${deadlineText}
-    
+
     <p>Suas respostas são <strong>confidenciais</strong> e serão utilizadas apenas para análise agregada, sem identificação individual.</p>
-    
+
     <div style="text-align: center;">
       <a href="${data.surveyUrl}" style="${buttonStyle}">Responder Pesquisa</a>
     </div>
-    
+
     <p style="font-size: 14px; color: #64748b;">
       A pesquisa leva aproximadamente 10 minutos para ser respondida.
     </p>
-    
+
     <p>Agradecemos sua colaboração!</p>
   `);
 
@@ -174,28 +178,28 @@ export function surveyReminderTemplate(data: SurveyReminderEmailData): EmailTemp
 
   const html = wrapHtml(`
     <h2 style="color: #024383; margin-top: 0;">Lembrete: Pesquisa pendente</h2>
-    
+
     ${data.recipientName ? `<p>Olá, <strong>${data.recipientName}</strong>!</p>` : '<p>Olá!</p>'}
-    
+
     ${urgencyText}
-    
+
     <p>Notamos que você ainda não respondeu à pesquisa <strong>${
       data.surveyName
     }</strong> da <strong>${data.companyName}</strong>.</p>
-    
+
     ${data.deadline ? `<p><strong>Prazo final:</strong> ${data.deadline}</p>` : ''}
     ${
       data.daysRemaining !== undefined
         ? `<p><strong>Dias restantes:</strong> ${data.daysRemaining}</p>`
         : ''
     }
-    
+
     <p>Sua participação é muito importante para o sucesso do diagnóstico organizacional!</p>
-    
+
     <div style="text-align: center;">
       <a href="${data.surveyUrl}" style="${buttonStyle}">Responder Agora</a>
     </div>
-    
+
     <p style="font-size: 14px; color: #64748b;">
       Se você já respondeu, por favor desconsidere este e-mail.
     </p>
@@ -228,22 +232,22 @@ Se você já respondeu, por favor desconsidere este e-mail.
 export function reportPublishedTemplate(data: ReportPublishedEmailData): EmailTemplate {
   const html = wrapHtml(`
     <h2 style="color: #024383; margin-top: 0;">Relatório Publicado!</h2>
-    
+
     <p>Olá, <strong>${data.recipientName}</strong>!</p>
-    
+
     <p>É com satisfação que informamos que o relatório de diagnóstico organizacional da <strong>${data.companyName}</strong> foi finalizado e está disponível para visualização.</p>
-    
+
     <div style="background-color: #f1f5f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
       <h3 style="margin-top: 0; color: #024383;">${data.reportTitle}</h3>
       <p>O relatório contém análises detalhadas e recomendações estratégicas para sua organização.</p>
     </div>
-    
+
     <div style="text-align: center;">
       <a href="${data.reportUrl}" style="${buttonStyle}">Visualizar Relatório</a>
     </div>
-    
+
     <p>Caso tenha dúvidas sobre os resultados, entre em contato com nosso consultor responsável para agendar uma reunião de apresentação.</p>
-    
+
     <p>Atenciosamente,<br><strong>Equipe Connect For People</strong></p>
   `);
 
@@ -274,19 +278,19 @@ Equipe Connect For People
 export function passwordResetTemplate(data: PasswordResetEmailData): EmailTemplate {
   const html = wrapHtml(`
     <h2 style="color: #024383; margin-top: 0;">Redefinição de Senha</h2>
-    
+
     <p>Olá, <strong>${data.recipientName}</strong>!</p>
-    
+
     <p>Recebemos uma solicitação para redefinir a senha da sua conta na plataforma Connect For People.</p>
-    
+
     <div style="text-align: center;">
       <a href="${data.resetUrl}" style="${buttonStyle}">Redefinir Senha</a>
     </div>
-    
+
     <p style="font-size: 14px; color: #64748b;">
       Este link é válido por 1 hora. Se você não solicitou a redefinição de senha, por favor ignore este e-mail.
     </p>
-    
+
     <p>Por questões de segurança, nunca compartilhe este link com terceiros.</p>
   `);
 
