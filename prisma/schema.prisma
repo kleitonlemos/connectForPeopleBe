@@ -490,9 +490,11 @@ model SurveySection {
     surveyId    String
     title       String
     description String?
+    indicator   String?
     order       Int      @default(0)
     isRequired  Boolean  @default(true)
     conditions  Json     @default("{}")
+    metadata    Json     @default("{}")
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 

@@ -353,9 +353,11 @@ export const SurveySectionScalarFieldEnum = {
   surveyId: 'surveyId',
   title: 'title',
   description: 'description',
+  indicator: 'indicator',
   order: 'order',
   isRequired: 'isRequired',
   conditions: 'conditions',
+  metadata: 'metadata',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

@@ -39,6 +39,7 @@ export type SurveySectionMinAggregateOutputType = {
   surveyId: string | null
   title: string | null
   description: string | null
+  indicator: string | null
   order: number | null
   isRequired: boolean | null
   createdAt: Date | null
@@ -50,6 +51,7 @@ export type SurveySectionMaxAggregateOutputType = {
   surveyId: string | null
   title: string | null
   description: string | null
+  indicator: string | null
   order: number | null
   isRequired: boolean | null
   createdAt: Date | null
@@ -61,9 +63,11 @@ export type SurveySectionCountAggregateOutputType = {
   surveyId: number
   title: number
   description: number
+  indicator: number
   order: number
   isRequired: number
   conditions: number
+  metadata: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -83,6 +87,7 @@ export type SurveySectionMinAggregateInputType = {
   surveyId?: true
   title?: true
   description?: true
+  indicator?: true
   order?: true
   isRequired?: true
   createdAt?: true
@@ -94,6 +99,7 @@ export type SurveySectionMaxAggregateInputType = {
   surveyId?: true
   title?: true
   description?: true
+  indicator?: true
   order?: true
   isRequired?: true
   createdAt?: true
@@ -105,9 +111,11 @@ export type SurveySectionCountAggregateInputType = {
   surveyId?: true
   title?: true
   description?: true
+  indicator?: true
   order?: true
   isRequired?: true
   conditions?: true
+  metadata?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -204,9 +212,11 @@ export type SurveySectionGroupByOutputType = {
   surveyId: string
   title: string
   description: string | null
+  indicator: string | null
   order: number
   isRequired: boolean
   conditions: runtime.JsonValue
+  metadata: runtime.JsonValue
   createdAt: Date
   updatedAt: Date
   _count: SurveySectionCountAggregateOutputType | null
@@ -239,9 +249,11 @@ export type SurveySectionWhereInput = {
   surveyId?: Prisma.StringFilter<"SurveySection"> | string
   title?: Prisma.StringFilter<"SurveySection"> | string
   description?: Prisma.StringNullableFilter<"SurveySection"> | string | null
+  indicator?: Prisma.StringNullableFilter<"SurveySection"> | string | null
   order?: Prisma.IntFilter<"SurveySection"> | number
   isRequired?: Prisma.BoolFilter<"SurveySection"> | boolean
   conditions?: Prisma.JsonFilter<"SurveySection">
+  metadata?: Prisma.JsonFilter<"SurveySection">
   createdAt?: Prisma.DateTimeFilter<"SurveySection"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SurveySection"> | Date | string
   survey?: Prisma.XOR<Prisma.SurveyScalarRelationFilter, Prisma.SurveyWhereInput>
@@ -253,9 +265,11 @@ export type SurveySectionOrderByWithRelationInput = {
   surveyId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  indicator?: Prisma.SortOrderInput | Prisma.SortOrder
   order?: Prisma.SortOrder
   isRequired?: Prisma.SortOrder
   conditions?: Prisma.SortOrder
+  metadata?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   survey?: Prisma.SurveyOrderByWithRelationInput
@@ -270,9 +284,11 @@ export type SurveySectionWhereUniqueInput = Prisma.AtLeast<{
   surveyId?: Prisma.StringFilter<"SurveySection"> | string
   title?: Prisma.StringFilter<"SurveySection"> | string
   description?: Prisma.StringNullableFilter<"SurveySection"> | string | null
+  indicator?: Prisma.StringNullableFilter<"SurveySection"> | string | null
   order?: Prisma.IntFilter<"SurveySection"> | number
   isRequired?: Prisma.BoolFilter<"SurveySection"> | boolean
   conditions?: Prisma.JsonFilter<"SurveySection">
+  metadata?: Prisma.JsonFilter<"SurveySection">
   createdAt?: Prisma.DateTimeFilter<"SurveySection"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SurveySection"> | Date | string
   survey?: Prisma.XOR<Prisma.SurveyScalarRelationFilter, Prisma.SurveyWhereInput>
@@ -284,9 +300,11 @@ export type SurveySectionOrderByWithAggregationInput = {
   surveyId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  indicator?: Prisma.SortOrderInput | Prisma.SortOrder
   order?: Prisma.SortOrder
   isRequired?: Prisma.SortOrder
   conditions?: Prisma.SortOrder
+  metadata?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.SurveySectionCountOrderByAggregateInput
@@ -304,9 +322,11 @@ export type SurveySectionScalarWhereWithAggregatesInput = {
   surveyId?: Prisma.StringWithAggregatesFilter<"SurveySection"> | string
   title?: Prisma.StringWithAggregatesFilter<"SurveySection"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"SurveySection"> | string | null
+  indicator?: Prisma.StringNullableWithAggregatesFilter<"SurveySection"> | string | null
   order?: Prisma.IntWithAggregatesFilter<"SurveySection"> | number
   isRequired?: Prisma.BoolWithAggregatesFilter<"SurveySection"> | boolean
   conditions?: Prisma.JsonWithAggregatesFilter<"SurveySection">
+  metadata?: Prisma.JsonWithAggregatesFilter<"SurveySection">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"SurveySection"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SurveySection"> | Date | string
 }
@@ -315,9 +335,11 @@ export type SurveySectionCreateInput = {
   id?: string
   title: string
   description?: string | null
+  indicator?: string | null
   order?: number
   isRequired?: boolean
   conditions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   survey: Prisma.SurveyCreateNestedOneWithoutSectionsInput
@@ -329,9 +351,11 @@ export type SurveySectionUncheckedCreateInput = {
   surveyId: string
   title: string
   description?: string | null
+  indicator?: string | null
   order?: number
   isRequired?: boolean
   conditions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   questions?: Prisma.SurveyQuestionUncheckedCreateNestedManyWithoutSectionInput
@@ -341,9 +365,11 @@ export type SurveySectionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   conditions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   survey?: Prisma.SurveyUpdateOneRequiredWithoutSectionsNestedInput
@@ -355,9 +381,11 @@ export type SurveySectionUncheckedUpdateInput = {
   surveyId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   conditions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   questions?: Prisma.SurveyQuestionUncheckedUpdateManyWithoutSectionNestedInput
@@ -368,9 +396,11 @@ export type SurveySectionCreateManyInput = {
   surveyId: string
   title: string
   description?: string | null
+  indicator?: string | null
   order?: number
   isRequired?: boolean
   conditions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -379,9 +409,11 @@ export type SurveySectionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   conditions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -391,9 +423,11 @@ export type SurveySectionUncheckedUpdateManyInput = {
   surveyId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   conditions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -413,9 +447,11 @@ export type SurveySectionCountOrderByAggregateInput = {
   surveyId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  indicator?: Prisma.SortOrder
   order?: Prisma.SortOrder
   isRequired?: Prisma.SortOrder
   conditions?: Prisma.SortOrder
+  metadata?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -429,6 +465,7 @@ export type SurveySectionMaxOrderByAggregateInput = {
   surveyId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  indicator?: Prisma.SortOrder
   order?: Prisma.SortOrder
   isRequired?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -440,6 +477,7 @@ export type SurveySectionMinOrderByAggregateInput = {
   surveyId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  indicator?: Prisma.SortOrder
   order?: Prisma.SortOrder
   isRequired?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -515,9 +553,11 @@ export type SurveySectionCreateWithoutSurveyInput = {
   id?: string
   title: string
   description?: string | null
+  indicator?: string | null
   order?: number
   isRequired?: boolean
   conditions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   questions?: Prisma.SurveyQuestionCreateNestedManyWithoutSectionInput
@@ -527,9 +567,11 @@ export type SurveySectionUncheckedCreateWithoutSurveyInput = {
   id?: string
   title: string
   description?: string | null
+  indicator?: string | null
   order?: number
   isRequired?: boolean
   conditions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   questions?: Prisma.SurveyQuestionUncheckedCreateNestedManyWithoutSectionInput
@@ -569,9 +611,11 @@ export type SurveySectionScalarWhereInput = {
   surveyId?: Prisma.StringFilter<"SurveySection"> | string
   title?: Prisma.StringFilter<"SurveySection"> | string
   description?: Prisma.StringNullableFilter<"SurveySection"> | string | null
+  indicator?: Prisma.StringNullableFilter<"SurveySection"> | string | null
   order?: Prisma.IntFilter<"SurveySection"> | number
   isRequired?: Prisma.BoolFilter<"SurveySection"> | boolean
   conditions?: Prisma.JsonFilter<"SurveySection">
+  metadata?: Prisma.JsonFilter<"SurveySection">
   createdAt?: Prisma.DateTimeFilter<"SurveySection"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SurveySection"> | Date | string
 }
@@ -580,9 +624,11 @@ export type SurveySectionCreateWithoutQuestionsInput = {
   id?: string
   title: string
   description?: string | null
+  indicator?: string | null
   order?: number
   isRequired?: boolean
   conditions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   survey: Prisma.SurveyCreateNestedOneWithoutSectionsInput
@@ -593,9 +639,11 @@ export type SurveySectionUncheckedCreateWithoutQuestionsInput = {
   surveyId: string
   title: string
   description?: string | null
+  indicator?: string | null
   order?: number
   isRequired?: boolean
   conditions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -620,9 +668,11 @@ export type SurveySectionUpdateWithoutQuestionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   conditions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   survey?: Prisma.SurveyUpdateOneRequiredWithoutSectionsNestedInput
@@ -633,9 +683,11 @@ export type SurveySectionUncheckedUpdateWithoutQuestionsInput = {
   surveyId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   conditions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -644,9 +696,11 @@ export type SurveySectionCreateManySurveyInput = {
   id?: string
   title: string
   description?: string | null
+  indicator?: string | null
   order?: number
   isRequired?: boolean
   conditions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -655,9 +709,11 @@ export type SurveySectionUpdateWithoutSurveyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   conditions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   questions?: Prisma.SurveyQuestionUpdateManyWithoutSectionNestedInput
@@ -667,9 +723,11 @@ export type SurveySectionUncheckedUpdateWithoutSurveyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   conditions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   questions?: Prisma.SurveyQuestionUncheckedUpdateManyWithoutSectionNestedInput
@@ -679,9 +737,11 @@ export type SurveySectionUncheckedUpdateManyWithoutSurveyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   conditions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -722,9 +782,11 @@ export type SurveySectionSelect<ExtArgs extends runtime.Types.Extensions.Interna
   surveyId?: boolean
   title?: boolean
   description?: boolean
+  indicator?: boolean
   order?: boolean
   isRequired?: boolean
   conditions?: boolean
+  metadata?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   survey?: boolean | Prisma.SurveyDefaultArgs<ExtArgs>
@@ -737,9 +799,11 @@ export type SurveySectionSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   surveyId?: boolean
   title?: boolean
   description?: boolean
+  indicator?: boolean
   order?: boolean
   isRequired?: boolean
   conditions?: boolean
+  metadata?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   survey?: boolean | Prisma.SurveyDefaultArgs<ExtArgs>
@@ -750,9 +814,11 @@ export type SurveySectionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   surveyId?: boolean
   title?: boolean
   description?: boolean
+  indicator?: boolean
   order?: boolean
   isRequired?: boolean
   conditions?: boolean
+  metadata?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   survey?: boolean | Prisma.SurveyDefaultArgs<ExtArgs>
@@ -763,14 +829,16 @@ export type SurveySectionSelectScalar = {
   surveyId?: boolean
   title?: boolean
   description?: boolean
+  indicator?: boolean
   order?: boolean
   isRequired?: boolean
   conditions?: boolean
+  metadata?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type SurveySectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "surveyId" | "title" | "description" | "order" | "isRequired" | "conditions" | "createdAt" | "updatedAt", ExtArgs["result"]["surveySection"]>
+export type SurveySectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "surveyId" | "title" | "description" | "indicator" | "order" | "isRequired" | "conditions" | "metadata" | "createdAt" | "updatedAt", ExtArgs["result"]["surveySection"]>
 export type SurveySectionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   survey?: boolean | Prisma.SurveyDefaultArgs<ExtArgs>
   questions?: boolean | Prisma.SurveySection$questionsArgs<ExtArgs>
@@ -794,9 +862,11 @@ export type $SurveySectionPayload<ExtArgs extends runtime.Types.Extensions.Inter
     surveyId: string
     title: string
     description: string | null
+    indicator: string | null
     order: number
     isRequired: boolean
     conditions: runtime.JsonValue
+    metadata: runtime.JsonValue
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["surveySection"]>
@@ -1228,9 +1298,11 @@ export interface SurveySectionFieldRefs {
   readonly surveyId: Prisma.FieldRef<"SurveySection", 'String'>
   readonly title: Prisma.FieldRef<"SurveySection", 'String'>
   readonly description: Prisma.FieldRef<"SurveySection", 'String'>
+  readonly indicator: Prisma.FieldRef<"SurveySection", 'String'>
   readonly order: Prisma.FieldRef<"SurveySection", 'Int'>
   readonly isRequired: Prisma.FieldRef<"SurveySection", 'Boolean'>
   readonly conditions: Prisma.FieldRef<"SurveySection", 'Json'>
+  readonly metadata: Prisma.FieldRef<"SurveySection", 'Json'>
   readonly createdAt: Prisma.FieldRef<"SurveySection", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"SurveySection", 'DateTime'>
 }

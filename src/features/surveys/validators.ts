@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 const questionSchema = z.object({
+  id: z.string().uuid().optional(),
   text: z.string().min(1),
   type: z.enum([
     'TEXT',
@@ -18,6 +19,15 @@ const questionSchema = z.object({
   options: z.array(z.string()).optional(),
 });
 
+const sectionSchema = z.object({
+  id: z.string().uuid().optional(),
+  title: z.string().min(1),
+  description: z.string().optional(),
+  indicator: z.string().optional(),
+  order: z.number().optional(),
+  questions: z.array(questionSchema),
+});
+
 export const createSurveySchema = z.object({
   projectId: z.string().uuid(),
   type: z.enum(['PARTNERS', 'LEADERSHIP', 'CLIMATE', 'CUSTOM']),
@@ -28,6 +38,7 @@ export const createSurveySchema = z.object({
   startsAt: z.string().optional(),
   endsAt: z.string().optional(),
   questions: z.array(questionSchema).optional(),
+  sections: z.array(sectionSchema).optional(),
 });
 
 export const updateSurveySchema = createSurveySchema.partial().omit({ projectId: true });

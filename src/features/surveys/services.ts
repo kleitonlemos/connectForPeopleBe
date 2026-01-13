@@ -36,29 +36,50 @@ export const surveysService = {
   async create(input: CreateSurveyInput): Promise<Survey> {
     const accessCode = crypto.randomUUID().split('-')[0]?.toUpperCase() ?? 'DEFAULT';
 
-    const sectionsData =
-      input.questions && input.questions.length > 0
-        ? {
-            sections: {
-              create: [
-                {
-                  title: 'Perguntas',
-                  order: 0,
-                  isRequired: true,
-                  questions: {
-                    create: input.questions.map((q, index) => ({
-                      type: q.type,
-                      text: q.text,
-                      isRequired: q.isRequired ?? true,
-                      order: q.order ?? index,
-                      options: q.options && q.options.length > 0 ? { choices: q.options } : {},
-                    })),
-                  },
-                },
-              ],
+    let sectionsData: any = {};
+
+    if (input.sections && input.sections.length > 0) {
+      sectionsData = {
+        sections: {
+          create: input.sections.map((section, sIndex) => ({
+            title: section.title,
+            description: section.description,
+            indicator: section.indicator,
+            order: section.order ?? sIndex,
+            questions: {
+              create: section.questions.map((q, qIndex) => ({
+                type: q.type,
+                text: q.text,
+                isRequired: q.isRequired ?? true,
+                order: q.order ?? qIndex,
+                options: q.options && q.options.length > 0 ? { choices: q.options } : {},
+              })),
             },
-          }
-        : {};
+          })),
+        },
+      };
+    } else if (input.questions && input.questions.length > 0) {
+      sectionsData = {
+        sections: {
+          create: [
+            {
+              title: 'Perguntas',
+              order: 0,
+              isRequired: true,
+              questions: {
+                create: input.questions.map((q, index) => ({
+                  type: q.type,
+                  text: q.text,
+                  isRequired: q.isRequired ?? true,
+                  order: q.order ?? index,
+                  options: q.options && q.options.length > 0 ? { choices: q.options } : {},
+                })),
+              },
+            },
+          ],
+        },
+      };
+    }
 
     return surveysRepository.create({
       project: { connect: { id: input.projectId } },
@@ -80,12 +101,62 @@ export const surveysService = {
       throw new NotFoundError('Pesquisa');
     }
 
-    const { startsAt, endsAt, type, ...rest } = input;
+    const { startsAt, endsAt, type, questions, sections, ...rest } = input;
+
+    // Se houver novas seções/perguntas no update, por enquanto limpamos as antigas e criamos novas
+    // Em uma implementação real, faríamos diffing, mas para simplificar agora:
+    let nestedData: any = {};
+    if (sections && sections.length > 0) {
+      nestedData = {
+        sections: {
+          deleteMany: {},
+          create: sections.map((section, sIndex) => ({
+            title: section.title,
+            description: section.description,
+            indicator: section.indicator,
+            order: section.order ?? sIndex,
+            questions: {
+              create: section.questions.map((q, qIndex) => ({
+                type: q.type,
+                text: q.text,
+                isRequired: q.isRequired ?? true,
+                order: q.order ?? qIndex,
+                options: q.options && q.options.length > 0 ? { choices: q.options } : {},
+              })),
+            },
+          })),
+        },
+      };
+    } else if (questions && questions.length > 0) {
+      nestedData = {
+        sections: {
+          deleteMany: {},
+          create: [
+            {
+              title: 'Perguntas',
+              order: 0,
+              isRequired: true,
+              questions: {
+                create: questions.map((q, index) => ({
+                  type: q.type,
+                  text: q.text,
+                  isRequired: q.isRequired ?? true,
+                  order: q.order ?? index,
+                  options: q.options && q.options.length > 0 ? { choices: q.options } : {},
+                })),
+              },
+            },
+          ],
+        },
+      };
+    }
+
     return surveysRepository.update(id, {
       ...rest,
       ...(type && { type: type as SurveyType }),
       ...(startsAt && { startsAt: new Date(startsAt) }),
       ...(endsAt && { endsAt: new Date(endsAt) }),
+      ...nestedData,
     });
   },
 
@@ -120,13 +191,103 @@ export const surveysService = {
   },
 
   async getStatistics(surveyId: string) {
-    const responses = await surveysRepository.findResponses(surveyId);
+    const responses = (await surveysRepository.findResponses(surveyId)) as any[];
     const invitations = await surveysRepository.findInvitations(surveyId);
+    const survey = (await surveysRepository.findById(surveyId)) as any;
+
+    if (!survey) {
+      throw new NotFoundError('Pesquisa');
+    }
+
+    const totalResponses = responses.length;
+    const totalInvitations = invitations.length;
+    const responseRate = invitations.length > 0 ? (totalResponses / totalInvitations) * 100 : 0;
+
+    // Processar resultados por indicador (seção)
+    const indicators: Record<
+      string,
+      {
+        name: string;
+        score: number;
+        totalQuestions: number;
+        responses: number;
+      }
+    > = {};
+
+    if (survey.sections) {
+      survey.sections.forEach((section: any) => {
+        if (section.indicator) {
+          indicators[section.id] = {
+            name: section.indicator,
+            score: 0,
+            totalQuestions: section.questions?.length || 0,
+            responses: 0,
+          };
+        }
+      });
+    }
+
+    // Calcular scores por indicador
+    responses.forEach((response: any) => {
+      if (response.answers) {
+        response.answers.forEach((answer: any) => {
+          const questionId = answer.questionId;
+          // Encontrar a seção desta questão
+          const section = survey.sections?.find((s: any) =>
+            s.questions?.some((q: any) => q.id === questionId)
+          );
+
+          if (
+            section &&
+            section.indicator &&
+            answer.numericValue !== null &&
+            answer.numericValue !== undefined
+          ) {
+            indicators[section.id].score += answer.numericValue;
+            indicators[section.id].responses++;
+          }
+        });
+      }
+    });
+
+    // Normalizar scores (média)
+    const indicatorsList = Object.values(indicators).map(ind => ({
+      ...ind,
+      averageScore: ind.responses > 0 ? ind.score / ind.responses : 0,
+    }));
 
     return {
-      totalResponses: responses.length,
-      totalInvitations: invitations.length,
-      responseRate: invitations.length > 0 ? (responses.length / invitations.length) * 100 : 0,
+      totalResponses,
+      totalInvitations,
+      responseRate,
+      indicators: indicatorsList,
+      // Também podemos agrupar por questão individual para gráficos mais detalhados
+      questions: (survey.sections || [])
+        .flatMap((s: any) => s.questions || [])
+        .map((q: any) => {
+          const qAnswers = responses
+            .flatMap((r: any) => r.answers || [])
+            .filter((a: any) => a.questionId === q.id);
+          const avg =
+            qAnswers.reduce((acc: number, curr: any) => acc + (curr.numericValue ?? 0), 0) /
+            (qAnswers.length || 1);
+
+          return {
+            id: q.id,
+            text: q.text,
+            type: q.type,
+            average: ['SCALE', 'NPS', 'RATING'].includes(q.type) ? avg : null,
+            total: qAnswers.length,
+            optionsDistribution: ['SINGLE_CHOICE', 'MULTIPLE_CHOICE'].includes(q.type)
+              ? (q.options as any)?.choices?.map((opt: string) => ({
+                  option: opt,
+                  count: qAnswers.filter(
+                    (a: any) => (a.value as any)?.selected?.includes(opt) || a.value === opt
+                  ).length,
+                }))
+              : null,
+          };
+        }),
     };
   },
 
