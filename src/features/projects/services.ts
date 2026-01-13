@@ -13,6 +13,8 @@ import { authRepository } from '../auth/repositories.js';
 import { emailsService } from '../emails/services.js';
 import { organizationsRepository } from '../organizations/repositories.js';
 import { projectsRepository } from './repositories.js';
+import type { ProjectSettings } from './types/projectSettings.js';
+import { onboardingStepIds } from './types/projectSettings.js';
 import type { CreateProjectInput, UpdateProjectInput } from './validators.js';
 
 export const projectsService = {
@@ -39,6 +41,7 @@ export const projectsService = {
     if (!project) {
       throw new NotFoundError('Projeto');
     }
+
     return project;
   },
 
@@ -168,35 +171,57 @@ export const projectsService = {
     if (!project) {
       throw new NotFoundError('Projeto');
     }
-    const { settings, ...rest } = input;
+    const { name, description, status, stage, startDate, targetEndDate, progress, settings } =
+      input;
 
     let mergedSettings: Prisma.InputJsonValue | undefined;
+    let calculatedProgress: number | undefined;
+    let calculatedStage: Project['stage'] | undefined;
 
     if (settings) {
-      const existingSettings = (project.settings ?? {}) as Record<string, unknown>;
-      const incomingSettings = settings as Record<string, unknown>;
+      const existingSettings = (project.settings ?? {}) as ProjectSettings;
+      const incomingSettings = settings as ProjectSettings;
 
-      const existingOnboarding =
-        (existingSettings['onboarding'] as Record<string, unknown> | undefined) ?? {};
-      const incomingOnboarding =
-        (incomingSettings['onboarding'] as Record<string, unknown> | undefined) ?? {};
+      const existingOnboarding = existingSettings.onboarding ?? {};
+      const incomingOnboarding = incomingSettings.onboarding ?? {};
+
+      const mergedOnboarding = {
+        ...existingOnboarding,
+        ...incomingOnboarding,
+      };
 
       mergedSettings = {
         ...existingSettings,
         ...incomingSettings,
-        onboarding: {
-          ...existingOnboarding,
-          ...incomingOnboarding,
-        },
+        onboarding: mergedOnboarding,
       } as Prisma.InputJsonValue;
+
+      const completedStepsCount = onboardingStepIds.filter(
+        stepId => !!mergedOnboarding[stepId]
+      ).length;
+      calculatedProgress = Math.round((completedStepsCount / onboardingStepIds.length) * 100);
+
+      if (calculatedProgress === 100 && project.stage === 'ONBOARDING') {
+        calculatedStage = 'DOCUMENT_COLLECTION';
+      }
     }
 
-    return projectsRepository.update(id, {
-      ...rest,
-      startDate: input.startDate ? new Date(input.startDate) : undefined,
-      targetEndDate: input.targetEndDate ? new Date(input.targetEndDate) : undefined,
+    const updatedProject = await projectsRepository.update(id, {
+      ...(name !== undefined && { name }),
+      ...(description !== undefined && { description }),
+      ...(status !== undefined && { status }),
+      ...(stage !== undefined && { stage }),
+      ...(progress !== undefined && { progress }),
+      ...(startDate !== undefined && { startDate: startDate ? new Date(startDate) : null }),
+      ...(targetEndDate !== undefined && {
+        targetEndDate: targetEndDate ? new Date(targetEndDate) : null,
+      }),
       ...(settings && { settings: mergedSettings }),
+      ...(calculatedProgress !== undefined && { progress: calculatedProgress }),
+      ...(calculatedStage !== undefined && { stage: calculatedStage }),
     });
+
+    return updatedProject;
   },
 
   async getProgress(

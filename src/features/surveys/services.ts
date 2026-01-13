@@ -161,17 +161,22 @@ export const surveysService = {
   },
 
   async submitResponse(
-    surveyId: string,
+    surveyIdOrCode: string,
     respondentId: string | null,
     input: SubmitResponseInput
   ): Promise<SurveyResponse> {
-    const survey = await surveysRepository.findById(surveyId);
+    let survey = await surveysRepository.findById(surveyIdOrCode);
+
+    if (!survey) {
+      survey = await surveysRepository.findByAccessCode(surveyIdOrCode);
+    }
+
     if (!survey) {
       throw new NotFoundError('Pesquisa');
     }
 
     return surveysRepository.createResponse({
-      survey: { connect: { id: surveyId } },
+      survey: { connect: { id: survey.id } },
       ...(respondentId && { respondent: { connect: { id: respondentId } } }),
       status: 'COMPLETED',
       submittedAt: new Date(),

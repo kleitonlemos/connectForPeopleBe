@@ -41,9 +41,9 @@ export const surveysController = {
   },
 
   async submitResponse(request: FastifyRequest, reply: FastifyReply): Promise<void> {
-    const { id } = request.params as { id: string };
+    const { code } = request.params as { code: string };
     const data = submitResponseSchema.parse(request.body);
-    const response = await surveysService.submitResponse(id, null, data);
+    const response = await surveysService.submitResponse(code, null, data);
     created(reply, response);
   },
 

@@ -39,6 +39,16 @@ export const surveysRepository = {
     return prisma.survey.findUnique({
       where: { accessCode: code },
       include: {
+        project: {
+          include: {
+            organization: {
+              select: {
+                name: true,
+                logoUrl: true,
+              },
+            },
+          },
+        },
         sections: {
           include: { questions: { orderBy: { order: 'asc' } } },
           orderBy: { order: 'asc' },
