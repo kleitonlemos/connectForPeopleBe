@@ -11,7 +11,6 @@ const BUCKET_TRANSCRIPTIONS = env.GCS_BUCKET_TRANSCRIPTIONS;
 
 interface UploadResult {
   path: string;
-  publicUrl: string;
 }
 
 export const storageService = {
@@ -35,7 +34,6 @@ export const storageService = {
     // No GCS, salvamos apenas o caminho. A URL é gerada sob demanda.
     return {
       path: uniqueName,
-      publicUrl: '', // Será gerada pelo transformador
     };
   },
 
@@ -51,7 +49,6 @@ export const storageService = {
 
     return {
       path: fileName,
-      publicUrl: '', // Será gerada pelo transformador
     };
   },
 
@@ -74,7 +71,6 @@ export const storageService = {
 
     return {
       path: uniqueName,
-      publicUrl: '',
     };
   },
 

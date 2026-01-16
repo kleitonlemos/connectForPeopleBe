@@ -1,6 +1,7 @@
 import type { Report, ReportVersion } from '@prisma/client';
 import { env } from '../../config/env.js';
 import { NotFoundError } from '../../shared/errors/appError.js';
+import { storageService } from '../../shared/services/storageService.js';
 import { transformReportUrls, transformReportsUrls } from '../../shared/utils/storage.js';
 import { aiService } from '../ai/services.js';
 import { authRepository } from '../auth/repositories.js';
@@ -145,10 +146,30 @@ export const reportsService = {
     }
 
     if (report.pdfPath) {
-      return transformReportUrls(report).then(r => r.pdfUrl || '');
+      const transformed = await transformReportUrls(report);
+      return transformed.pdfUrl || '';
     }
 
-    // Por enquanto retornamos o placeholder, mas agora integrado com a estrutura de storage
-    return `export-url-placeholder-${id}`;
+    // Por enquanto, geramos um arquivo dummy para validar o fluxo de storage
+    const dummyContent = Buffer.from(
+      `Relatório: ${report.title}\nID: ${report.id}\nData: ${new Date().toISOString()}`
+    );
+    const fileName = `report-${report.id}.pdf`;
+
+    const { path } = await storageService.uploadFile(
+      dummyContent,
+      fileName,
+      'application/pdf',
+      `reports/${report.projectId}`
+    );
+
+    await reportsRepository.update(id, {
+      pdfPath: path,
+      pdfUrl: '', // Limpamos a URL legada
+    });
+
+    const updatedReport = (await reportsRepository.findById(id)) as any;
+    const transformed = await transformReportUrls(updatedReport);
+    return transformed.pdfUrl || '';
   },
 };

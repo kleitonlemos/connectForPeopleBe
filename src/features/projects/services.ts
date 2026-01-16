@@ -6,12 +6,16 @@ import type {
   ProjectActivity,
 } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+import { prisma } from '../../config/database.js';
 import { env } from '../../config/env.js';
 import { NotFoundError } from '../../shared/errors/appError.js';
+import { storageService } from '../../shared/services/storageService.js';
 import { generateProjectCode, generateResetToken } from '../../shared/utils/generateCode.js';
 import { transformDocumentsUrls, transformOrganizationUrls } from '../../shared/utils/storage.js';
 import { authRepository } from '../auth/repositories.js';
+import { documentsService } from '../documents/services.js';
 import { emailsService } from '../emails/services.js';
+import { interviewsService } from '../interviews/services.js';
 import { organizationsRepository } from '../organizations/repositories.js';
 import { projectsRepository } from './repositories.js';
 import type { ProjectSettings } from './types/projectSettings.js';
@@ -363,6 +367,48 @@ export const projectsService = {
     if (!project) {
       throw new NotFoundError('Projeto');
     }
+
+    // 1. Deletar todos os documentos do storage
+    const documents = await prisma.document.findMany({
+      where: { projectId: id },
+      select: { id: true },
+    });
+    for (const doc of documents) {
+      try {
+        await documentsService.delete(doc.id);
+      } catch (error) {
+        console.error(`Erro ao deletar documento ${doc.id} do projeto ${id}`, error);
+      }
+    }
+
+    // 2. Deletar todas as entrevistas (e suas transcrições) do storage
+    const interviews = await prisma.interview.findMany({
+      where: { projectId: id },
+      select: { id: true },
+    });
+    for (const interview of interviews) {
+      try {
+        await interviewsService.delete(interview.id);
+      } catch (error) {
+        console.error(`Erro ao deletar entrevista ${interview.id} do projeto ${id}`, error);
+      }
+    }
+
+    // 3. Deletar todos os relatórios (PDFs) do storage
+    const reports = await prisma.report.findMany({
+      where: { projectId: id },
+      select: { id: true, pdfPath: true },
+    });
+    for (const report of reports) {
+      if (report.pdfPath) {
+        try {
+          await storageService.deleteFile(env.GCS_BUCKET_DOCUMENTS, report.pdfPath);
+        } catch (error) {
+          console.error(`Erro ao deletar PDF do relatório ${report.id}`, error);
+        }
+      }
+    }
+
     await projectsRepository.delete(id);
   },
 };
