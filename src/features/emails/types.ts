@@ -4,7 +4,8 @@ export type EmailType =
   | 'SURVEY_REMINDER'
   | 'REPORT_PUBLISHED'
   | 'PASSWORD_RESET'
-  | 'ACCOUNT_ACTIVATED';
+  | 'ACCOUNT_ACTIVATED'
+  | 'ONBOARDING_REMINDER';
 
 export interface EmailRecipient {
   email: string;
@@ -63,6 +64,14 @@ export interface AccountActivatedEmailData {
   recipientName: string;
   recipientEmail: string;
   loginUrl: string;
+}
+
+export interface OnboardingReminderEmailData {
+  recipientName: string;
+  recipientEmail: string;
+  projectName: string;
+  companyName: string;
+  onboardingUrl: string;
 }
 
 export interface EmailTemplate {

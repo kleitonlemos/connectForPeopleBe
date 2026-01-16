@@ -1,4 +1,5 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
+import { env } from '../../config/env.js';
 import { created, success } from '../../shared/utils/response.js';
 import { projectsService } from './services.js';
 import { createProjectSchema, updateProjectSchema } from './validators.js';
@@ -57,6 +58,25 @@ export const projectsController = {
     const activities = await projectsService.getActivities(id);
     success(reply, activities);
   },
+
+  async resendOnboardingReminder(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const { id } = request.params as { id: string };
+    await projectsService.resendOnboardingReminder(id);
+    success(reply, { message: 'Lembrete enviado com sucesso' });
+  },
+
+  async processOnboardingReminders(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    // Verificação de segurança para o scheduler (ex: API KEY no header)
+    const apiKey = request.headers['x-scheduler-key'];
+    if (apiKey !== env.SCHEDULER_API_KEY) {
+      reply.status(401).send({ error: 'Não autorizado' });
+      return;
+    }
+
+    await projectsService.processOnboardingReminders();
+    success(reply, { message: 'Processamento de lembretes concluído' });
+  },
+
   async delete(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const { id } = request.params as { id: string };
     await projectsService.delete(id);

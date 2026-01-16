@@ -24,6 +24,7 @@ const envSchema = z.object({
   SMTP_FROM: z.string().optional(),
 
   CRON_SECRET: z.string().optional(),
+  SCHEDULER_API_KEY: z.string().optional(),
 
   GCP_PROJECT_ID: z.string().default('nextmoves-478514'),
   GCS_BUCKET_DOCUMENTS: z.string().default('conecta-documents'),

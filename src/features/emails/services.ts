@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer';
 import { env } from '../../config/env.js';
 import {
   accountActivatedTemplate,
+  onboardingReminderTemplate,
   passwordResetTemplate,
   reportPublishedTemplate,
   surveyInviteTemplate,
@@ -13,6 +14,7 @@ import type {
   AccountActivatedEmailData,
   BulkSendResult,
   EmailData,
+  OnboardingReminderEmailData,
   PasswordResetEmailData,
   ReportPublishedEmailData,
   SendEmailResult,
@@ -181,6 +183,16 @@ export const emailsService = {
 
   async sendAccountActivated(data: AccountActivatedEmailData): Promise<SendEmailResult> {
     const template = accountActivatedTemplate(data);
+    return sendEmail({
+      to: { email: data.recipientEmail, name: data.recipientName },
+      subject: template.subject,
+      html: template.html,
+      text: template.text,
+    });
+  },
+
+  async sendOnboardingReminder(data: OnboardingReminderEmailData): Promise<SendEmailResult> {
+    const template = onboardingReminderTemplate(data);
     return sendEmail({
       to: { email: data.recipientEmail, name: data.recipientName },
       subject: template.subject,

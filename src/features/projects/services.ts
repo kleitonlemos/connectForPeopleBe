@@ -362,6 +362,76 @@ export const projectsService = {
       metadata: metadata ? JSON.parse(JSON.stringify(metadata)) : undefined,
     });
   },
+
+  async resendOnboardingReminder(id: string): Promise<void> {
+    const project = (await projectsRepository.findById(id)) as any;
+    if (!project) {
+      throw new NotFoundError('Projeto');
+    }
+
+    if (!project.clientUser) {
+      throw new Error('Este projeto não possui um usuário cliente associado.');
+    }
+
+    const organization = await organizationsRepository.findById(project.organizationId);
+    if (!organization) {
+      throw new NotFoundError('Organização');
+    }
+
+    // Gerar um novo token de reset se o usuário ainda estiver pendente
+    let onboardingUrl = `${env.FRONTEND_URL}/login`;
+
+    if (project.clientUser.status === 'PENDING') {
+      const resetToken = generateResetToken();
+      const expires = new Date(Date.now() + 1000 * 60 * 60 * 24); // 24 horas
+      await authRepository.setResetToken(project.clientUser.id, resetToken, expires);
+      onboardingUrl = `${env.FRONTEND_URL}/onboarding?token=${resetToken}`;
+    } else {
+      // Se já ativou, manda para a página de onboarding (que deve exigir login)
+      onboardingUrl = `${env.FRONTEND_URL}/dashboard/onboarding`;
+    }
+
+    await emailsService.sendOnboardingReminder({
+      recipientName: project.clientUser.firstName || organization.contactName || 'Usuário',
+      recipientEmail: project.clientUser.email,
+      projectName: project.name,
+      companyName: organization.name,
+      onboardingUrl,
+    });
+
+    await this.logActivity(
+      project.id,
+      project.consultantId,
+      'EMAIL_SENT',
+      'Lembrete de onboarding enviado ao cliente'
+    );
+  },
+
+  async processOnboardingReminders(): Promise<void> {
+    // Buscar todos os projetos em estágio de onboarding que não foram concluídos
+    const pendingProjects = await prisma.project.findMany({
+      where: {
+        stage: 'ONBOARDING',
+        progress: { lt: 100 },
+        clientUserId: { not: null },
+      },
+      include: {
+        clientUser: true,
+        organization: true,
+      },
+    });
+
+    for (const project of pendingProjects) {
+      // Evitar enviar muitos e-mails se o processo automático rodar com frequência
+      // Aqui poderíamos checar a última atividade do tipo EMAIL_SENT
+      try {
+        await this.resendOnboardingReminder(project.id);
+      } catch (error) {
+        console.error(`Erro ao processar lembrete automático para o projeto ${project.id}:`, error);
+      }
+    }
+  },
+
   async delete(id: string): Promise<void> {
     const project = await projectsRepository.findById(id);
     if (!project) {

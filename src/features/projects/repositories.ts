@@ -32,7 +32,9 @@ export const projectsRepository = {
       include: {
         organization: true,
         consultant: { select: { id: true, firstName: true, lastName: true, email: true } },
-        clientUser: { select: { id: true, firstName: true, lastName: true, email: true } },
+        clientUser: {
+          select: { id: true, firstName: true, lastName: true, email: true, status: true },
+        },
       },
     });
   },

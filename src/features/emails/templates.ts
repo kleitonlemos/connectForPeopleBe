@@ -1,6 +1,7 @@
 import type {
   AccountActivatedEmailData,
   EmailTemplate,
+  OnboardingReminderEmailData,
   PasswordResetEmailData,
   ReportPublishedEmailData,
   SurveyInviteEmailData,
@@ -352,6 +353,52 @@ Equipe Connect For People
 
   return {
     subject: 'Bem-vindo(a)! Sua conta foi ativada - Connect For People',
+    html,
+    text,
+  };
+}
+
+export function onboardingReminderTemplate(data: OnboardingReminderEmailData): EmailTemplate {
+  const html = wrapHtml(`
+    <h2 style="color: #024383; margin-top: 0;">Lembrete: Finalize seu Onboarding</h2>
+
+    <p>Olá, <strong>${data.recipientName}</strong>!</p>
+
+    <p>Notamos que você ainda não concluiu o processo de onboarding do projeto <strong>${data.projectName}</strong> da <strong>${data.companyName}</strong>.</p>
+
+    <p>Para que possamos avançar com o diagnóstico organizacional, é fundamental que você complete todas as etapas iniciais, como o envio dos documentos solicitados.</p>
+
+    <p style="background-color: #f1f5f9; padding: 15px; border-radius: 6px; margin: 20px 0;">
+      Clique no botão abaixo para continuar de onde parou:
+    </p>
+
+    <div style="text-align: center;">
+      <a href="${data.onboardingUrl}" style="${buttonStyle}">Continuar Onboarding</a>
+    </div>
+
+    <p>Se tiver qualquer dúvida ou dificuldade técnica, entre em contato com nosso consultor responsável.</p>
+
+    <p>Atenciosamente,<br><strong>Equipe Connect For People</strong></p>
+  `);
+
+  const text = `
+Lembrete: Finalize seu Onboarding
+
+Olá, ${data.recipientName}!
+
+Notamos que você ainda não concluiu o processo de onboarding do projeto ${data.projectName} da ${data.companyName}.
+
+Para que possamos avançar, é fundamental que você complete todas as etapas iniciais.
+
+Clique no link abaixo para continuar de onde parou:
+${data.onboardingUrl}
+
+Atenciosamente,
+Equipe Connect For People
+  `.trim();
+
+  return {
+    subject: `Lembrete: Onboarding pendente - Projeto ${data.projectName}`,
     html,
     text,
   };
