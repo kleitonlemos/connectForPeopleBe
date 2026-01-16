@@ -53,12 +53,7 @@ export const notificationController = {
     success(reply, { message: 'Notificação excluída' });
   },
 
-  async runScheduledTasks(request: FastifyRequest, reply: FastifyReply) {
-    const authHeader = request.headers['x-cloudscheduler-jobname'];
-    if (!authHeader) {
-      return reply.status(401).send({ error: 'Unauthorized' });
-    }
-
+  async runScheduledTasks(_request: FastifyRequest, reply: FastifyReply) {
     const deadlines = await notificationService.checkProjectDeadlines();
     const pending = await notificationService.checkPendingDocuments();
 

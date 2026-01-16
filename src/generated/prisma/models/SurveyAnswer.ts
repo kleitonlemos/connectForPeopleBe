@@ -38,6 +38,7 @@ export type SurveyAnswerMinAggregateOutputType = {
   id: string | null
   responseId: string | null
   questionId: string | null
+  storagePath: string | null
   textValue: string | null
   numericValue: number | null
   createdAt: Date | null
@@ -48,6 +49,7 @@ export type SurveyAnswerMaxAggregateOutputType = {
   id: string | null
   responseId: string | null
   questionId: string | null
+  storagePath: string | null
   textValue: string | null
   numericValue: number | null
   createdAt: Date | null
@@ -59,6 +61,7 @@ export type SurveyAnswerCountAggregateOutputType = {
   responseId: number
   questionId: number
   value: number
+  storagePath: number
   textValue: number
   numericValue: number
   createdAt: number
@@ -79,6 +82,7 @@ export type SurveyAnswerMinAggregateInputType = {
   id?: true
   responseId?: true
   questionId?: true
+  storagePath?: true
   textValue?: true
   numericValue?: true
   createdAt?: true
@@ -89,6 +93,7 @@ export type SurveyAnswerMaxAggregateInputType = {
   id?: true
   responseId?: true
   questionId?: true
+  storagePath?: true
   textValue?: true
   numericValue?: true
   createdAt?: true
@@ -100,6 +105,7 @@ export type SurveyAnswerCountAggregateInputType = {
   responseId?: true
   questionId?: true
   value?: true
+  storagePath?: true
   textValue?: true
   numericValue?: true
   createdAt?: true
@@ -198,6 +204,7 @@ export type SurveyAnswerGroupByOutputType = {
   responseId: string
   questionId: string
   value: runtime.JsonValue
+  storagePath: string | null
   textValue: string | null
   numericValue: number | null
   createdAt: Date
@@ -232,6 +239,7 @@ export type SurveyAnswerWhereInput = {
   responseId?: Prisma.StringFilter<"SurveyAnswer"> | string
   questionId?: Prisma.StringFilter<"SurveyAnswer"> | string
   value?: Prisma.JsonFilter<"SurveyAnswer">
+  storagePath?: Prisma.StringNullableFilter<"SurveyAnswer"> | string | null
   textValue?: Prisma.StringNullableFilter<"SurveyAnswer"> | string | null
   numericValue?: Prisma.FloatNullableFilter<"SurveyAnswer"> | number | null
   createdAt?: Prisma.DateTimeFilter<"SurveyAnswer"> | Date | string
@@ -245,6 +253,7 @@ export type SurveyAnswerOrderByWithRelationInput = {
   responseId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
   value?: Prisma.SortOrder
+  storagePath?: Prisma.SortOrderInput | Prisma.SortOrder
   textValue?: Prisma.SortOrderInput | Prisma.SortOrder
   numericValue?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -262,6 +271,7 @@ export type SurveyAnswerWhereUniqueInput = Prisma.AtLeast<{
   responseId?: Prisma.StringFilter<"SurveyAnswer"> | string
   questionId?: Prisma.StringFilter<"SurveyAnswer"> | string
   value?: Prisma.JsonFilter<"SurveyAnswer">
+  storagePath?: Prisma.StringNullableFilter<"SurveyAnswer"> | string | null
   textValue?: Prisma.StringNullableFilter<"SurveyAnswer"> | string | null
   numericValue?: Prisma.FloatNullableFilter<"SurveyAnswer"> | number | null
   createdAt?: Prisma.DateTimeFilter<"SurveyAnswer"> | Date | string
@@ -275,6 +285,7 @@ export type SurveyAnswerOrderByWithAggregationInput = {
   responseId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
   value?: Prisma.SortOrder
+  storagePath?: Prisma.SortOrderInput | Prisma.SortOrder
   textValue?: Prisma.SortOrderInput | Prisma.SortOrder
   numericValue?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -294,6 +305,7 @@ export type SurveyAnswerScalarWhereWithAggregatesInput = {
   responseId?: Prisma.StringWithAggregatesFilter<"SurveyAnswer"> | string
   questionId?: Prisma.StringWithAggregatesFilter<"SurveyAnswer"> | string
   value?: Prisma.JsonWithAggregatesFilter<"SurveyAnswer">
+  storagePath?: Prisma.StringNullableWithAggregatesFilter<"SurveyAnswer"> | string | null
   textValue?: Prisma.StringNullableWithAggregatesFilter<"SurveyAnswer"> | string | null
   numericValue?: Prisma.FloatNullableWithAggregatesFilter<"SurveyAnswer"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"SurveyAnswer"> | Date | string
@@ -303,6 +315,7 @@ export type SurveyAnswerScalarWhereWithAggregatesInput = {
 export type SurveyAnswerCreateInput = {
   id?: string
   value: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: string | null
   textValue?: string | null
   numericValue?: number | null
   createdAt?: Date | string
@@ -316,6 +329,7 @@ export type SurveyAnswerUncheckedCreateInput = {
   responseId: string
   questionId: string
   value: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: string | null
   textValue?: string | null
   numericValue?: number | null
   createdAt?: Date | string
@@ -325,6 +339,7 @@ export type SurveyAnswerUncheckedCreateInput = {
 export type SurveyAnswerUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   textValue?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numericValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -338,6 +353,7 @@ export type SurveyAnswerUncheckedUpdateInput = {
   responseId?: Prisma.StringFieldUpdateOperationsInput | string
   questionId?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   textValue?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numericValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -349,6 +365,7 @@ export type SurveyAnswerCreateManyInput = {
   responseId: string
   questionId: string
   value: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: string | null
   textValue?: string | null
   numericValue?: number | null
   createdAt?: Date | string
@@ -358,6 +375,7 @@ export type SurveyAnswerCreateManyInput = {
 export type SurveyAnswerUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   textValue?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numericValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -369,6 +387,7 @@ export type SurveyAnswerUncheckedUpdateManyInput = {
   responseId?: Prisma.StringFieldUpdateOperationsInput | string
   questionId?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   textValue?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numericValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -395,6 +414,7 @@ export type SurveyAnswerCountOrderByAggregateInput = {
   responseId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
   value?: Prisma.SortOrder
+  storagePath?: Prisma.SortOrder
   textValue?: Prisma.SortOrder
   numericValue?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -409,6 +429,7 @@ export type SurveyAnswerMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   responseId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
+  storagePath?: Prisma.SortOrder
   textValue?: Prisma.SortOrder
   numericValue?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -419,6 +440,7 @@ export type SurveyAnswerMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   responseId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
+  storagePath?: Prisma.SortOrder
   textValue?: Prisma.SortOrder
   numericValue?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -516,6 +538,7 @@ export type SurveyAnswerUncheckedUpdateManyWithoutResponseNestedInput = {
 export type SurveyAnswerCreateWithoutQuestionInput = {
   id?: string
   value: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: string | null
   textValue?: string | null
   numericValue?: number | null
   createdAt?: Date | string
@@ -527,6 +550,7 @@ export type SurveyAnswerUncheckedCreateWithoutQuestionInput = {
   id?: string
   responseId: string
   value: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: string | null
   textValue?: string | null
   numericValue?: number | null
   createdAt?: Date | string
@@ -567,6 +591,7 @@ export type SurveyAnswerScalarWhereInput = {
   responseId?: Prisma.StringFilter<"SurveyAnswer"> | string
   questionId?: Prisma.StringFilter<"SurveyAnswer"> | string
   value?: Prisma.JsonFilter<"SurveyAnswer">
+  storagePath?: Prisma.StringNullableFilter<"SurveyAnswer"> | string | null
   textValue?: Prisma.StringNullableFilter<"SurveyAnswer"> | string | null
   numericValue?: Prisma.FloatNullableFilter<"SurveyAnswer"> | number | null
   createdAt?: Prisma.DateTimeFilter<"SurveyAnswer"> | Date | string
@@ -576,6 +601,7 @@ export type SurveyAnswerScalarWhereInput = {
 export type SurveyAnswerCreateWithoutResponseInput = {
   id?: string
   value: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: string | null
   textValue?: string | null
   numericValue?: number | null
   createdAt?: Date | string
@@ -587,6 +613,7 @@ export type SurveyAnswerUncheckedCreateWithoutResponseInput = {
   id?: string
   questionId: string
   value: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: string | null
   textValue?: string | null
   numericValue?: number | null
   createdAt?: Date | string
@@ -623,6 +650,7 @@ export type SurveyAnswerCreateManyQuestionInput = {
   id?: string
   responseId: string
   value: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: string | null
   textValue?: string | null
   numericValue?: number | null
   createdAt?: Date | string
@@ -632,6 +660,7 @@ export type SurveyAnswerCreateManyQuestionInput = {
 export type SurveyAnswerUpdateWithoutQuestionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   textValue?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numericValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -643,6 +672,7 @@ export type SurveyAnswerUncheckedUpdateWithoutQuestionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   responseId?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   textValue?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numericValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -653,6 +683,7 @@ export type SurveyAnswerUncheckedUpdateManyWithoutQuestionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   responseId?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   textValue?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numericValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -663,6 +694,7 @@ export type SurveyAnswerCreateManyResponseInput = {
   id?: string
   questionId: string
   value: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: string | null
   textValue?: string | null
   numericValue?: number | null
   createdAt?: Date | string
@@ -672,6 +704,7 @@ export type SurveyAnswerCreateManyResponseInput = {
 export type SurveyAnswerUpdateWithoutResponseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   textValue?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numericValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -683,6 +716,7 @@ export type SurveyAnswerUncheckedUpdateWithoutResponseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   questionId?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   textValue?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numericValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -693,6 +727,7 @@ export type SurveyAnswerUncheckedUpdateManyWithoutResponseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   questionId?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  storagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   textValue?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numericValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -706,6 +741,7 @@ export type SurveyAnswerSelect<ExtArgs extends runtime.Types.Extensions.Internal
   responseId?: boolean
   questionId?: boolean
   value?: boolean
+  storagePath?: boolean
   textValue?: boolean
   numericValue?: boolean
   createdAt?: boolean
@@ -719,6 +755,7 @@ export type SurveyAnswerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   responseId?: boolean
   questionId?: boolean
   value?: boolean
+  storagePath?: boolean
   textValue?: boolean
   numericValue?: boolean
   createdAt?: boolean
@@ -732,6 +769,7 @@ export type SurveyAnswerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   responseId?: boolean
   questionId?: boolean
   value?: boolean
+  storagePath?: boolean
   textValue?: boolean
   numericValue?: boolean
   createdAt?: boolean
@@ -745,13 +783,14 @@ export type SurveyAnswerSelectScalar = {
   responseId?: boolean
   questionId?: boolean
   value?: boolean
+  storagePath?: boolean
   textValue?: boolean
   numericValue?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type SurveyAnswerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "responseId" | "questionId" | "value" | "textValue" | "numericValue" | "createdAt" | "updatedAt", ExtArgs["result"]["surveyAnswer"]>
+export type SurveyAnswerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "responseId" | "questionId" | "value" | "storagePath" | "textValue" | "numericValue" | "createdAt" | "updatedAt", ExtArgs["result"]["surveyAnswer"]>
 export type SurveyAnswerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   response?: boolean | Prisma.SurveyResponseDefaultArgs<ExtArgs>
   question?: boolean | Prisma.SurveyQuestionDefaultArgs<ExtArgs>
@@ -776,6 +815,7 @@ export type $SurveyAnswerPayload<ExtArgs extends runtime.Types.Extensions.Intern
     responseId: string
     questionId: string
     value: runtime.JsonValue
+    storagePath: string | null
     textValue: string | null
     numericValue: number | null
     createdAt: Date
@@ -1209,6 +1249,7 @@ export interface SurveyAnswerFieldRefs {
   readonly responseId: Prisma.FieldRef<"SurveyAnswer", 'String'>
   readonly questionId: Prisma.FieldRef<"SurveyAnswer", 'String'>
   readonly value: Prisma.FieldRef<"SurveyAnswer", 'Json'>
+  readonly storagePath: Prisma.FieldRef<"SurveyAnswer", 'String'>
   readonly textValue: Prisma.FieldRef<"SurveyAnswer", 'String'>
   readonly numericValue: Prisma.FieldRef<"SurveyAnswer", 'Float'>
   readonly createdAt: Prisma.FieldRef<"SurveyAnswer", 'DateTime'>

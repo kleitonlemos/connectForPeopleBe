@@ -37,6 +37,19 @@ export const organizationsController = {
     success(reply, org);
   },
 
+  async uploadLogo(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const { id } = request.params as { id: string };
+    const part = await request.file();
+
+    if (!part) {
+      throw new Error('Arquivo não enviado');
+    }
+
+    const buffer = await part.toBuffer();
+    const org = await organizationsService.uploadLogo(id, buffer, part.filename, part.mimetype);
+    success(reply, org);
+  },
+
   async listTeamMembers(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const { id } = request.params as { id: string };
     const members = await organizationsService.listTeamMembers(id);

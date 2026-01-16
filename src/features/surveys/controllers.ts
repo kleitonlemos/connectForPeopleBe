@@ -59,6 +59,24 @@ export const surveysController = {
     success(reply, stats);
   },
 
+  async uploadResponseFile(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const { code } = request.params as { code: string };
+    const part = await request.file();
+
+    if (!part) {
+      throw new Error('Arquivo não enviado');
+    }
+
+    const buffer = await part.toBuffer();
+    const result = await surveysService.uploadResponseFile(
+      code,
+      buffer,
+      part.filename,
+      part.mimetype
+    );
+    success(reply, result);
+  },
+
   async sendInvitations(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const { id } = request.params as { id: string };
     const data = sendInvitationsSchema.parse(request.body);

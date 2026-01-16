@@ -45,6 +45,7 @@ export const surveysRepository = {
               select: {
                 name: true,
                 logoUrl: true,
+                logoPath: true,
               },
             },
           },

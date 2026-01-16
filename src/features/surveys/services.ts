@@ -1,6 +1,11 @@
 import type { Survey, SurveyResponse, SurveyType } from '@prisma/client';
 import { env } from '../../config/env.js';
 import { NotFoundError } from '../../shared/errors/appError.js';
+import { storageService } from '../../shared/services/storageService.js';
+import {
+  transformOrganizationUrls,
+  transformSurveyAnswersUrls,
+} from '../../shared/utils/storage.js';
 import { emailsService } from '../emails/services.js';
 import { organizationsRepository } from '../organizations/repositories.js';
 import { projectsRepository } from '../projects/repositories.js';
@@ -26,10 +31,15 @@ export const surveysService = {
   },
 
   async getByAccessCode(code: string): Promise<Survey> {
-    const survey = await surveysRepository.findByAccessCode(code);
+    const survey = (await surveysRepository.findByAccessCode(code)) as any;
     if (!survey) {
       throw new NotFoundError('Pesquisa');
     }
+
+    if (survey.project?.organization) {
+      survey.project.organization = await transformOrganizationUrls(survey.project.organization);
+    }
+
     return survey;
   },
 
@@ -181,9 +191,10 @@ export const surveysService = {
       status: 'COMPLETED',
       submittedAt: new Date(),
       answers: {
-        create: input.answers.map(a => ({
+        create: input.answers.map((a: any) => ({
           question: { connect: { id: a.questionId } },
           value: a.value ?? {},
+          storagePath: a.storagePath,
           textValue: a.textValue,
           numericValue: a.numericValue,
         })),
@@ -192,7 +203,38 @@ export const surveysService = {
   },
 
   async getResponses(surveyId: string): Promise<SurveyResponse[]> {
-    return surveysRepository.findResponses(surveyId);
+    const responses = await surveysRepository.findResponses(surveyId);
+
+    // Transformar as URLs dos arquivos nas respostas
+    return Promise.all(
+      responses.map(async (response: any) => {
+        if (response.answers) {
+          response.answers = await transformSurveyAnswersUrls(response.answers);
+        }
+        return response;
+      })
+    );
+  },
+
+  async uploadResponseFile(
+    accessCode: string,
+    file: Buffer,
+    fileName: string,
+    mimeType: string
+  ): Promise<{ path: string }> {
+    const survey = await surveysRepository.findByAccessCode(accessCode);
+    if (!survey) {
+      throw new NotFoundError('Pesquisa');
+    }
+
+    const { path } = await storageService.uploadFile(
+      file,
+      fileName,
+      mimeType,
+      `surveys/${survey.id}/responses`
+    );
+
+    return { path };
   },
 
   async getStatistics(surveyId: string) {
@@ -202,6 +244,10 @@ export const surveysService = {
 
     if (!survey) {
       throw new NotFoundError('Pesquisa');
+    }
+
+    if (survey.project?.organization) {
+      survey.project.organization = await transformOrganizationUrls(survey.project.organization);
     }
 
     const totalResponses = responses.length;
@@ -424,6 +470,24 @@ export const surveysService = {
     if (!survey) {
       throw new NotFoundError('Pesquisa');
     }
+
+    // Buscar todas as respostas para limpar arquivos do storage
+    const responses = (await surveysRepository.findResponses(id)) as any[];
+    for (const response of responses) {
+      for (const answer of response.answers) {
+        if (answer.storagePath) {
+          try {
+            await storageService.deleteFile(env.GCS_BUCKET_DOCUMENTS, answer.storagePath);
+          } catch (error) {
+            console.error(
+              `Erro ao deletar arquivo de resposta da pesquisa: ${answer.storagePath}`,
+              error
+            );
+          }
+        }
+      }
+    }
+
     await surveysRepository.delete(id);
   },
 };

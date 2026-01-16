@@ -1,5 +1,11 @@
 import type { Organization, TeamMember } from '@prisma/client';
+import { env } from '../../config/env.js';
 import { ConflictError, NotFoundError } from '../../shared/errors/appError.js';
+import { storageService } from '../../shared/services/storageService.js';
+import {
+  transformOrganizationUrls,
+  transformOrganizationsUrls,
+} from '../../shared/utils/storage.js';
 import { organizationsRepository } from './repositories.js';
 import type {
   CreateOrganizationInput,
@@ -22,7 +28,8 @@ const normalizeInput = <T extends Record<string, unknown>>(input: T): T => {
 
 export const organizationsService = {
   async list(tenantId: string): Promise<Organization[]> {
-    return organizationsRepository.findAll(tenantId);
+    const orgs = await organizationsRepository.findAll(tenantId);
+    return transformOrganizationsUrls(orgs);
   },
 
   async getById(
@@ -44,7 +51,7 @@ export const organizationsService = {
       throw new NotFoundError('Organização');
     }
 
-    return org;
+    return transformOrganizationUrls(org);
   },
 
   async create(tenantId: string, input: CreateOrganizationInput): Promise<Organization> {
@@ -57,10 +64,12 @@ export const organizationsService = {
       }
     }
 
-    return organizationsRepository.create({
+    const created = await organizationsRepository.create({
       tenant: { connect: { id: tenantId } },
       ...normalized,
     });
+
+    return transformOrganizationUrls(created);
   },
 
   async update(id: string, input: UpdateOrganizationInput): Promise<Organization> {
@@ -69,7 +78,8 @@ export const organizationsService = {
       throw new NotFoundError('Organização');
     }
     const normalized = normalizeInput(input);
-    return organizationsRepository.update(id, normalized);
+    const updated = await organizationsRepository.update(id, normalized);
+    return transformOrganizationUrls(updated);
   },
 
   async delete(id: string): Promise<void> {
@@ -77,11 +87,41 @@ export const organizationsService = {
     if (!org) {
       throw new NotFoundError('Organização');
     }
+
+    if (org.logoPath) {
+      try {
+        await storageService.deleteFile(env.GCS_BUCKET_DOCUMENTS, org.logoPath);
+      } catch (error) {
+        console.error(`Erro ao deletar logo da organização do storage: ${org.logoPath}`, error);
+      }
+    }
+
     await organizationsRepository.delete(id);
   },
 
   async listTeamMembers(organizationId: string): Promise<TeamMember[]> {
     return organizationsRepository.findTeamMembers(organizationId);
+  },
+
+  async uploadLogo(
+    id: string,
+    file: Buffer,
+    fileName: string,
+    mimeType: string
+  ): Promise<Organization> {
+    const org = await organizationsRepository.findById(id);
+    if (!org) {
+      throw new NotFoundError('Organização');
+    }
+
+    const { path } = await storageService.uploadFile(file, fileName, mimeType, 'logos');
+
+    const updated = await organizationsRepository.update(id, {
+      logoPath: path,
+      logoUrl: '', // Limpamos a URL legada
+    });
+
+    return transformOrganizationUrls(updated);
   },
 
   async importTeamMembers(

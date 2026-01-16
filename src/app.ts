@@ -11,6 +11,7 @@ import { documentsRoutes } from './features/documents/routes.js';
 import { emailsRoutes } from './features/emails/routes.js';
 import { healthRoutes } from './features/health/routes.js';
 import { interviewsRoutes } from './features/interviews/routes.js';
+import { notificationsRoutes } from './features/notifications/routes.js';
 import { organizationsRoutes } from './features/organizations/routes.js';
 import { projectsRoutes } from './features/projects/routes.js';
 import { reportsRoutes } from './features/reports/routes.js';
@@ -18,7 +19,6 @@ import { surveysRoutes } from './features/surveys/routes.js';
 import { tenantsRoutes } from './features/tenants/routes.js';
 import { usersRoutes } from './features/users/routes.js';
 import { errorHandler } from './shared/middlewares/errorHandler.js';
-import { notificationsRoutes } from './features/notifications/routes.js';
 
 const app = Fastify({
   logger: {
@@ -28,6 +28,22 @@ const app = Fastify({
         ? { target: 'pino-pretty', options: { colorize: true } }
         : undefined,
   },
+  onProtoPoisoning: 'remove',
+  onConstructorPoisoning: 'remove',
+});
+
+// Registrar o parser de JSON customizado para permitir corpos vazios
+app.addContentTypeParser('application/json', { parseAs: 'string' }, (_req, body, done) => {
+  if (typeof body === 'string' && body.trim() === '') {
+    done(null, {});
+    return;
+  }
+  try {
+    const json = JSON.parse(body as string);
+    done(null, json);
+  } catch (err) {
+    done(err as Error, null);
+  }
 });
 
 const corsOrigin = env.CORS_ORIGIN === '*' ? true : env.CORS_ORIGIN.split(',').map(o => o.trim());

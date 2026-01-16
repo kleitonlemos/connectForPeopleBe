@@ -47,6 +47,8 @@ export type ReportMinAggregateOutputType = {
   actionPlan: string | null
   consultantNotes: string | null
   publishedAt: Date | null
+  pdfUrl: string | null
+  pdfPath: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -64,6 +66,8 @@ export type ReportMaxAggregateOutputType = {
   actionPlan: string | null
   consultantNotes: string | null
   publishedAt: Date | null
+  pdfUrl: string | null
+  pdfPath: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -85,6 +89,8 @@ export type ReportCountAggregateOutputType = {
   generatedContent: number
   consultantNotes: number
   publishedAt: number
+  pdfUrl: number
+  pdfPath: number
   metadata: number
   createdAt: number
   updatedAt: number
@@ -113,6 +119,8 @@ export type ReportMinAggregateInputType = {
   actionPlan?: true
   consultantNotes?: true
   publishedAt?: true
+  pdfUrl?: true
+  pdfPath?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -130,6 +138,8 @@ export type ReportMaxAggregateInputType = {
   actionPlan?: true
   consultantNotes?: true
   publishedAt?: true
+  pdfUrl?: true
+  pdfPath?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -151,6 +161,8 @@ export type ReportCountAggregateInputType = {
   generatedContent?: true
   consultantNotes?: true
   publishedAt?: true
+  pdfUrl?: true
+  pdfPath?: true
   metadata?: true
   createdAt?: true
   updatedAt?: true
@@ -260,6 +272,8 @@ export type ReportGroupByOutputType = {
   generatedContent: runtime.JsonValue | null
   consultantNotes: string | null
   publishedAt: Date | null
+  pdfUrl: string | null
+  pdfPath: string | null
   metadata: runtime.JsonValue
   createdAt: Date
   updatedAt: Date
@@ -305,6 +319,8 @@ export type ReportWhereInput = {
   generatedContent?: Prisma.JsonNullableFilter<"Report">
   consultantNotes?: Prisma.StringNullableFilter<"Report"> | string | null
   publishedAt?: Prisma.DateTimeNullableFilter<"Report"> | Date | string | null
+  pdfUrl?: Prisma.StringNullableFilter<"Report"> | string | null
+  pdfPath?: Prisma.StringNullableFilter<"Report"> | string | null
   metadata?: Prisma.JsonFilter<"Report">
   createdAt?: Prisma.DateTimeFilter<"Report"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Report"> | Date | string
@@ -331,6 +347,8 @@ export type ReportOrderByWithRelationInput = {
   generatedContent?: Prisma.SortOrderInput | Prisma.SortOrder
   consultantNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfPath?: Prisma.SortOrderInput | Prisma.SortOrder
   metadata?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -360,6 +378,8 @@ export type ReportWhereUniqueInput = Prisma.AtLeast<{
   generatedContent?: Prisma.JsonNullableFilter<"Report">
   consultantNotes?: Prisma.StringNullableFilter<"Report"> | string | null
   publishedAt?: Prisma.DateTimeNullableFilter<"Report"> | Date | string | null
+  pdfUrl?: Prisma.StringNullableFilter<"Report"> | string | null
+  pdfPath?: Prisma.StringNullableFilter<"Report"> | string | null
   metadata?: Prisma.JsonFilter<"Report">
   createdAt?: Prisma.DateTimeFilter<"Report"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Report"> | Date | string
@@ -386,6 +406,8 @@ export type ReportOrderByWithAggregationInput = {
   generatedContent?: Prisma.SortOrderInput | Prisma.SortOrder
   consultantNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfPath?: Prisma.SortOrderInput | Prisma.SortOrder
   metadata?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -416,6 +438,8 @@ export type ReportScalarWhereWithAggregatesInput = {
   generatedContent?: Prisma.JsonNullableWithAggregatesFilter<"Report">
   consultantNotes?: Prisma.StringNullableWithAggregatesFilter<"Report"> | string | null
   publishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Report"> | Date | string | null
+  pdfUrl?: Prisma.StringNullableWithAggregatesFilter<"Report"> | string | null
+  pdfPath?: Prisma.StringNullableWithAggregatesFilter<"Report"> | string | null
   metadata?: Prisma.JsonWithAggregatesFilter<"Report">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Report"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Report"> | Date | string
@@ -436,6 +460,8 @@ export type ReportCreateInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: string | null
   publishedAt?: Date | string | null
+  pdfUrl?: string | null
+  pdfPath?: string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -462,6 +488,8 @@ export type ReportUncheckedCreateInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: string | null
   publishedAt?: Date | string | null
+  pdfUrl?: string | null
+  pdfPath?: string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -484,6 +512,8 @@ export type ReportUpdateInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -510,6 +540,8 @@ export type ReportUncheckedUpdateInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -534,6 +566,8 @@ export type ReportCreateManyInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: string | null
   publishedAt?: Date | string | null
+  pdfUrl?: string | null
+  pdfPath?: string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -554,6 +588,8 @@ export type ReportUpdateManyMutationInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -576,6 +612,8 @@ export type ReportUncheckedUpdateManyInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -613,6 +651,8 @@ export type ReportCountOrderByAggregateInput = {
   generatedContent?: Prisma.SortOrder
   consultantNotes?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
+  pdfUrl?: Prisma.SortOrder
+  pdfPath?: Prisma.SortOrder
   metadata?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -635,6 +675,8 @@ export type ReportMaxOrderByAggregateInput = {
   actionPlan?: Prisma.SortOrder
   consultantNotes?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
+  pdfUrl?: Prisma.SortOrder
+  pdfPath?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -652,6 +694,8 @@ export type ReportMinOrderByAggregateInput = {
   actionPlan?: Prisma.SortOrder
   consultantNotes?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
+  pdfUrl?: Prisma.SortOrder
+  pdfPath?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -798,6 +842,8 @@ export type ReportCreateWithoutCreatedByInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: string | null
   publishedAt?: Date | string | null
+  pdfUrl?: string | null
+  pdfPath?: string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -822,6 +868,8 @@ export type ReportUncheckedCreateWithoutCreatedByInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: string | null
   publishedAt?: Date | string | null
+  pdfUrl?: string | null
+  pdfPath?: string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -875,6 +923,8 @@ export type ReportScalarWhereInput = {
   generatedContent?: Prisma.JsonNullableFilter<"Report">
   consultantNotes?: Prisma.StringNullableFilter<"Report"> | string | null
   publishedAt?: Prisma.DateTimeNullableFilter<"Report"> | Date | string | null
+  pdfUrl?: Prisma.StringNullableFilter<"Report"> | string | null
+  pdfPath?: Prisma.StringNullableFilter<"Report"> | string | null
   metadata?: Prisma.JsonFilter<"Report">
   createdAt?: Prisma.DateTimeFilter<"Report"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Report"> | Date | string
@@ -895,6 +945,8 @@ export type ReportCreateWithoutProjectInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: string | null
   publishedAt?: Date | string | null
+  pdfUrl?: string | null
+  pdfPath?: string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -919,6 +971,8 @@ export type ReportUncheckedCreateWithoutProjectInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: string | null
   publishedAt?: Date | string | null
+  pdfUrl?: string | null
+  pdfPath?: string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -967,6 +1021,8 @@ export type ReportCreateWithoutAiConversationsInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: string | null
   publishedAt?: Date | string | null
+  pdfUrl?: string | null
+  pdfPath?: string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -992,6 +1048,8 @@ export type ReportUncheckedCreateWithoutAiConversationsInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: string | null
   publishedAt?: Date | string | null
+  pdfUrl?: string | null
+  pdfPath?: string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1029,6 +1087,8 @@ export type ReportUpdateWithoutAiConversationsInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1054,6 +1114,8 @@ export type ReportUncheckedUpdateWithoutAiConversationsInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1075,6 +1137,8 @@ export type ReportCreateWithoutVersionsInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: string | null
   publishedAt?: Date | string | null
+  pdfUrl?: string | null
+  pdfPath?: string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1100,6 +1164,8 @@ export type ReportUncheckedCreateWithoutVersionsInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: string | null
   publishedAt?: Date | string | null
+  pdfUrl?: string | null
+  pdfPath?: string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1137,6 +1203,8 @@ export type ReportUpdateWithoutVersionsInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1162,6 +1230,8 @@ export type ReportUncheckedUpdateWithoutVersionsInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1184,6 +1254,8 @@ export type ReportCreateManyCreatedByInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: string | null
   publishedAt?: Date | string | null
+  pdfUrl?: string | null
+  pdfPath?: string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1204,6 +1276,8 @@ export type ReportUpdateWithoutCreatedByInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1228,6 +1302,8 @@ export type ReportUncheckedUpdateWithoutCreatedByInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1251,6 +1327,8 @@ export type ReportUncheckedUpdateManyWithoutCreatedByInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1272,6 +1350,8 @@ export type ReportCreateManyProjectInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: string | null
   publishedAt?: Date | string | null
+  pdfUrl?: string | null
+  pdfPath?: string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1292,6 +1372,8 @@ export type ReportUpdateWithoutProjectInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1316,6 +1398,8 @@ export type ReportUncheckedUpdateWithoutProjectInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1339,6 +1423,8 @@ export type ReportUncheckedUpdateManyWithoutProjectInput = {
   generatedContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   consultantNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1401,6 +1487,8 @@ export type ReportSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   generatedContent?: boolean
   consultantNotes?: boolean
   publishedAt?: boolean
+  pdfUrl?: boolean
+  pdfPath?: boolean
   metadata?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1428,6 +1516,8 @@ export type ReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   generatedContent?: boolean
   consultantNotes?: boolean
   publishedAt?: boolean
+  pdfUrl?: boolean
+  pdfPath?: boolean
   metadata?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1452,6 +1542,8 @@ export type ReportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   generatedContent?: boolean
   consultantNotes?: boolean
   publishedAt?: boolean
+  pdfUrl?: boolean
+  pdfPath?: boolean
   metadata?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1476,12 +1568,14 @@ export type ReportSelectScalar = {
   generatedContent?: boolean
   consultantNotes?: boolean
   publishedAt?: boolean
+  pdfUrl?: boolean
+  pdfPath?: boolean
   metadata?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "createdById" | "version" | "title" | "status" | "executiveSummary" | "culturalAnalysis" | "climateIndicators" | "qualitativeAnalysis" | "actionPlan" | "charts" | "customSections" | "generatedContent" | "consultantNotes" | "publishedAt" | "metadata" | "createdAt" | "updatedAt", ExtArgs["result"]["report"]>
+export type ReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "createdById" | "version" | "title" | "status" | "executiveSummary" | "culturalAnalysis" | "climateIndicators" | "qualitativeAnalysis" | "actionPlan" | "charts" | "customSections" | "generatedContent" | "consultantNotes" | "publishedAt" | "pdfUrl" | "pdfPath" | "metadata" | "createdAt" | "updatedAt", ExtArgs["result"]["report"]>
 export type ReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1523,6 +1617,8 @@ export type $ReportPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     generatedContent: runtime.JsonValue | null
     consultantNotes: string | null
     publishedAt: Date | null
+    pdfUrl: string | null
+    pdfPath: string | null
     metadata: runtime.JsonValue
     createdAt: Date
     updatedAt: Date
@@ -1969,6 +2065,8 @@ export interface ReportFieldRefs {
   readonly generatedContent: Prisma.FieldRef<"Report", 'Json'>
   readonly consultantNotes: Prisma.FieldRef<"Report", 'String'>
   readonly publishedAt: Prisma.FieldRef<"Report", 'DateTime'>
+  readonly pdfUrl: Prisma.FieldRef<"Report", 'String'>
+  readonly pdfPath: Prisma.FieldRef<"Report", 'String'>
   readonly metadata: Prisma.FieldRef<"Report", 'Json'>
   readonly createdAt: Prisma.FieldRef<"Report", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Report", 'DateTime'>

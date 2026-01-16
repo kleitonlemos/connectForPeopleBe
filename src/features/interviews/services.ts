@@ -1,13 +1,16 @@
 import type { Interview } from '@prisma/client';
+import { env } from '../../config/env.js';
 import { NotFoundError } from '../../shared/errors/appError.js';
 import { storageService } from '../../shared/services/storageService.js';
+import { transformInterviewUrls, transformInterviewsUrls } from '../../shared/utils/storage.js';
 import { aiService } from '../ai/services.js';
 import { interviewsRepository } from './repositories.js';
 import type { CreateInterviewInput, UploadTranscriptionInput } from './validators.js';
 
 export const interviewsService = {
   async listByProject(projectId: string): Promise<Interview[]> {
-    return interviewsRepository.findByProject(projectId);
+    const interviews = await interviewsRepository.findByProject(projectId);
+    return transformInterviewsUrls(interviews);
   },
 
   async getById(id: string, includeConfidential = false): Promise<Partial<Interview>> {
@@ -15,11 +18,12 @@ export const interviewsService = {
     if (!interview) {
       throw new NotFoundError('Entrevista');
     }
+    const transformed = await transformInterviewUrls(interview);
     if (!includeConfidential) {
-      const { interviewee, intervieweeRole, ...safeData } = interview;
+      const { interviewee, intervieweeRole, ...safeData } = transformed;
       return safeData;
     }
-    return interview;
+    return transformed;
   },
 
   async create(input: CreateInterviewInput, uploadedById: string): Promise<Interview> {
@@ -40,16 +44,19 @@ export const interviewsService = {
       throw new NotFoundError('Entrevista');
     }
 
-    const { publicUrl } = await storageService.uploadTranscription(
+    const { path } = await storageService.uploadTranscription(
       input.transcription,
       interview.projectId
     );
 
-    return interviewsRepository.update(id, {
-      transcriptionUrl: publicUrl,
+    const updated = await interviewsRepository.update(id, {
+      transcriptionPath: path,
+      transcriptionUrl: '', // Mantemos vazio ou limpamos se for o caso
       rawTranscription: input.transcription,
       status: 'TRANSCRIBED',
     });
+
+    return transformInterviewUrls(updated);
   },
 
   async analyzeWithAI(id: string): Promise<Interview> {
@@ -77,6 +84,17 @@ export const interviewsService = {
     const interview = await interviewsRepository.findById(id);
     if (!interview) {
       throw new NotFoundError('Entrevista');
+    }
+
+    if (interview.transcriptionPath) {
+      try {
+        await storageService.deleteFile(env.GCS_BUCKET_TRANSCRIPTIONS, interview.transcriptionPath);
+      } catch (error) {
+        console.error(
+          `Erro ao deletar transcrição do storage: ${interview.transcriptionPath}`,
+          error
+        );
+      }
     }
 
     await interviewsRepository.delete(id);

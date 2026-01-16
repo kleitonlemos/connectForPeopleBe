@@ -5,6 +5,7 @@ import { surveysController } from './controllers.js';
 export async function surveysRoutes(app: FastifyInstance): Promise<void> {
   app.get('/public/:code', surveysController.getByAccessCode);
   app.post('/public/:code/respond', surveysController.submitResponse);
+  app.post('/public/:code/upload', surveysController.uploadResponseFile);
 
   app.register(async protectedRoutes => {
     protectedRoutes.get('/', { preHandler: [authenticate] }, surveysController.listByProject);

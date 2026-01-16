@@ -2,6 +2,7 @@ import type { Transporter } from 'nodemailer';
 import nodemailer from 'nodemailer';
 import { env } from '../../config/env.js';
 import {
+  accountActivatedTemplate,
   passwordResetTemplate,
   reportPublishedTemplate,
   surveyInviteTemplate,
@@ -9,6 +10,7 @@ import {
   welcomeTemplate,
 } from './templates.js';
 import type {
+  AccountActivatedEmailData,
   BulkSendResult,
   EmailData,
   PasswordResetEmailData,
@@ -169,6 +171,16 @@ export const emailsService = {
 
   async sendPasswordReset(data: PasswordResetEmailData): Promise<SendEmailResult> {
     const template = passwordResetTemplate(data);
+    return sendEmail({
+      to: { email: data.recipientEmail, name: data.recipientName },
+      subject: template.subject,
+      html: template.html,
+      text: template.text,
+    });
+  },
+
+  async sendAccountActivated(data: AccountActivatedEmailData): Promise<SendEmailResult> {
+    const template = accountActivatedTemplate(data);
     return sendEmail({
       to: { email: data.recipientEmail, name: data.recipientName },
       subject: template.subject,

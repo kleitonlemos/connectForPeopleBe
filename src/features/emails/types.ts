@@ -3,7 +3,8 @@ export type EmailType =
   | 'SURVEY_INVITE'
   | 'SURVEY_REMINDER'
   | 'REPORT_PUBLISHED'
-  | 'PASSWORD_RESET';
+  | 'PASSWORD_RESET'
+  | 'ACCOUNT_ACTIVATED';
 
 export interface EmailRecipient {
   email: string;
@@ -56,6 +57,12 @@ export interface PasswordResetEmailData {
   recipientName: string;
   recipientEmail: string;
   resetUrl: string;
+}
+
+export interface AccountActivatedEmailData {
+  recipientName: string;
+  recipientEmail: string;
+  loginUrl: string;
 }
 
 export interface EmailTemplate {

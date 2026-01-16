@@ -17,38 +17,61 @@ export const documentsController = {
   },
 
   async upload(request: FastifyRequest, reply: FastifyReply): Promise<void> {
-    const parts = request.parts();
-    let fileBuffer: Buffer | null = null;
-    let fileName = '';
-    let mimeType = '';
-    let metadataStr = '{}';
+    try {
+      const parts = request.parts();
+      let fileBuffer: Buffer | null = null;
+      let fileName = '';
+      let mimeType = '';
+      let metadataStr = '{}';
 
-    for await (const part of parts) {
-      if (part.type === 'file') {
-        fileBuffer = await part.toBuffer();
-        fileName = part.filename;
-        mimeType = part.mimetype;
-      } else if (part.fieldname === 'metadata') {
-        metadataStr = part.value as string;
+      for await (const part of parts) {
+        if (part.type === 'file') {
+          fileBuffer = await part.toBuffer();
+          fileName = part.filename;
+          mimeType = part.mimetype;
+        } else if (part.fieldname === 'metadata') {
+          metadataStr = part.value as string;
+        }
       }
+
+      if (!fileBuffer) {
+        throw new Error('Arquivo não enviado');
+      }
+
+      // Fallback para MIME type genérico baseado na extensão
+      let finalMimeType = mimeType;
+      if (mimeType === 'application/octet-stream' || !mimeType) {
+        const ext = fileName.split('.').pop()?.toLowerCase();
+        if (ext === 'xlsx')
+          finalMimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        else if (ext === 'xls') finalMimeType = 'application/vnd.ms-excel';
+        else if (ext === 'csv') finalMimeType = 'text/csv';
+      }
+
+      console.log('Document upload request:', { fileName, mimeType: finalMimeType, metadataStr });
+
+      let metadata;
+      try {
+        metadata = uploadDocumentSchema.parse(JSON.parse(metadataStr));
+      } catch (e) {
+        console.error('Error parsing metadata:', metadataStr, e);
+        throw e;
+      }
+
+      const doc = await documentsService.upload(
+        metadata,
+        fileBuffer,
+        fileName,
+        finalMimeType,
+        request.user.id,
+        request.user.organizationId ?? ''
+      );
+
+      created(reply, doc);
+    } catch (error) {
+      console.error('Upload error in controller:', error);
+      throw error;
     }
-
-    if (!fileBuffer) {
-      throw new Error('Arquivo não enviado');
-    }
-
-    const metadata = uploadDocumentSchema.parse(JSON.parse(metadataStr));
-
-    const doc = await documentsService.upload(
-      metadata,
-      fileBuffer,
-      fileName,
-      mimeType,
-      request.user.id,
-      request.user.organizationId ?? ''
-    );
-
-    created(reply, doc);
   },
 
   async validate(request: FastifyRequest, reply: FastifyReply): Promise<void> {

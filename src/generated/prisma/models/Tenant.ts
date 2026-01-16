@@ -30,7 +30,9 @@ export type TenantMinAggregateOutputType = {
   slug: string | null
   domain: string | null
   logoUrl: string | null
+  logoPath: string | null
   faviconUrl: string | null
+  faviconPath: string | null
   primaryColor: string | null
   secondaryColor: string | null
   accentColor: string | null
@@ -45,7 +47,9 @@ export type TenantMaxAggregateOutputType = {
   slug: string | null
   domain: string | null
   logoUrl: string | null
+  logoPath: string | null
   faviconUrl: string | null
+  faviconPath: string | null
   primaryColor: string | null
   secondaryColor: string | null
   accentColor: string | null
@@ -60,7 +64,9 @@ export type TenantCountAggregateOutputType = {
   slug: number
   domain: number
   logoUrl: number
+  logoPath: number
   faviconUrl: number
+  faviconPath: number
   primaryColor: number
   secondaryColor: number
   accentColor: number
@@ -78,7 +84,9 @@ export type TenantMinAggregateInputType = {
   slug?: true
   domain?: true
   logoUrl?: true
+  logoPath?: true
   faviconUrl?: true
+  faviconPath?: true
   primaryColor?: true
   secondaryColor?: true
   accentColor?: true
@@ -93,7 +101,9 @@ export type TenantMaxAggregateInputType = {
   slug?: true
   domain?: true
   logoUrl?: true
+  logoPath?: true
   faviconUrl?: true
+  faviconPath?: true
   primaryColor?: true
   secondaryColor?: true
   accentColor?: true
@@ -108,7 +118,9 @@ export type TenantCountAggregateInputType = {
   slug?: true
   domain?: true
   logoUrl?: true
+  logoPath?: true
   faviconUrl?: true
+  faviconPath?: true
   primaryColor?: true
   secondaryColor?: true
   accentColor?: true
@@ -197,7 +209,9 @@ export type TenantGroupByOutputType = {
   slug: string
   domain: string | null
   logoUrl: string | null
+  logoPath: string | null
   faviconUrl: string | null
+  faviconPath: string | null
   primaryColor: string
   secondaryColor: string
   accentColor: string
@@ -234,7 +248,9 @@ export type TenantWhereInput = {
   slug?: Prisma.StringFilter<"Tenant"> | string
   domain?: Prisma.StringNullableFilter<"Tenant"> | string | null
   logoUrl?: Prisma.StringNullableFilter<"Tenant"> | string | null
+  logoPath?: Prisma.StringNullableFilter<"Tenant"> | string | null
   faviconUrl?: Prisma.StringNullableFilter<"Tenant"> | string | null
+  faviconPath?: Prisma.StringNullableFilter<"Tenant"> | string | null
   primaryColor?: Prisma.StringFilter<"Tenant"> | string
   secondaryColor?: Prisma.StringFilter<"Tenant"> | string
   accentColor?: Prisma.StringFilter<"Tenant"> | string
@@ -253,7 +269,9 @@ export type TenantOrderByWithRelationInput = {
   slug?: Prisma.SortOrder
   domain?: Prisma.SortOrderInput | Prisma.SortOrder
   logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoPath?: Prisma.SortOrderInput | Prisma.SortOrder
   faviconUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  faviconPath?: Prisma.SortOrderInput | Prisma.SortOrder
   primaryColor?: Prisma.SortOrder
   secondaryColor?: Prisma.SortOrder
   accentColor?: Prisma.SortOrder
@@ -275,7 +293,9 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.TenantWhereInput | Prisma.TenantWhereInput[]
   name?: Prisma.StringFilter<"Tenant"> | string
   logoUrl?: Prisma.StringNullableFilter<"Tenant"> | string | null
+  logoPath?: Prisma.StringNullableFilter<"Tenant"> | string | null
   faviconUrl?: Prisma.StringNullableFilter<"Tenant"> | string | null
+  faviconPath?: Prisma.StringNullableFilter<"Tenant"> | string | null
   primaryColor?: Prisma.StringFilter<"Tenant"> | string
   secondaryColor?: Prisma.StringFilter<"Tenant"> | string
   accentColor?: Prisma.StringFilter<"Tenant"> | string
@@ -294,7 +314,9 @@ export type TenantOrderByWithAggregationInput = {
   slug?: Prisma.SortOrder
   domain?: Prisma.SortOrderInput | Prisma.SortOrder
   logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoPath?: Prisma.SortOrderInput | Prisma.SortOrder
   faviconUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  faviconPath?: Prisma.SortOrderInput | Prisma.SortOrder
   primaryColor?: Prisma.SortOrder
   secondaryColor?: Prisma.SortOrder
   accentColor?: Prisma.SortOrder
@@ -316,7 +338,9 @@ export type TenantScalarWhereWithAggregatesInput = {
   slug?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
   domain?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
   logoUrl?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
+  logoPath?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
   faviconUrl?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
+  faviconPath?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
   primaryColor?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
   secondaryColor?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
   accentColor?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
@@ -332,7 +356,9 @@ export type TenantCreateInput = {
   slug: string
   domain?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   faviconUrl?: string | null
+  faviconPath?: string | null
   primaryColor?: string
   secondaryColor?: string
   accentColor?: string
@@ -351,7 +377,9 @@ export type TenantUncheckedCreateInput = {
   slug: string
   domain?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   faviconUrl?: string | null
+  faviconPath?: string | null
   primaryColor?: string
   secondaryColor?: string
   accentColor?: string
@@ -370,7 +398,9 @@ export type TenantUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faviconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  faviconPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   secondaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   accentColor?: Prisma.StringFieldUpdateOperationsInput | string
@@ -389,7 +419,9 @@ export type TenantUncheckedUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faviconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  faviconPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   secondaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   accentColor?: Prisma.StringFieldUpdateOperationsInput | string
@@ -408,7 +440,9 @@ export type TenantCreateManyInput = {
   slug: string
   domain?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   faviconUrl?: string | null
+  faviconPath?: string | null
   primaryColor?: string
   secondaryColor?: string
   accentColor?: string
@@ -424,7 +458,9 @@ export type TenantUpdateManyMutationInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faviconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  faviconPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   secondaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   accentColor?: Prisma.StringFieldUpdateOperationsInput | string
@@ -440,7 +476,9 @@ export type TenantUncheckedUpdateManyInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faviconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  faviconPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   secondaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   accentColor?: Prisma.StringFieldUpdateOperationsInput | string
@@ -456,7 +494,9 @@ export type TenantCountOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   domain?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
+  logoPath?: Prisma.SortOrder
   faviconUrl?: Prisma.SortOrder
+  faviconPath?: Prisma.SortOrder
   primaryColor?: Prisma.SortOrder
   secondaryColor?: Prisma.SortOrder
   accentColor?: Prisma.SortOrder
@@ -472,7 +512,9 @@ export type TenantMaxOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   domain?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
+  logoPath?: Prisma.SortOrder
   faviconUrl?: Prisma.SortOrder
+  faviconPath?: Prisma.SortOrder
   primaryColor?: Prisma.SortOrder
   secondaryColor?: Prisma.SortOrder
   accentColor?: Prisma.SortOrder
@@ -487,7 +529,9 @@ export type TenantMinOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   domain?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
+  logoPath?: Prisma.SortOrder
   faviconUrl?: Prisma.SortOrder
+  faviconPath?: Prisma.SortOrder
   primaryColor?: Prisma.SortOrder
   secondaryColor?: Prisma.SortOrder
   accentColor?: Prisma.SortOrder
@@ -565,7 +609,9 @@ export type TenantCreateWithoutOrganizationsInput = {
   slug: string
   domain?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   faviconUrl?: string | null
+  faviconPath?: string | null
   primaryColor?: string
   secondaryColor?: string
   accentColor?: string
@@ -583,7 +629,9 @@ export type TenantUncheckedCreateWithoutOrganizationsInput = {
   slug: string
   domain?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   faviconUrl?: string | null
+  faviconPath?: string | null
   primaryColor?: string
   secondaryColor?: string
   accentColor?: string
@@ -617,7 +665,9 @@ export type TenantUpdateWithoutOrganizationsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faviconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  faviconPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   secondaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   accentColor?: Prisma.StringFieldUpdateOperationsInput | string
@@ -635,7 +685,9 @@ export type TenantUncheckedUpdateWithoutOrganizationsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faviconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  faviconPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   secondaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   accentColor?: Prisma.StringFieldUpdateOperationsInput | string
@@ -653,7 +705,9 @@ export type TenantCreateWithoutUsersInput = {
   slug: string
   domain?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   faviconUrl?: string | null
+  faviconPath?: string | null
   primaryColor?: string
   secondaryColor?: string
   accentColor?: string
@@ -671,7 +725,9 @@ export type TenantUncheckedCreateWithoutUsersInput = {
   slug: string
   domain?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   faviconUrl?: string | null
+  faviconPath?: string | null
   primaryColor?: string
   secondaryColor?: string
   accentColor?: string
@@ -705,7 +761,9 @@ export type TenantUpdateWithoutUsersInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faviconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  faviconPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   secondaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   accentColor?: Prisma.StringFieldUpdateOperationsInput | string
@@ -723,7 +781,9 @@ export type TenantUncheckedUpdateWithoutUsersInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faviconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  faviconPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   secondaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   accentColor?: Prisma.StringFieldUpdateOperationsInput | string
@@ -741,7 +801,9 @@ export type TenantCreateWithoutEmailTemplatesInput = {
   slug: string
   domain?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   faviconUrl?: string | null
+  faviconPath?: string | null
   primaryColor?: string
   secondaryColor?: string
   accentColor?: string
@@ -759,7 +821,9 @@ export type TenantUncheckedCreateWithoutEmailTemplatesInput = {
   slug: string
   domain?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   faviconUrl?: string | null
+  faviconPath?: string | null
   primaryColor?: string
   secondaryColor?: string
   accentColor?: string
@@ -793,7 +857,9 @@ export type TenantUpdateWithoutEmailTemplatesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faviconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  faviconPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   secondaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   accentColor?: Prisma.StringFieldUpdateOperationsInput | string
@@ -811,7 +877,9 @@ export type TenantUncheckedUpdateWithoutEmailTemplatesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faviconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  faviconPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   secondaryColor?: Prisma.StringFieldUpdateOperationsInput | string
   accentColor?: Prisma.StringFieldUpdateOperationsInput | string
@@ -878,7 +946,9 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   slug?: boolean
   domain?: boolean
   logoUrl?: boolean
+  logoPath?: boolean
   faviconUrl?: boolean
+  faviconPath?: boolean
   primaryColor?: boolean
   secondaryColor?: boolean
   accentColor?: boolean
@@ -898,7 +968,9 @@ export type TenantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   slug?: boolean
   domain?: boolean
   logoUrl?: boolean
+  logoPath?: boolean
   faviconUrl?: boolean
+  faviconPath?: boolean
   primaryColor?: boolean
   secondaryColor?: boolean
   accentColor?: boolean
@@ -914,7 +986,9 @@ export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   slug?: boolean
   domain?: boolean
   logoUrl?: boolean
+  logoPath?: boolean
   faviconUrl?: boolean
+  faviconPath?: boolean
   primaryColor?: boolean
   secondaryColor?: boolean
   accentColor?: boolean
@@ -930,7 +1004,9 @@ export type TenantSelectScalar = {
   slug?: boolean
   domain?: boolean
   logoUrl?: boolean
+  logoPath?: boolean
   faviconUrl?: boolean
+  faviconPath?: boolean
   primaryColor?: boolean
   secondaryColor?: boolean
   accentColor?: boolean
@@ -940,7 +1016,7 @@ export type TenantSelectScalar = {
   updatedAt?: boolean
 }
 
-export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "domain" | "logoUrl" | "faviconUrl" | "primaryColor" | "secondaryColor" | "accentColor" | "isActive" | "settings" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
+export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "domain" | "logoUrl" | "logoPath" | "faviconUrl" | "faviconPath" | "primaryColor" | "secondaryColor" | "accentColor" | "isActive" | "settings" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
 export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organizations?: boolean | Prisma.Tenant$organizationsArgs<ExtArgs>
   users?: boolean | Prisma.Tenant$usersArgs<ExtArgs>
@@ -963,7 +1039,9 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     slug: string
     domain: string | null
     logoUrl: string | null
+    logoPath: string | null
     faviconUrl: string | null
+    faviconPath: string | null
     primaryColor: string
     secondaryColor: string
     accentColor: string
@@ -1402,7 +1480,9 @@ export interface TenantFieldRefs {
   readonly slug: Prisma.FieldRef<"Tenant", 'String'>
   readonly domain: Prisma.FieldRef<"Tenant", 'String'>
   readonly logoUrl: Prisma.FieldRef<"Tenant", 'String'>
+  readonly logoPath: Prisma.FieldRef<"Tenant", 'String'>
   readonly faviconUrl: Prisma.FieldRef<"Tenant", 'String'>
+  readonly faviconPath: Prisma.FieldRef<"Tenant", 'String'>
   readonly primaryColor: Prisma.FieldRef<"Tenant", 'String'>
   readonly secondaryColor: Prisma.FieldRef<"Tenant", 'String'>
   readonly accentColor: Prisma.FieldRef<"Tenant", 'String'>

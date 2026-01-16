@@ -19,7 +19,7 @@ export const projectsRepository = {
         ...(filters?.consultantId && { consultantId: filters.consultantId }),
       },
       include: {
-        organization: { select: { id: true, name: true, logoUrl: true } },
+        organization: { select: { id: true, name: true, logoUrl: true, logoPath: true } },
         consultant: { select: { id: true, firstName: true, lastName: true } },
       },
       orderBy: { createdAt: 'desc' },
@@ -76,7 +76,15 @@ export const projectsRepository = {
     return prisma.documentChecklist.findMany({
       where: { projectId },
       include: {
-        documents: { select: { id: true, fileName: true, fileUrl: true, status: true } },
+        documents: {
+          select: {
+            id: true,
+            fileName: true,
+            fileUrl: true,
+            storagePath: true,
+            status: true,
+          },
+        },
       },
       orderBy: { order: 'asc' },
     });

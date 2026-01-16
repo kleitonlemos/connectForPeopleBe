@@ -28,6 +28,32 @@ export const tenantsController = {
     success(reply, tenant);
   },
 
+  async uploadLogo(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const { id } = request.params as { id: string };
+    const part = await request.file();
+
+    if (!part) {
+      throw new Error('Arquivo não enviado');
+    }
+
+    const buffer = await part.toBuffer();
+    const tenant = await tenantsService.uploadLogo(id, buffer, part.filename, part.mimetype);
+    success(reply, tenant);
+  },
+
+  async uploadFavicon(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const { id } = request.params as { id: string };
+    const part = await request.file();
+
+    if (!part) {
+      throw new Error('Arquivo não enviado');
+    }
+
+    const buffer = await part.toBuffer();
+    const tenant = await tenantsService.uploadFavicon(id, buffer, part.filename, part.mimetype);
+    success(reply, tenant);
+  },
+
   async delete(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const { id } = request.params as { id: string };
     await tenantsService.delete(id);

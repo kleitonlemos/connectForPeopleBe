@@ -1,5 +1,5 @@
 import type { FastifyInstance } from 'fastify';
-import { authenticate } from '../../shared/middlewares/auth.js';
+import { authenticate, cronOrAuthorize } from '../../shared/middlewares/auth.js';
 import { notificationController } from './controllers.js';
 
 export async function notificationsRoutes(app: FastifyInstance) {
@@ -25,5 +25,9 @@ export async function notificationsRoutes(app: FastifyInstance) {
     notificationController.delete as any
   );
 
-  app.post('/notifications/scheduler', notificationController.runScheduledTasks as any);
+  app.post(
+    '/notifications/scheduler',
+    { preHandler: [cronOrAuthorize('SUPER_ADMIN', 'ADMIN')] },
+    notificationController.runScheduledTasks as any
+  );
 }

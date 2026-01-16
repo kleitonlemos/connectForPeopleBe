@@ -48,6 +48,7 @@ export type InterviewMinAggregateOutputType = {
   duration: number | null
   originalFileName: string | null
   transcriptionUrl: string | null
+  transcriptionPath: string | null
   rawTranscription: string | null
   processedContent: string | null
   status: $Enums.InterviewStatus | null
@@ -70,6 +71,7 @@ export type InterviewMaxAggregateOutputType = {
   duration: number | null
   originalFileName: string | null
   transcriptionUrl: string | null
+  transcriptionPath: string | null
   rawTranscription: string | null
   processedContent: string | null
   status: $Enums.InterviewStatus | null
@@ -92,6 +94,7 @@ export type InterviewCountAggregateOutputType = {
   duration: number
   originalFileName: number
   transcriptionUrl: number
+  transcriptionPath: number
   rawTranscription: number
   processedContent: number
   status: number
@@ -129,6 +132,7 @@ export type InterviewMinAggregateInputType = {
   duration?: true
   originalFileName?: true
   transcriptionUrl?: true
+  transcriptionPath?: true
   rawTranscription?: true
   processedContent?: true
   status?: true
@@ -151,6 +155,7 @@ export type InterviewMaxAggregateInputType = {
   duration?: true
   originalFileName?: true
   transcriptionUrl?: true
+  transcriptionPath?: true
   rawTranscription?: true
   processedContent?: true
   status?: true
@@ -173,6 +178,7 @@ export type InterviewCountAggregateInputType = {
   duration?: true
   originalFileName?: true
   transcriptionUrl?: true
+  transcriptionPath?: true
   rawTranscription?: true
   processedContent?: true
   status?: true
@@ -285,6 +291,7 @@ export type InterviewGroupByOutputType = {
   duration: number | null
   originalFileName: string | null
   transcriptionUrl: string | null
+  transcriptionPath: string | null
   rawTranscription: string | null
   processedContent: string | null
   status: $Enums.InterviewStatus
@@ -333,6 +340,7 @@ export type InterviewWhereInput = {
   duration?: Prisma.IntNullableFilter<"Interview"> | number | null
   originalFileName?: Prisma.StringNullableFilter<"Interview"> | string | null
   transcriptionUrl?: Prisma.StringNullableFilter<"Interview"> | string | null
+  transcriptionPath?: Prisma.StringNullableFilter<"Interview"> | string | null
   rawTranscription?: Prisma.StringNullableFilter<"Interview"> | string | null
   processedContent?: Prisma.StringNullableFilter<"Interview"> | string | null
   status?: Prisma.EnumInterviewStatusFilter<"Interview"> | $Enums.InterviewStatus
@@ -361,6 +369,7 @@ export type InterviewOrderByWithRelationInput = {
   duration?: Prisma.SortOrderInput | Prisma.SortOrder
   originalFileName?: Prisma.SortOrderInput | Prisma.SortOrder
   transcriptionUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  transcriptionPath?: Prisma.SortOrderInput | Prisma.SortOrder
   rawTranscription?: Prisma.SortOrderInput | Prisma.SortOrder
   processedContent?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -392,6 +401,7 @@ export type InterviewWhereUniqueInput = Prisma.AtLeast<{
   duration?: Prisma.IntNullableFilter<"Interview"> | number | null
   originalFileName?: Prisma.StringNullableFilter<"Interview"> | string | null
   transcriptionUrl?: Prisma.StringNullableFilter<"Interview"> | string | null
+  transcriptionPath?: Prisma.StringNullableFilter<"Interview"> | string | null
   rawTranscription?: Prisma.StringNullableFilter<"Interview"> | string | null
   processedContent?: Prisma.StringNullableFilter<"Interview"> | string | null
   status?: Prisma.EnumInterviewStatusFilter<"Interview"> | $Enums.InterviewStatus
@@ -420,6 +430,7 @@ export type InterviewOrderByWithAggregationInput = {
   duration?: Prisma.SortOrderInput | Prisma.SortOrder
   originalFileName?: Prisma.SortOrderInput | Prisma.SortOrder
   transcriptionUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  transcriptionPath?: Prisma.SortOrderInput | Prisma.SortOrder
   rawTranscription?: Prisma.SortOrderInput | Prisma.SortOrder
   processedContent?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -453,6 +464,7 @@ export type InterviewScalarWhereWithAggregatesInput = {
   duration?: Prisma.IntNullableWithAggregatesFilter<"Interview"> | number | null
   originalFileName?: Prisma.StringNullableWithAggregatesFilter<"Interview"> | string | null
   transcriptionUrl?: Prisma.StringNullableWithAggregatesFilter<"Interview"> | string | null
+  transcriptionPath?: Prisma.StringNullableWithAggregatesFilter<"Interview"> | string | null
   rawTranscription?: Prisma.StringNullableWithAggregatesFilter<"Interview"> | string | null
   processedContent?: Prisma.StringNullableWithAggregatesFilter<"Interview"> | string | null
   status?: Prisma.EnumInterviewStatusWithAggregatesFilter<"Interview"> | $Enums.InterviewStatus
@@ -476,6 +488,7 @@ export type InterviewCreateInput = {
   duration?: number | null
   originalFileName?: string | null
   transcriptionUrl?: string | null
+  transcriptionPath?: string | null
   rawTranscription?: string | null
   processedContent?: string | null
   status?: $Enums.InterviewStatus
@@ -503,6 +516,7 @@ export type InterviewUncheckedCreateInput = {
   duration?: number | null
   originalFileName?: string | null
   transcriptionUrl?: string | null
+  transcriptionPath?: string | null
   rawTranscription?: string | null
   processedContent?: string | null
   status?: $Enums.InterviewStatus
@@ -526,6 +540,7 @@ export type InterviewUpdateInput = {
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptionUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transcriptionPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rawTranscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedContent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
@@ -553,6 +568,7 @@ export type InterviewUncheckedUpdateInput = {
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptionUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transcriptionPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rawTranscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedContent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
@@ -578,6 +594,7 @@ export type InterviewCreateManyInput = {
   duration?: number | null
   originalFileName?: string | null
   transcriptionUrl?: string | null
+  transcriptionPath?: string | null
   rawTranscription?: string | null
   processedContent?: string | null
   status?: $Enums.InterviewStatus
@@ -601,6 +618,7 @@ export type InterviewUpdateManyMutationInput = {
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptionUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transcriptionPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rawTranscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedContent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
@@ -625,6 +643,7 @@ export type InterviewUncheckedUpdateManyInput = {
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptionUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transcriptionPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rawTranscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedContent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
@@ -660,6 +679,7 @@ export type InterviewCountOrderByAggregateInput = {
   duration?: Prisma.SortOrder
   originalFileName?: Prisma.SortOrder
   transcriptionUrl?: Prisma.SortOrder
+  transcriptionPath?: Prisma.SortOrder
   rawTranscription?: Prisma.SortOrder
   processedContent?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -690,6 +710,7 @@ export type InterviewMaxOrderByAggregateInput = {
   duration?: Prisma.SortOrder
   originalFileName?: Prisma.SortOrder
   transcriptionUrl?: Prisma.SortOrder
+  transcriptionPath?: Prisma.SortOrder
   rawTranscription?: Prisma.SortOrder
   processedContent?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -712,6 +733,7 @@ export type InterviewMinOrderByAggregateInput = {
   duration?: Prisma.SortOrder
   originalFileName?: Prisma.SortOrder
   transcriptionUrl?: Prisma.SortOrder
+  transcriptionPath?: Prisma.SortOrder
   rawTranscription?: Prisma.SortOrder
   processedContent?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -867,6 +889,7 @@ export type InterviewCreateWithoutUploadedByInput = {
   duration?: number | null
   originalFileName?: string | null
   transcriptionUrl?: string | null
+  transcriptionPath?: string | null
   rawTranscription?: string | null
   processedContent?: string | null
   status?: $Enums.InterviewStatus
@@ -892,6 +915,7 @@ export type InterviewUncheckedCreateWithoutUploadedByInput = {
   duration?: number | null
   originalFileName?: string | null
   transcriptionUrl?: string | null
+  transcriptionPath?: string | null
   rawTranscription?: string | null
   processedContent?: string | null
   status?: $Enums.InterviewStatus
@@ -946,6 +970,7 @@ export type InterviewScalarWhereInput = {
   duration?: Prisma.IntNullableFilter<"Interview"> | number | null
   originalFileName?: Prisma.StringNullableFilter<"Interview"> | string | null
   transcriptionUrl?: Prisma.StringNullableFilter<"Interview"> | string | null
+  transcriptionPath?: Prisma.StringNullableFilter<"Interview"> | string | null
   rawTranscription?: Prisma.StringNullableFilter<"Interview"> | string | null
   processedContent?: Prisma.StringNullableFilter<"Interview"> | string | null
   status?: Prisma.EnumInterviewStatusFilter<"Interview"> | $Enums.InterviewStatus
@@ -969,6 +994,7 @@ export type InterviewCreateWithoutProjectInput = {
   duration?: number | null
   originalFileName?: string | null
   transcriptionUrl?: string | null
+  transcriptionPath?: string | null
   rawTranscription?: string | null
   processedContent?: string | null
   status?: $Enums.InterviewStatus
@@ -994,6 +1020,7 @@ export type InterviewUncheckedCreateWithoutProjectInput = {
   duration?: number | null
   originalFileName?: string | null
   transcriptionUrl?: string | null
+  transcriptionPath?: string | null
   rawTranscription?: string | null
   processedContent?: string | null
   status?: $Enums.InterviewStatus
@@ -1043,6 +1070,7 @@ export type InterviewCreateWithoutAiConversationInput = {
   duration?: number | null
   originalFileName?: string | null
   transcriptionUrl?: string | null
+  transcriptionPath?: string | null
   rawTranscription?: string | null
   processedContent?: string | null
   status?: $Enums.InterviewStatus
@@ -1069,6 +1097,7 @@ export type InterviewUncheckedCreateWithoutAiConversationInput = {
   duration?: number | null
   originalFileName?: string | null
   transcriptionUrl?: string | null
+  transcriptionPath?: string | null
   rawTranscription?: string | null
   processedContent?: string | null
   status?: $Enums.InterviewStatus
@@ -1118,6 +1147,7 @@ export type InterviewCreateManyUploadedByInput = {
   duration?: number | null
   originalFileName?: string | null
   transcriptionUrl?: string | null
+  transcriptionPath?: string | null
   rawTranscription?: string | null
   processedContent?: string | null
   status?: $Enums.InterviewStatus
@@ -1141,6 +1171,7 @@ export type InterviewUpdateWithoutUploadedByInput = {
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptionUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transcriptionPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rawTranscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedContent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
@@ -1166,6 +1197,7 @@ export type InterviewUncheckedUpdateWithoutUploadedByInput = {
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptionUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transcriptionPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rawTranscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedContent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
@@ -1190,6 +1222,7 @@ export type InterviewUncheckedUpdateManyWithoutUploadedByInput = {
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptionUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transcriptionPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rawTranscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedContent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
@@ -1214,6 +1247,7 @@ export type InterviewCreateManyProjectInput = {
   duration?: number | null
   originalFileName?: string | null
   transcriptionUrl?: string | null
+  transcriptionPath?: string | null
   rawTranscription?: string | null
   processedContent?: string | null
   status?: $Enums.InterviewStatus
@@ -1237,6 +1271,7 @@ export type InterviewUpdateWithoutProjectInput = {
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptionUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transcriptionPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rawTranscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedContent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
@@ -1262,6 +1297,7 @@ export type InterviewUncheckedUpdateWithoutProjectInput = {
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptionUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transcriptionPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rawTranscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedContent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
@@ -1286,6 +1322,7 @@ export type InterviewUncheckedUpdateManyWithoutProjectInput = {
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptionUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transcriptionPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rawTranscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedContent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
@@ -1311,6 +1348,7 @@ export type InterviewCreateManyAiConversationInput = {
   duration?: number | null
   originalFileName?: string | null
   transcriptionUrl?: string | null
+  transcriptionPath?: string | null
   rawTranscription?: string | null
   processedContent?: string | null
   status?: $Enums.InterviewStatus
@@ -1333,6 +1371,7 @@ export type InterviewUpdateWithoutAiConversationInput = {
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptionUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transcriptionPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rawTranscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedContent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
@@ -1359,6 +1398,7 @@ export type InterviewUncheckedUpdateWithoutAiConversationInput = {
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptionUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transcriptionPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rawTranscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedContent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
@@ -1383,6 +1423,7 @@ export type InterviewUncheckedUpdateManyWithoutAiConversationInput = {
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   originalFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptionUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transcriptionPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rawTranscription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedContent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
@@ -1409,6 +1450,7 @@ export type InterviewSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   duration?: boolean
   originalFileName?: boolean
   transcriptionUrl?: boolean
+  transcriptionPath?: boolean
   rawTranscription?: boolean
   processedContent?: boolean
   status?: boolean
@@ -1437,6 +1479,7 @@ export type InterviewSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   duration?: boolean
   originalFileName?: boolean
   transcriptionUrl?: boolean
+  transcriptionPath?: boolean
   rawTranscription?: boolean
   processedContent?: boolean
   status?: boolean
@@ -1465,6 +1508,7 @@ export type InterviewSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   duration?: boolean
   originalFileName?: boolean
   transcriptionUrl?: boolean
+  transcriptionPath?: boolean
   rawTranscription?: boolean
   processedContent?: boolean
   status?: boolean
@@ -1493,6 +1537,7 @@ export type InterviewSelectScalar = {
   duration?: boolean
   originalFileName?: boolean
   transcriptionUrl?: boolean
+  transcriptionPath?: boolean
   rawTranscription?: boolean
   processedContent?: boolean
   status?: boolean
@@ -1506,7 +1551,7 @@ export type InterviewSelectScalar = {
   updatedAt?: boolean
 }
 
-export type InterviewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "uploadedById" | "title" | "description" | "interviewee" | "intervieweeRole" | "conductedAt" | "duration" | "originalFileName" | "transcriptionUrl" | "rawTranscription" | "processedContent" | "status" | "aiConversationId" | "analysisResult" | "sentimentScore" | "keyThemes" | "anonymizedSummary" | "metadata" | "createdAt" | "updatedAt", ExtArgs["result"]["interview"]>
+export type InterviewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "uploadedById" | "title" | "description" | "interviewee" | "intervieweeRole" | "conductedAt" | "duration" | "originalFileName" | "transcriptionUrl" | "transcriptionPath" | "rawTranscription" | "processedContent" | "status" | "aiConversationId" | "analysisResult" | "sentimentScore" | "keyThemes" | "anonymizedSummary" | "metadata" | "createdAt" | "updatedAt", ExtArgs["result"]["interview"]>
 export type InterviewInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   uploadedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1542,6 +1587,7 @@ export type $InterviewPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     duration: number | null
     originalFileName: string | null
     transcriptionUrl: string | null
+    transcriptionPath: string | null
     rawTranscription: string | null
     processedContent: string | null
     status: $Enums.InterviewStatus
@@ -1990,6 +2036,7 @@ export interface InterviewFieldRefs {
   readonly duration: Prisma.FieldRef<"Interview", 'Int'>
   readonly originalFileName: Prisma.FieldRef<"Interview", 'String'>
   readonly transcriptionUrl: Prisma.FieldRef<"Interview", 'String'>
+  readonly transcriptionPath: Prisma.FieldRef<"Interview", 'String'>
   readonly rawTranscription: Prisma.FieldRef<"Interview", 'String'>
   readonly processedContent: Prisma.FieldRef<"Interview", 'String'>
   readonly status: Prisma.FieldRef<"Interview", 'InterviewStatus'>

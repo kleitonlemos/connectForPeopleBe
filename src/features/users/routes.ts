@@ -8,4 +8,6 @@ export async function usersRoutes(app: FastifyInstance): Promise<void> {
   app.get('/', { preHandler: [authorize('SUPER_ADMIN', 'ADMIN')] }, usersController.list);
 
   app.put('/:id', { preHandler: [authorize('SUPER_ADMIN', 'ADMIN')] }, usersController.update);
+
+  app.post('/:id/avatar', usersController.uploadAvatar);
 }

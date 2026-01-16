@@ -48,6 +48,7 @@ export const submitResponseSchema = z.object({
     z.object({
       questionId: z.string().uuid(),
       value: z.unknown(),
+      storagePath: z.string().optional().nullable(),
       textValue: z.string().optional(),
       numericValue: z.number().optional(),
     })

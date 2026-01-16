@@ -162,7 +162,9 @@ model Tenant {
     slug           String   @unique
     domain         String?  @unique
     logoUrl        String?
+    logoPath       String?
     faviconUrl     String?
+    faviconPath    String?
     primaryColor   String   @default("#024383")
     secondaryColor String   @default("#1a5a9e")
     accentColor    String   @default("#f59e0b")
@@ -189,6 +191,7 @@ model Organization {
     foundedAt           DateTime?
     website             String?
     logoUrl             String?
+    logoPath            String?
     addressStreet       String?
     addressNumber       String?
     addressComplement   String?
@@ -227,6 +230,7 @@ model User {
     firstName            String
     lastName             String
     avatarUrl            String?
+    avatarPath           String?
     phone                String?
     role                 UserRole   @default(RESPONDENT)
     status               UserStatus @default(PENDING)
@@ -583,6 +587,7 @@ model SurveyAnswer {
     responseId   String
     questionId   String
     value        Json
+    storagePath  String?
     textValue    String?
     numericValue Float?
     createdAt    DateTime @default(now())
@@ -609,6 +614,7 @@ model Interview {
     duration          Int?
     originalFileName  String?
     transcriptionUrl  String?
+    transcriptionPath String?
     rawTranscription  String?
     processedContent  String?
     status            InterviewStatus @default(PENDING)
@@ -685,6 +691,8 @@ model Report {
     generatedContent    Json?
     consultantNotes     String?
     publishedAt         DateTime?
+    pdfUrl              String?
+    pdfPath             String?
     metadata            Json         @default("{}")
     createdAt           DateTime     @default(now())
     updatedAt           DateTime     @updatedAt

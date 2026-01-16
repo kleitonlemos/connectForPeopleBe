@@ -21,6 +21,11 @@ export async function organizationsRoutes(app: FastifyInstance): Promise<void> {
     { preHandler: [authorize('SUPER_ADMIN', 'ADMIN', 'CONSULTANT')] },
     organizationsController.update
   );
+  app.post(
+    '/:id/logo',
+    { preHandler: [authorize('SUPER_ADMIN', 'ADMIN', 'CONSULTANT')] },
+    organizationsController.uploadLogo
+  );
   app.get('/:id/team-members', organizationsController.listTeamMembers);
   app.post(
     '/:id/team-members/import',

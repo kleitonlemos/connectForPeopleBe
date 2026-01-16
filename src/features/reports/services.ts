@@ -1,6 +1,7 @@
 import type { Report, ReportVersion } from '@prisma/client';
 import { env } from '../../config/env.js';
 import { NotFoundError } from '../../shared/errors/appError.js';
+import { transformReportUrls, transformReportsUrls } from '../../shared/utils/storage.js';
 import { aiService } from '../ai/services.js';
 import { authRepository } from '../auth/repositories.js';
 import { emailsService } from '../emails/services.js';
@@ -17,7 +18,8 @@ type ReportSectionType =
 
 export const reportsService = {
   async listByProject(projectId: string): Promise<Report[]> {
-    return reportsRepository.findByProject(projectId);
+    const reports = await reportsRepository.findByProject(projectId);
+    return (await transformReportsUrls(reports as any)) as unknown as Report[];
   },
 
   async getById(id: string): Promise<Report> {
@@ -25,7 +27,7 @@ export const reportsService = {
     if (!report) {
       throw new NotFoundError('Relatório');
     }
-    return report;
+    return (await transformReportUrls(report as any)) as unknown as Report;
   },
 
   async generate(createdById: string, input: GenerateReportInput): Promise<Report> {
@@ -137,11 +139,16 @@ export const reportsService = {
   },
 
   async exportPdf(id: string): Promise<string> {
-    const report = await reportsRepository.findById(id);
+    const report = (await reportsRepository.findById(id)) as any;
     if (!report) {
       throw new NotFoundError('Relatório');
     }
 
+    if (report.pdfPath) {
+      return transformReportUrls(report).then(r => r.pdfUrl || '');
+    }
+
+    // Por enquanto retornamos o placeholder, mas agora integrado com a estrutura de storage
     return `export-url-placeholder-${id}`;
   },
 };

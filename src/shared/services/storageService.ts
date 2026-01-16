@@ -1,8 +1,13 @@
+import { Storage } from '@google-cloud/storage';
 import { v4 as uuidv4 } from 'uuid';
-import { supabase } from '../../config/supabase.js';
+import { env } from '../../config/env.js';
 
-const BUCKET_DOCUMENTS = 'documents';
-const BUCKET_TRANSCRIPTIONS = 'transcriptions';
+const storage = new Storage({
+  projectId: env.GCP_PROJECT_ID,
+});
+
+const BUCKET_DOCUMENTS = env.GCS_BUCKET_DOCUMENTS;
+const BUCKET_TRANSCRIPTIONS = env.GCS_BUCKET_TRANSCRIPTIONS;
 
 interface UploadResult {
   path: string;
@@ -19,58 +24,74 @@ export const storageService = {
     const fileExt = fileName.split('.').pop();
     const uniqueName = `${organizationId}/${uuidv4()}.${fileExt}`;
 
-    const { error } = await supabase.storage.from(BUCKET_DOCUMENTS).upload(uniqueName, file, {
+    const bucket = storage.bucket(BUCKET_DOCUMENTS);
+    const gcsFile = bucket.file(uniqueName);
+
+    await gcsFile.save(file, {
       contentType: mimeType,
-      upsert: false,
+      resumable: false,
     });
 
-    if (error) {
-      throw new Error(`Erro ao fazer upload: ${error.message}`);
-    }
-
-    const { data: urlData } = supabase.storage.from(BUCKET_DOCUMENTS).getPublicUrl(uniqueName);
-
+    // No GCS, salvamos apenas o caminho. A URL é gerada sob demanda.
     return {
       path: uniqueName,
-      publicUrl: urlData.publicUrl,
+      publicUrl: '', // Será gerada pelo transformador
     };
   },
 
   async uploadTranscription(content: string, projectId: string): Promise<UploadResult> {
     const fileName = `${projectId}/${uuidv4()}.txt`;
+    const bucket = storage.bucket(BUCKET_TRANSCRIPTIONS);
+    const gcsFile = bucket.file(fileName);
 
-    const { error } = await supabase.storage.from(BUCKET_TRANSCRIPTIONS).upload(fileName, content, {
+    await gcsFile.save(content, {
       contentType: 'text/plain',
-      upsert: false,
+      resumable: false,
     });
-
-    if (error) {
-      throw new Error(`Erro ao fazer upload: ${error.message}`);
-    }
-
-    const { data: urlData } = supabase.storage.from(BUCKET_TRANSCRIPTIONS).getPublicUrl(fileName);
 
     return {
       path: fileName,
-      publicUrl: urlData.publicUrl,
+      publicUrl: '', // Será gerada pelo transformador
     };
   },
 
-  async deleteFile(bucket: string, path: string): Promise<void> {
-    const { error } = await supabase.storage.from(bucket).remove([path]);
+  async uploadFile(
+    file: Buffer,
+    fileName: string,
+    mimeType: string,
+    folder: string
+  ): Promise<UploadResult> {
+    const fileExt = fileName.split('.').pop();
+    const uniqueName = `${folder}/${uuidv4()}.${fileExt}`;
 
-    if (error) {
-      throw new Error(`Erro ao deletar arquivo: ${error.message}`);
-    }
+    const bucket = storage.bucket(BUCKET_DOCUMENTS);
+    const gcsFile = bucket.file(uniqueName);
+
+    await gcsFile.save(file, {
+      contentType: mimeType,
+      resumable: false,
+    });
+
+    return {
+      path: uniqueName,
+      publicUrl: '',
+    };
   },
 
-  async getSignedUrl(bucket: string, path: string, expiresIn = 3600): Promise<string> {
-    const { data, error } = await supabase.storage.from(bucket).createSignedUrl(path, expiresIn);
+  async deleteFile(bucketName: string, path: string): Promise<void> {
+    await storage.bucket(bucketName).file(path).delete();
+  },
 
-    if (error) {
-      throw new Error(`Erro ao gerar URL: ${error.message}`);
-    }
+  async getSignedUrl(bucketName: string, path: string, expiresIn = 3600): Promise<string> {
+    const [url] = await storage
+      .bucket(bucketName)
+      .file(path)
+      .getSignedUrl({
+        version: 'v4',
+        action: 'read',
+        expires: Date.now() + expiresIn * 1000,
+      });
 
-    return data.signedUrl;
+    return url;
   },
 };

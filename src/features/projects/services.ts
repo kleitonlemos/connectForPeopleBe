@@ -9,6 +9,7 @@ import bcrypt from 'bcryptjs';
 import { env } from '../../config/env.js';
 import { NotFoundError } from '../../shared/errors/appError.js';
 import { generateProjectCode, generateResetToken } from '../../shared/utils/generateCode.js';
+import { transformDocumentsUrls, transformOrganizationUrls } from '../../shared/utils/storage.js';
 import { authRepository } from '../auth/repositories.js';
 import { emailsService } from '../emails/services.js';
 import { organizationsRepository } from '../organizations/repositories.js';
@@ -33,13 +34,27 @@ export const projectsService = {
       finalFilters.organizationId = userOrganizationId;
     }
 
-    return projectsRepository.findAll(tenantId, finalFilters);
+    const projects = (await projectsRepository.findAll(tenantId, finalFilters)) as any[];
+
+    // Transformar logos das organizações nos projetos
+    return Promise.all(
+      projects.map(async project => {
+        if (project.organization) {
+          project.organization = await transformOrganizationUrls(project.organization);
+        }
+        return project;
+      })
+    );
   },
 
   async getById(id: string): Promise<Project> {
-    const project = await projectsRepository.findById(id);
+    const project = (await projectsRepository.findById(id)) as any;
     if (!project) {
       throw new NotFoundError('Projeto');
+    }
+
+    if (project.organization) {
+      project.organization = await transformOrganizationUrls(project.organization);
     }
 
     return project;
@@ -232,12 +247,23 @@ export const projectsService = {
       throw new NotFoundError('Projeto');
     }
 
-    const checklist = await projectsRepository.findChecklist(id);
+    const checklist = (await projectsRepository.findChecklist(id)) as any[];
+
+    // Transformar as URLs dos documentos no checklist
+    const transformedChecklist = await Promise.all(
+      checklist.map(async item => {
+        if (item.documents && item.documents.length > 0) {
+          const transformedDocs = await transformDocumentsUrls(item.documents);
+          return { ...item, documents: transformedDocs };
+        }
+        return item;
+      })
+    );
 
     return {
       progress: project.progress,
       stage: project.stage,
-      checklist,
+      checklist: transformedChecklist,
     };
   },
 

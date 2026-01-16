@@ -35,6 +35,7 @@ export type OrganizationMinAggregateOutputType = {
   foundedAt: Date | null
   website: string | null
   logoUrl: string | null
+  logoPath: string | null
   addressStreet: string | null
   addressNumber: string | null
   addressComplement: string | null
@@ -64,6 +65,7 @@ export type OrganizationMaxAggregateOutputType = {
   foundedAt: Date | null
   website: string | null
   logoUrl: string | null
+  logoPath: string | null
   addressStreet: string | null
   addressNumber: string | null
   addressComplement: string | null
@@ -93,6 +95,7 @@ export type OrganizationCountAggregateOutputType = {
   foundedAt: number
   website: number
   logoUrl: number
+  logoPath: number
   addressStreet: number
   addressNumber: number
   addressComplement: number
@@ -125,6 +128,7 @@ export type OrganizationMinAggregateInputType = {
   foundedAt?: true
   website?: true
   logoUrl?: true
+  logoPath?: true
   addressStreet?: true
   addressNumber?: true
   addressComplement?: true
@@ -154,6 +158,7 @@ export type OrganizationMaxAggregateInputType = {
   foundedAt?: true
   website?: true
   logoUrl?: true
+  logoPath?: true
   addressStreet?: true
   addressNumber?: true
   addressComplement?: true
@@ -183,6 +188,7 @@ export type OrganizationCountAggregateInputType = {
   foundedAt?: true
   website?: true
   logoUrl?: true
+  logoPath?: true
   addressStreet?: true
   addressNumber?: true
   addressComplement?: true
@@ -286,6 +292,7 @@ export type OrganizationGroupByOutputType = {
   foundedAt: Date | null
   website: string | null
   logoUrl: string | null
+  logoPath: string | null
   addressStreet: string | null
   addressNumber: string | null
   addressComplement: string | null
@@ -337,6 +344,7 @@ export type OrganizationWhereInput = {
   foundedAt?: Prisma.DateTimeNullableFilter<"Organization"> | Date | string | null
   website?: Prisma.StringNullableFilter<"Organization"> | string | null
   logoUrl?: Prisma.StringNullableFilter<"Organization"> | string | null
+  logoPath?: Prisma.StringNullableFilter<"Organization"> | string | null
   addressStreet?: Prisma.StringNullableFilter<"Organization"> | string | null
   addressNumber?: Prisma.StringNullableFilter<"Organization"> | string | null
   addressComplement?: Prisma.StringNullableFilter<"Organization"> | string | null
@@ -372,6 +380,7 @@ export type OrganizationOrderByWithRelationInput = {
   foundedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   website?: Prisma.SortOrderInput | Prisma.SortOrder
   logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoPath?: Prisma.SortOrderInput | Prisma.SortOrder
   addressStreet?: Prisma.SortOrderInput | Prisma.SortOrder
   addressNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   addressComplement?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -411,6 +420,7 @@ export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
   foundedAt?: Prisma.DateTimeNullableFilter<"Organization"> | Date | string | null
   website?: Prisma.StringNullableFilter<"Organization"> | string | null
   logoUrl?: Prisma.StringNullableFilter<"Organization"> | string | null
+  logoPath?: Prisma.StringNullableFilter<"Organization"> | string | null
   addressStreet?: Prisma.StringNullableFilter<"Organization"> | string | null
   addressNumber?: Prisma.StringNullableFilter<"Organization"> | string | null
   addressComplement?: Prisma.StringNullableFilter<"Organization"> | string | null
@@ -446,6 +456,7 @@ export type OrganizationOrderByWithAggregationInput = {
   foundedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   website?: Prisma.SortOrderInput | Prisma.SortOrder
   logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoPath?: Prisma.SortOrderInput | Prisma.SortOrder
   addressStreet?: Prisma.SortOrderInput | Prisma.SortOrder
   addressNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   addressComplement?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -482,6 +493,7 @@ export type OrganizationScalarWhereWithAggregatesInput = {
   foundedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Organization"> | Date | string | null
   website?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
   logoUrl?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  logoPath?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
   addressStreet?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
   addressNumber?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
   addressComplement?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
@@ -511,6 +523,7 @@ export type OrganizationCreateInput = {
   foundedAt?: Date | string | null
   website?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   addressStreet?: string | null
   addressNumber?: string | null
   addressComplement?: string | null
@@ -546,6 +559,7 @@ export type OrganizationUncheckedCreateInput = {
   foundedAt?: Date | string | null
   website?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   addressStreet?: string | null
   addressNumber?: string | null
   addressComplement?: string | null
@@ -579,6 +593,7 @@ export type OrganizationUpdateInput = {
   foundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressStreet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressComplement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -614,6 +629,7 @@ export type OrganizationUncheckedUpdateInput = {
   foundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressStreet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressComplement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -648,6 +664,7 @@ export type OrganizationCreateManyInput = {
   foundedAt?: Date | string | null
   website?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   addressStreet?: string | null
   addressNumber?: string | null
   addressComplement?: string | null
@@ -677,6 +694,7 @@ export type OrganizationUpdateManyMutationInput = {
   foundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressStreet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressComplement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -707,6 +725,7 @@ export type OrganizationUncheckedUpdateManyInput = {
   foundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressStreet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressComplement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -752,6 +771,7 @@ export type OrganizationCountOrderByAggregateInput = {
   foundedAt?: Prisma.SortOrder
   website?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
+  logoPath?: Prisma.SortOrder
   addressStreet?: Prisma.SortOrder
   addressNumber?: Prisma.SortOrder
   addressComplement?: Prisma.SortOrder
@@ -782,6 +802,7 @@ export type OrganizationMaxOrderByAggregateInput = {
   foundedAt?: Prisma.SortOrder
   website?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
+  logoPath?: Prisma.SortOrder
   addressStreet?: Prisma.SortOrder
   addressNumber?: Prisma.SortOrder
   addressComplement?: Prisma.SortOrder
@@ -811,6 +832,7 @@ export type OrganizationMinOrderByAggregateInput = {
   foundedAt?: Prisma.SortOrder
   website?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
+  logoPath?: Prisma.SortOrder
   addressStreet?: Prisma.SortOrder
   addressNumber?: Prisma.SortOrder
   addressComplement?: Prisma.SortOrder
@@ -953,6 +975,7 @@ export type OrganizationCreateWithoutTenantInput = {
   foundedAt?: Date | string | null
   website?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   addressStreet?: string | null
   addressNumber?: string | null
   addressComplement?: string | null
@@ -986,6 +1009,7 @@ export type OrganizationUncheckedCreateWithoutTenantInput = {
   foundedAt?: Date | string | null
   website?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   addressStreet?: string | null
   addressNumber?: string | null
   addressComplement?: string | null
@@ -1049,6 +1073,7 @@ export type OrganizationScalarWhereInput = {
   foundedAt?: Prisma.DateTimeNullableFilter<"Organization"> | Date | string | null
   website?: Prisma.StringNullableFilter<"Organization"> | string | null
   logoUrl?: Prisma.StringNullableFilter<"Organization"> | string | null
+  logoPath?: Prisma.StringNullableFilter<"Organization"> | string | null
   addressStreet?: Prisma.StringNullableFilter<"Organization"> | string | null
   addressNumber?: Prisma.StringNullableFilter<"Organization"> | string | null
   addressComplement?: Prisma.StringNullableFilter<"Organization"> | string | null
@@ -1078,6 +1103,7 @@ export type OrganizationCreateWithoutUsersInput = {
   foundedAt?: Date | string | null
   website?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   addressStreet?: string | null
   addressNumber?: string | null
   addressComplement?: string | null
@@ -1112,6 +1138,7 @@ export type OrganizationUncheckedCreateWithoutUsersInput = {
   foundedAt?: Date | string | null
   website?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   addressStreet?: string | null
   addressNumber?: string | null
   addressComplement?: string | null
@@ -1160,6 +1187,7 @@ export type OrganizationUpdateWithoutUsersInput = {
   foundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressStreet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressComplement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1194,6 +1222,7 @@ export type OrganizationUncheckedUpdateWithoutUsersInput = {
   foundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressStreet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressComplement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1226,6 +1255,7 @@ export type OrganizationCreateWithoutTeamMembersInput = {
   foundedAt?: Date | string | null
   website?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   addressStreet?: string | null
   addressNumber?: string | null
   addressComplement?: string | null
@@ -1260,6 +1290,7 @@ export type OrganizationUncheckedCreateWithoutTeamMembersInput = {
   foundedAt?: Date | string | null
   website?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   addressStreet?: string | null
   addressNumber?: string | null
   addressComplement?: string | null
@@ -1308,6 +1339,7 @@ export type OrganizationUpdateWithoutTeamMembersInput = {
   foundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressStreet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressComplement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1342,6 +1374,7 @@ export type OrganizationUncheckedUpdateWithoutTeamMembersInput = {
   foundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressStreet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressComplement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1374,6 +1407,7 @@ export type OrganizationCreateWithoutProjectsInput = {
   foundedAt?: Date | string | null
   website?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   addressStreet?: string | null
   addressNumber?: string | null
   addressComplement?: string | null
@@ -1408,6 +1442,7 @@ export type OrganizationUncheckedCreateWithoutProjectsInput = {
   foundedAt?: Date | string | null
   website?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   addressStreet?: string | null
   addressNumber?: string | null
   addressComplement?: string | null
@@ -1456,6 +1491,7 @@ export type OrganizationUpdateWithoutProjectsInput = {
   foundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressStreet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressComplement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1490,6 +1526,7 @@ export type OrganizationUncheckedUpdateWithoutProjectsInput = {
   foundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressStreet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressComplement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1522,6 +1559,7 @@ export type OrganizationCreateWithoutDocumentsInput = {
   foundedAt?: Date | string | null
   website?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   addressStreet?: string | null
   addressNumber?: string | null
   addressComplement?: string | null
@@ -1556,6 +1594,7 @@ export type OrganizationUncheckedCreateWithoutDocumentsInput = {
   foundedAt?: Date | string | null
   website?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   addressStreet?: string | null
   addressNumber?: string | null
   addressComplement?: string | null
@@ -1604,6 +1643,7 @@ export type OrganizationUpdateWithoutDocumentsInput = {
   foundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressStreet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressComplement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1638,6 +1678,7 @@ export type OrganizationUncheckedUpdateWithoutDocumentsInput = {
   foundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressStreet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressComplement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1670,6 +1711,7 @@ export type OrganizationCreateManyTenantInput = {
   foundedAt?: Date | string | null
   website?: string | null
   logoUrl?: string | null
+  logoPath?: string | null
   addressStreet?: string | null
   addressNumber?: string | null
   addressComplement?: string | null
@@ -1699,6 +1741,7 @@ export type OrganizationUpdateWithoutTenantInput = {
   foundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressStreet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressComplement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1732,6 +1775,7 @@ export type OrganizationUncheckedUpdateWithoutTenantInput = {
   foundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressStreet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressComplement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1765,6 +1809,7 @@ export type OrganizationUncheckedUpdateManyWithoutTenantInput = {
   foundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressStreet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressComplement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1853,6 +1898,7 @@ export type OrganizationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   foundedAt?: boolean
   website?: boolean
   logoUrl?: boolean
+  logoPath?: boolean
   addressStreet?: boolean
   addressNumber?: boolean
   addressComplement?: boolean
@@ -1889,6 +1935,7 @@ export type OrganizationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   foundedAt?: boolean
   website?: boolean
   logoUrl?: boolean
+  logoPath?: boolean
   addressStreet?: boolean
   addressNumber?: boolean
   addressComplement?: boolean
@@ -1920,6 +1967,7 @@ export type OrganizationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   foundedAt?: boolean
   website?: boolean
   logoUrl?: boolean
+  logoPath?: boolean
   addressStreet?: boolean
   addressNumber?: boolean
   addressComplement?: boolean
@@ -1951,6 +1999,7 @@ export type OrganizationSelectScalar = {
   foundedAt?: boolean
   website?: boolean
   logoUrl?: boolean
+  logoPath?: boolean
   addressStreet?: boolean
   addressNumber?: boolean
   addressComplement?: boolean
@@ -1970,7 +2019,7 @@ export type OrganizationSelectScalar = {
   updatedAt?: boolean
 }
 
-export type OrganizationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "name" | "tradeName" | "cnpj" | "industry" | "size" | "foundedAt" | "website" | "logoUrl" | "addressStreet" | "addressNumber" | "addressComplement" | "addressNeighborhood" | "addressCity" | "addressState" | "addressZipCode" | "contactEmail" | "contactPhone" | "contactName" | "mission" | "vision" | "values" | "isActive" | "metadata" | "createdAt" | "updatedAt", ExtArgs["result"]["organization"]>
+export type OrganizationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "name" | "tradeName" | "cnpj" | "industry" | "size" | "foundedAt" | "website" | "logoUrl" | "logoPath" | "addressStreet" | "addressNumber" | "addressComplement" | "addressNeighborhood" | "addressCity" | "addressState" | "addressZipCode" | "contactEmail" | "contactPhone" | "contactName" | "mission" | "vision" | "values" | "isActive" | "metadata" | "createdAt" | "updatedAt", ExtArgs["result"]["organization"]>
 export type OrganizationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   users?: boolean | Prisma.Organization$usersArgs<ExtArgs>
@@ -2006,6 +2055,7 @@ export type $OrganizationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     foundedAt: Date | null
     website: string | null
     logoUrl: string | null
+    logoPath: string | null
     addressStreet: string | null
     addressNumber: string | null
     addressComplement: string | null
@@ -2461,6 +2511,7 @@ export interface OrganizationFieldRefs {
   readonly foundedAt: Prisma.FieldRef<"Organization", 'DateTime'>
   readonly website: Prisma.FieldRef<"Organization", 'String'>
   readonly logoUrl: Prisma.FieldRef<"Organization", 'String'>
+  readonly logoPath: Prisma.FieldRef<"Organization", 'String'>
   readonly addressStreet: Prisma.FieldRef<"Organization", 'String'>
   readonly addressNumber: Prisma.FieldRef<"Organization", 'String'>
   readonly addressComplement: Prisma.FieldRef<"Organization", 'String'>

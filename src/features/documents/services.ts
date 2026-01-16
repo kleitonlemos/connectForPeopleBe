@@ -1,12 +1,16 @@
 import type { Document } from '@prisma/client';
+import { prisma } from '../../config/database.js';
+import { env } from '../../config/env.js';
 import { NotFoundError } from '../../shared/errors/appError.js';
 import { storageService } from '../../shared/services/storageService.js';
+import { transformDocumentUrls, transformDocumentsUrls } from '../../shared/utils/storage.js';
 import { documentsRepository } from './repositories.js';
 import type { UploadDocumentInput, ValidateDocumentInput } from './validators.js';
 
 export const documentsService = {
   async listByProject(projectId: string): Promise<Document[]> {
-    return documentsRepository.findByProject(projectId);
+    const docs = await documentsRepository.findByProject(projectId);
+    return transformDocumentsUrls(docs);
   },
 
   async getById(id: string): Promise<Document> {
@@ -14,7 +18,7 @@ export const documentsService = {
     if (!doc) {
       throw new NotFoundError('Documento');
     }
-    return doc;
+    return transformDocumentUrls(doc);
   },
 
   async upload(
@@ -25,27 +29,75 @@ export const documentsService = {
     uploadedById: string,
     organizationId: string
   ): Promise<Document> {
-    const { path, publicUrl } = await storageService.uploadDocument(
+    // Se organizationId não foi fornecido, buscar do projeto
+    let finalOrganizationId = organizationId;
+
+    if (!finalOrganizationId) {
+      const project = await prisma.project.findUnique({
+        where: { id: input.projectId },
+        select: { organizationId: true },
+      });
+
+      if (!project) {
+        throw new NotFoundError('Projeto');
+      }
+
+      finalOrganizationId = project.organizationId;
+    }
+
+    const { path } = await storageService.uploadDocument(
       file,
       fileName,
       mimeType,
-      organizationId
+      finalOrganizationId
     );
 
-    return documentsRepository.create({
+    // Se checklistItemId não foi fornecido mas temos o documentType, tentar encontrar
+    let finalChecklistItemId = input.checklistItemId;
+    if (!finalChecklistItemId) {
+      const checklistItem = await prisma.documentChecklist.findUnique({
+        where: {
+          projectId_documentType: {
+            projectId: input.projectId,
+            documentType: input.documentType,
+          },
+        },
+        select: { id: true },
+      });
+
+      if (checklistItem) {
+        finalChecklistItemId = checklistItem.id;
+      }
+    }
+
+    const doc = await documentsRepository.create({
       project: { connect: { id: input.projectId } },
-      organization: { connect: { id: organizationId } },
+      organization: { connect: { id: finalOrganizationId } },
       uploadedBy: { connect: { id: uploadedById } },
+      ...(finalChecklistItemId && {
+        checklistItem: { connect: { id: finalChecklistItemId } },
+      }),
       name: fileName,
       fileName,
-      fileUrl: publicUrl,
+      fileUrl: '', // Não salvamos mais a URL fixa no banco
       storagePath: path,
       fileSize: file.length,
       mimeType,
       type: input.documentType,
       description: input.description,
       status: 'UPLOADED',
+      metadata: input.mapping ? { mapping: input.mapping } : {},
     });
+
+    // Atualizar status do item no checklist se existir
+    if (finalChecklistItemId) {
+      await prisma.documentChecklist.update({
+        where: { id: finalChecklistItemId },
+        data: { status: 'UPLOADED' },
+      });
+    }
+
+    return transformDocumentUrls(doc);
   },
 
   async validate(
@@ -72,7 +124,7 @@ export const documentsService = {
     }
 
     if (doc.storagePath) {
-      await storageService.deleteFile('documents', doc.storagePath);
+      await storageService.deleteFile(env.GCS_BUCKET_DOCUMENTS, doc.storagePath);
     }
 
     await documentsRepository.delete(id);

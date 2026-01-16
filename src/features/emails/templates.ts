@@ -1,4 +1,5 @@
 import type {
+  AccountActivatedEmailData,
   EmailTemplate,
   PasswordResetEmailData,
   ReportPublishedEmailData,
@@ -288,7 +289,7 @@ export function passwordResetTemplate(data: PasswordResetEmailData): EmailTempla
     </div>
 
     <p style="font-size: 14px; color: #64748b;">
-      Este link é válido por 1 hora. Se você não solicitou a redefinição de senha, por favor ignore este e-mail.
+      Este link é válido por 1 hora. Se você não solicitou a redefinir a senha, por favor ignore este e-mail.
     </p>
 
     <p>Por questões de segurança, nunca compartilhe este link com terceiros.</p>
@@ -305,11 +306,52 @@ Acesse: ${data.resetUrl}
 
 Este link é válido por 1 hora.
 
-Se você não solicitou a redefinição de senha, por favor ignore este e-mail.
+Se você não solicitou a redefinir a senha, por favor ignore este e-mail.
   `.trim();
 
   return {
     subject: 'Redefinição de Senha - Connect For People',
+    html,
+    text,
+  };
+}
+
+export function accountActivatedTemplate(data: AccountActivatedEmailData): EmailTemplate {
+  const html = wrapHtml(`
+    <h2 style="color: #024383; margin-top: 0;">Conta Ativada com Sucesso!</h2>
+
+    <p>Olá, <strong>${data.recipientName}</strong>!</p>
+
+    <p>Sua conta na plataforma <strong>Connect For People</strong> foi ativada com sucesso. Agora você já pode acessar todos os recursos disponíveis para o seu projeto.</p>
+
+    <p>Sempre que precisar acessar a plataforma, utilize o link abaixo:</p>
+
+    <div style="text-align: center;">
+      <a href="${data.loginUrl}" style="${buttonStyle}">Acessar Plataforma</a>
+    </div>
+
+    <p>Recomendamos que você salve este link nos seus favoritos para facilitar o acesso futuro.</p>
+
+    <p>Desejamos muito sucesso na sua jornada!</p>
+
+    <p>Atenciosamente,<br><strong>Equipe Connect For People</strong></p>
+  `);
+
+  const text = `
+Conta Ativada com Sucesso!
+
+Olá, ${data.recipientName}!
+
+Sua conta na plataforma Connect For People foi ativada com sucesso.
+
+Para acessar a plataforma sempre que precisar, utilize o link: ${data.loginUrl}
+
+Atenciosamente,
+Equipe Connect For People
+  `.trim();
+
+  return {
+    subject: 'Bem-vindo(a)! Sua conta foi ativada - Connect For People',
     html,
     text,
   };

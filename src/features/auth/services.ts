@@ -1,8 +1,11 @@
 import type { User, UserRole } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../../config/database.js';
+import { env } from '../../config/env.js';
 import { ConflictError, NotFoundError, UnauthorizedError } from '../../shared/errors/appError.js';
 import { generateResetToken } from '../../shared/utils/generateCode.js';
+import { transformUserUrls } from '../../shared/utils/storage.js';
+import { emailsService } from '../emails/services.js';
 import { authRepository } from './repositories.js';
 import type { LoginInput, RegisterInput, UpdateProfileInput } from './validators.js';
 
@@ -41,7 +44,8 @@ export const authService = {
 
     await authRepository.updateLastLogin(user.id);
 
-    const { passwordHash, ...userWithoutPassword } = user;
+    const transformed = await transformUserUrls(user);
+    const { passwordHash, ...userWithoutPassword } = transformed;
 
     return {
       user: userWithoutPassword,
@@ -75,7 +79,8 @@ export const authService = {
       status: 'ACTIVE',
     });
 
-    const { passwordHash: _, ...userWithoutPassword } = user;
+    const transformed = await transformUserUrls(user);
+    const { passwordHash: _, ...userWithoutPassword } = transformed;
 
     return { user: userWithoutPassword };
   },
@@ -102,13 +107,26 @@ export const authService = {
 
     const passwordHash = await bcrypt.hash(newPassword, 12);
 
+    const isPending = user.status === 'PENDING';
+
     await authRepository.updatePassword(user.id, passwordHash);
 
-    if (user.status === 'PENDING') {
+    if (isPending) {
       await prisma.user.update({
         where: { id: user.id },
         data: { status: 'ACTIVE', emailVerifiedAt: new Date() },
       });
+
+      // Envia e-mail de boas-vindas após ativação
+      try {
+        await emailsService.sendAccountActivated({
+          recipientName: `${user.firstName} ${user.lastName}`,
+          recipientEmail: user.email,
+          loginUrl: `${env.FRONTEND_URL}/login`,
+        });
+      } catch (error) {
+        console.error('Erro ao enviar e-mail de conta ativada:', error);
+      }
     }
   },
 
@@ -141,7 +159,8 @@ export const authService = {
       throw new NotFoundError('Usuário');
     }
 
-    const { passwordHash, ...userWithoutPassword } = user;
+    const transformed = await transformUserUrls(user);
+    const { passwordHash, ...userWithoutPassword } = transformed;
 
     return { user: userWithoutPassword };
   },
@@ -153,7 +172,8 @@ export const authService = {
       phone: input.phone ?? undefined,
     });
 
-    const { passwordHash, ...userWithoutPassword } = user;
+    const transformed = await transformUserUrls(user);
+    const { passwordHash, ...userWithoutPassword } = transformed;
 
     return { user: userWithoutPassword };
   },
