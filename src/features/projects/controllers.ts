@@ -65,14 +65,7 @@ export const projectsController = {
     success(reply, { message: 'Lembrete enviado com sucesso' });
   },
 
-  async processOnboardingReminders(request: FastifyRequest, reply: FastifyReply): Promise<void> {
-    // Verificação de segurança para o scheduler (ex: API KEY no header)
-    const apiKey = request.headers['x-scheduler-key'];
-    if (apiKey !== env.SCHEDULER_API_KEY) {
-      reply.status(401).send({ error: 'Não autorizado' });
-      return;
-    }
-
+  async processOnboardingReminders(_request: FastifyRequest, reply: FastifyReply): Promise<void> {
     await projectsService.processOnboardingReminders();
     success(reply, { message: 'Processamento de lembretes concluído' });
   },

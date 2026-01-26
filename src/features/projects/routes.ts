@@ -1,5 +1,5 @@
 import type { FastifyInstance } from 'fastify';
-import { authenticate, authorize } from '../../shared/middlewares/auth.js';
+import { authenticate, authorize, cronOrAuthorize } from '../../shared/middlewares/auth.js';
 import { projectsController } from './controllers.js';
 
 export async function projectsRoutes(app: FastifyInstance): Promise<void> {
@@ -24,8 +24,12 @@ export async function projectsRoutes(app: FastifyInstance): Promise<void> {
     projectsController.resendOnboardingReminder
   );
 
-  // Endpoint público para o Scheduler (protegido por SCHEDULER_API_KEY no controller)
-  app.post('/process-onboarding-reminders', projectsController.processOnboardingReminders);
+  // Endpoint para o Scheduler (protegido pelo middleware cronOrAuthorize)
+  app.post(
+    '/process-onboarding-reminders',
+    { preHandler: [cronOrAuthorize('SUPER_ADMIN', 'ADMIN')] },
+    projectsController.processOnboardingReminders
+  );
 
   app.delete(
     '/:id',

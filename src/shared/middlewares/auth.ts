@@ -63,19 +63,25 @@ export function organizationGuard(request: FastifyRequest): void {
 
 export function cronOrAuthorize(...allowedRoles: UserRole[]) {
   return async (request: FastifyRequest, reply: FastifyReply): Promise<void> => {
-    const headerSecret = request.headers['x-cron-secret'] as string | undefined;
+    const cronSecret = request.headers['x-cron-secret'] as string | undefined;
+    const schedulerKey = request.headers['x-scheduler-key'] as string | undefined;
     const googleCronHeader = request.headers['x-cloudscheduler-jobname'];
 
-    // Se tiver o secret do cron ou for um request do Google Cloud Scheduler (validando via secret se configurado)
-    if (env.CRON_SECRET && headerSecret === env.CRON_SECRET) {
+    const hasValidSecret = env.CRON_SECRET && (cronSecret === env.CRON_SECRET || schedulerKey === env.CRON_SECRET);
+
+    if (hasValidSecret) {
       return;
     }
 
     if (googleCronHeader) {
-      // Opcionalmente podemos adicionar logs ou validações extras aqui para o Google Cloud Scheduler
-      console.log(`Cron job detected from Google Cloud Scheduler: ${googleCronHeader}`);
-      // Se não houver secret, mas for do scheduler, podemos permitir (ou exigir o secret)
-      if (!env.CRON_SECRET) return;
+      console.log(`[Cron] Request from Google Cloud Scheduler: ${googleCronHeader}`);
+      // Se for do Google Scheduler mas não passou o secret correto nos headers acima
+      // e o secret está configurado, bloqueamos por segurança.
+      if (env.CRON_SECRET) {
+        console.warn(`[Cron] Unauthorized attempt from Cloud Scheduler: Secret missing or mismatch`);
+        throw new UnauthorizedError('Secret do cron inválido');
+      }
+      return;
     }
 
     // Fallback para autenticação padrão se não for cron

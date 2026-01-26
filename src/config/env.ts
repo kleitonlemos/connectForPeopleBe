@@ -24,14 +24,6 @@ const envSchema = z.object({
   SMTP_FROM: z.string().optional(),
 
   CRON_SECRET: z.string().optional(),
-  SCHEDULER_API_KEY: z.string().optional(),
-
-  GCP_PROJECT_ID: z.string().default('nextmoves-478514'),
-  GCS_BUCKET_DOCUMENTS: z.string().default('conecta-documents'),
-  GCS_BUCKET_TRANSCRIPTIONS: z.string().default('conecta-transcriptions'),
-
-  FRONTEND_URL: z.string().url().default('http://localhost:3000'),
-  CORS_ORIGIN: z.string().default('http://localhost:3000'),
 });
 
 const parsed = envSchema.safeParse(process.env);
