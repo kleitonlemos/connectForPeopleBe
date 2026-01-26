@@ -138,7 +138,6 @@ export const projectsService = {
     try {
       await projectsRepository.createChecklistItems(project.id, defaultChecklistItems);
     } catch (error) {
-      console.error('Erro ao criar checklist do projeto', error);
     }
 
     try {
@@ -181,7 +180,6 @@ export const projectsService = {
         });
       }
     } catch (error) {
-      console.error('Erro ao processar onboarding do cliente e enviar e-mail', error);
     }
 
     return project;
@@ -367,7 +365,7 @@ export const projectsService = {
       throw new NotFoundError('Projeto');
     }
 
-    const checklist = await projectsRepository.findChecklist(id);
+    let checklist = await projectsRepository.findChecklist(id);
 
     if (checklist.length === 0) {
       const defaultChecklistItems: Array<{
@@ -428,8 +426,8 @@ export const projectsService = {
 
       try {
         await projectsRepository.createChecklistItems(id, defaultChecklistItems);
+        checklist = await projectsRepository.findChecklist(id);
       } catch (error) {
-        console.error('Erro ao criar checklist padrão', error);
         return [];
       }
     }
@@ -437,7 +435,17 @@ export const projectsService = {
     const settings = (project.settings ?? {}) as ProjectSettings;
     await this.syncChecklistStatus(id, settings.onboarding, project.organizationId);
 
-    return projectsRepository.findChecklist(id);
+    const updatedChecklist = (await projectsRepository.findChecklist(id)) as any[];
+
+    return Promise.all(
+      updatedChecklist.map(async item => {
+        if (item.documents && item.documents.length > 0) {
+          const transformedDocs = await transformDocumentsUrls(item.documents);
+          return { ...item, documents: transformedDocs };
+        }
+        return item;
+      })
+    );
   },
 
   async getActivities(id: string): Promise<ProjectActivity[]> {
@@ -519,7 +527,6 @@ export const projectsService = {
       try {
         await this.resendOnboardingReminder(project.id);
       } catch (error) {
-        console.error(`Erro ao processar lembrete automático para o projeto ${project.id}:`, error);
       }
     }
   },
@@ -538,7 +545,6 @@ export const projectsService = {
       try {
         await documentsService.delete(doc.id);
       } catch (error) {
-        console.error(`Erro ao deletar documento ${doc.id} do projeto ${id}`, error);
       }
     }
 
@@ -550,7 +556,6 @@ export const projectsService = {
       try {
         await interviewsService.delete(interview.id);
       } catch (error) {
-        console.error(`Erro ao deletar entrevista ${interview.id} do projeto ${id}`, error);
       }
     }
 
@@ -563,7 +568,6 @@ export const projectsService = {
         try {
           await storageService.deleteFile(env.GCS_BUCKET_DOCUMENTS, report.pdfPath);
         } catch (error) {
-          console.error(`Erro ao deletar PDF do relatório ${report.id}`, error);
         }
       }
     }

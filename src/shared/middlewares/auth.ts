@@ -74,11 +74,7 @@ export function cronOrAuthorize(...allowedRoles: UserRole[]) {
     }
 
     if (googleCronHeader) {
-      console.log(`[Cron] Request from Google Cloud Scheduler: ${googleCronHeader}`);
-      // Se for do Google Scheduler mas não passou o secret correto nos headers acima
-      // e o secret está configurado, bloqueamos por segurança.
       if (env.CRON_SECRET) {
-        console.warn(`[Cron] Unauthorized attempt from Cloud Scheduler: Secret missing or mismatch`);
         throw new UnauthorizedError('Secret do cron inválido');
       }
       return;
