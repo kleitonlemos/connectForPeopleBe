@@ -19,7 +19,10 @@ import { interviewsService } from '../interviews/services.js';
 import { organizationsRepository } from '../organizations/repositories.js';
 import { projectsRepository } from './repositories.js';
 import type { ProjectSettings } from './types/projectSettings.js';
-import { onboardingStepIds } from './types/projectSettings.js';
+import {
+  type ProjectOnboardingSettings,
+  type ProjectOnboardingStepId,
+} from './types/projectSettings.js';
 import type { CreateProjectInput, UpdateProjectInput } from './validators.js';
 
 export const projectsService = {
@@ -40,7 +43,6 @@ export const projectsService = {
 
     const projects = (await projectsRepository.findAll(tenantId, finalFilters)) as any[];
 
-    // Transformar logos das organizações nos projetos
     return Promise.all(
       projects.map(async project => {
         if (project.organization) {
@@ -163,7 +165,7 @@ export const projectsService = {
         }
 
         const resetToken = generateResetToken();
-        const expires = new Date(Date.now() + 1000 * 60 * 60 * 24); // 24 horas para ativação
+        const expires = new Date(Date.now() + 1000 * 60 * 60 * 24);
         await authRepository.setResetToken(user.id, resetToken, expires);
 
         await projectsRepository.update(project.id, {
@@ -194,8 +196,6 @@ export const projectsService = {
       input;
 
     let mergedSettings: Prisma.InputJsonValue | undefined;
-    let calculatedProgress: number | undefined;
-    let calculatedStage: Project['stage'] | undefined;
 
     if (settings) {
       const existingSettings = (project.settings ?? {}) as ProjectSettings;
@@ -215,14 +215,7 @@ export const projectsService = {
         onboarding: mergedOnboarding,
       } as Prisma.InputJsonValue;
 
-      const completedStepsCount = onboardingStepIds.filter(
-        stepId => !!mergedOnboarding[stepId]
-      ).length;
-      calculatedProgress = Math.round((completedStepsCount / onboardingStepIds.length) * 100);
-
-      if (calculatedProgress === 100 && project.stage === 'ONBOARDING') {
-        calculatedStage = 'DOCUMENT_COLLECTION';
-      }
+      await this.syncChecklistStatus(id, mergedOnboarding, project.organizationId);
     }
 
     const updatedProject = await projectsRepository.update(id, {
@@ -236,11 +229,105 @@ export const projectsService = {
         targetEndDate: targetEndDate ? new Date(targetEndDate) : null,
       }),
       ...(settings && { settings: mergedSettings }),
-      ...(calculatedProgress !== undefined && { progress: calculatedProgress }),
-      ...(calculatedStage !== undefined && { stage: calculatedStage }),
     });
 
     return updatedProject;
+  },
+
+  async syncChecklistStatus(
+    projectId: string,
+    onboardingSettings?: ProjectOnboardingSettings,
+    organizationId?: string
+  ): Promise<void> {
+    const stepToDocumentTypes: Record<string, DocumentType[]> = {
+      'mission-vision': ['MISSION_VISION_VALUES'],
+      culture: ['CULTURE_FACTORS', 'POLICY_MANUAL'],
+      'org-chart': ['ORGANIZATIONAL_CHART'],
+      financial: ['FINANCIAL_DATA'],
+      goals: ['GOALS_OBJECTIVES'],
+      products: ['PRODUCTS_SERVICES'],
+      team: ['TEAM_LIST'],
+    };
+
+    if (onboardingSettings) {
+      for (const [stepId, docTypes] of Object.entries(stepToDocumentTypes)) {
+        const value = onboardingSettings[stepId as ProjectOnboardingStepId];
+        if (value) {
+          for (const docType of docTypes) {
+            await prisma.documentChecklist.updateMany({
+              where: {
+                projectId,
+                documentType: docType,
+                status: 'PENDING',
+              },
+              data: { status: 'UPLOADED' },
+            });
+          }
+        }
+      }
+    }
+
+    if (organizationId) {
+      const org = await prisma.organization.findUnique({
+        where: { id: organizationId },
+        select: { mission: true, vision: true, values: true },
+      });
+
+      if (org && (org.mission || org.vision || org.values)) {
+        await prisma.documentChecklist.updateMany({
+          where: {
+            projectId,
+            documentType: 'MISSION_VISION_VALUES',
+            status: 'PENDING',
+          },
+          data: { status: 'UPLOADED' },
+        });
+      }
+    }
+
+    const checklistItems = await prisma.documentChecklist.findMany({
+      where: { projectId },
+      include: { documents: { select: { id: true } } },
+    });
+
+    for (const item of checklistItems) {
+      if (item.documents.length > 0 && item.status === 'PENDING') {
+        await prisma.documentChecklist.update({
+          where: { id: item.id },
+          data: { status: 'UPLOADED' },
+        });
+      }
+    }
+
+    const updatedChecklist = await projectsRepository.findChecklist(projectId);
+    const totalItems = updatedChecklist.length;
+    if (totalItems > 0) {
+      const completedItems = updatedChecklist.filter(
+        item => item.status === 'UPLOADED' || item.status === 'VALIDATED'
+      ).length;
+
+      const newProgress = Math.round((completedItems / totalItems) * 100);
+
+      const project = await prisma.project.findUnique({
+        where: { id: projectId },
+        select: { progress: true, stage: true },
+      });
+
+      if (project && project.progress !== newProgress) {
+        let newStage = project.stage;
+        if (newProgress === 100 && project.stage === 'ONBOARDING') {
+          newStage = 'DOCUMENT_COLLECTION';
+        }
+
+        await prisma.project.update({
+          where: { id: projectId },
+          data: {
+            progress: newProgress,
+            stage: newStage as any
+          },
+        });
+      }
+    }
   },
 
   async getProgress(
@@ -250,10 +337,11 @@ export const projectsService = {
     if (!project) {
       throw new NotFoundError('Projeto');
     }
+    const settings = (project.settings ?? {}) as ProjectSettings;
+    await this.syncChecklistStatus(id, settings.onboarding, project.organizationId);
 
     const checklist = (await projectsRepository.findChecklist(id)) as any[];
 
-    // Transformar as URLs dos documentos no checklist
     const transformedChecklist = await Promise.all(
       checklist.map(async item => {
         if (item.documents && item.documents.length > 0) {
@@ -264,14 +352,21 @@ export const projectsService = {
       })
     );
 
+    const refreshedProject = await projectsRepository.findById(id);
+
     return {
-      progress: project.progress,
-      stage: project.stage,
+      progress: refreshedProject?.progress ?? project.progress,
+      stage: refreshedProject?.stage ?? project.stage,
       checklist: transformedChecklist,
     };
   },
 
   async getChecklist(id: string): Promise<DocumentChecklist[]> {
+    const project = await projectsRepository.findById(id);
+    if (!project) {
+      throw new NotFoundError('Projeto');
+    }
+
     const checklist = await projectsRepository.findChecklist(id);
 
     if (checklist.length === 0) {
@@ -333,14 +428,16 @@ export const projectsService = {
 
       try {
         await projectsRepository.createChecklistItems(id, defaultChecklistItems);
-        return projectsRepository.findChecklist(id);
       } catch (error) {
         console.error('Erro ao criar checklist padrão', error);
         return [];
       }
     }
 
-    return checklist;
+    const settings = (project.settings ?? {}) as ProjectSettings;
+    await this.syncChecklistStatus(id, settings.onboarding, project.organizationId);
+
+    return projectsRepository.findChecklist(id);
   },
 
   async getActivities(id: string): Promise<ProjectActivity[]> {
@@ -378,16 +475,14 @@ export const projectsService = {
       throw new NotFoundError('Organização');
     }
 
-    // Gerar um novo token de reset se o usuário ainda estiver pendente
     let onboardingUrl = `${env.FRONTEND_URL}/login`;
 
     if (project.clientUser.status === 'PENDING') {
       const resetToken = generateResetToken();
-      const expires = new Date(Date.now() + 1000 * 60 * 60 * 24); // 24 horas
+      const expires = new Date(Date.now() + 1000 * 60 * 60 * 24);
       await authRepository.setResetToken(project.clientUser.id, resetToken, expires);
       onboardingUrl = `${env.FRONTEND_URL}/onboarding?token=${resetToken}`;
     } else {
-      // Se já ativou, manda para a página de onboarding (que deve exigir login)
       onboardingUrl = `${env.FRONTEND_URL}/dashboard/onboarding`;
     }
 
@@ -408,7 +503,6 @@ export const projectsService = {
   },
 
   async processOnboardingReminders(): Promise<void> {
-    // Buscar todos os projetos em estágio de onboarding que não foram concluídos
     const pendingProjects = await prisma.project.findMany({
       where: {
         stage: 'ONBOARDING',
@@ -422,8 +516,6 @@ export const projectsService = {
     });
 
     for (const project of pendingProjects) {
-      // Evitar enviar muitos e-mails se o processo automático rodar com frequência
-      // Aqui poderíamos checar a última atividade do tipo EMAIL_SENT
       try {
         await this.resendOnboardingReminder(project.id);
       } catch (error) {
@@ -438,7 +530,6 @@ export const projectsService = {
       throw new NotFoundError('Projeto');
     }
 
-    // 1. Deletar todos os documentos do storage
     const documents = await prisma.document.findMany({
       where: { projectId: id },
       select: { id: true },
@@ -451,7 +542,6 @@ export const projectsService = {
       }
     }
 
-    // 2. Deletar todas as entrevistas (e suas transcrições) do storage
     const interviews = await prisma.interview.findMany({
       where: { projectId: id },
       select: { id: true },
@@ -464,7 +554,6 @@ export const projectsService = {
       }
     }
 
-    // 3. Deletar todos os relatórios (PDFs) do storage
     const reports = await prisma.report.findMany({
       where: { projectId: id },
       select: { id: true, pdfPath: true },

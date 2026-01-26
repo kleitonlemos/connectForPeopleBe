@@ -1,4 +1,5 @@
 import type { Organization, TeamMember } from '@prisma/client';
+import { prisma } from '../../config/database.js';
 import { env } from '../../config/env.js';
 import { ConflictError, NotFoundError } from '../../shared/errors/appError.js';
 import { storageService } from '../../shared/services/storageService.js';
@@ -79,6 +80,33 @@ export const organizationsService = {
     }
     const normalized = normalizeInput(input);
     const updated = await organizationsRepository.update(id, normalized);
+
+    // Sincronizar checklist dos projetos se missão, visão ou valores foram preenchidos
+    if (normalized.mission || normalized.vision || normalized.values) {
+      const projects = await prisma.project.findMany({
+        where: { organizationId: id },
+        select: { id: true, settings: true },
+      });
+
+      for (const project of projects) {
+        // Usamos update do projeto para disparar a sincronização completa e recálculo de progresso
+        // mas como estamos no service de organização, chamamos o prisma diretamente para evitar dependência circular
+        // A lógica de sincronização será disparada na próxima leitura do projeto via getProgress/getChecklist
+        // ou podemos forçar aqui se necessário.
+        await prisma.documentChecklist.updateMany({
+          where: {
+            projectId: project.id,
+            documentType: 'MISSION_VISION_VALUES',
+            status: 'PENDING',
+          },
+          data: { status: 'UPLOADED' },
+        });
+
+        // Como o status mudou, o progresso do projeto pode ter mudado.
+        // O ideal seria ter uma função utilitária compartilhada para isso.
+      }
+    }
+
     return transformOrganizationUrls(updated);
   },
 
