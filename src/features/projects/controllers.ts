@@ -1,5 +1,4 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import { env } from '../../config/env.js';
 import { created, success } from '../../shared/utils/response.js';
 import { projectsService } from './services.js';
 import { createProjectSchema, updateProjectSchema } from './validators.js';
