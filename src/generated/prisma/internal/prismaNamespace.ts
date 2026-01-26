@@ -392,6 +392,7 @@ export const ModelName = {
   Project: 'Project',
   ProjectActivity: 'ProjectActivity',
   DocumentChecklist: 'DocumentChecklist',
+  DocumentChecklistHistory: 'DocumentChecklistHistory',
   Document: 'Document',
   DocumentChunk: 'DocumentChunk',
   OrganizationMetrics: 'OrganizationMetrics',
@@ -426,7 +427,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "tenant" | "organization" | "user" | "session" | "teamMember" | "project" | "projectActivity" | "documentChecklist" | "document" | "documentChunk" | "organizationMetrics" | "surveyTemplate" | "survey" | "surveySection" | "surveyQuestion" | "surveyInvitation" | "surveyResponse" | "surveyAnswer" | "interview" | "aIConversation" | "aIMessage" | "report" | "reportVersion" | "emailTemplate" | "notification" | "auditLog" | "systemSetting"
+    modelProps: "tenant" | "organization" | "user" | "session" | "teamMember" | "project" | "projectActivity" | "documentChecklist" | "documentChecklistHistory" | "document" | "documentChunk" | "organizationMetrics" | "surveyTemplate" | "survey" | "surveySection" | "surveyQuestion" | "surveyInvitation" | "surveyResponse" | "surveyAnswer" | "interview" | "aIConversation" | "aIMessage" | "report" | "reportVersion" | "emailTemplate" | "notification" | "auditLog" | "systemSetting"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1019,6 +1020,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.DocumentChecklistCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.DocumentChecklistCountAggregateOutputType> | number
+        }
+      }
+    }
+    DocumentChecklistHistory: {
+      payload: Prisma.$DocumentChecklistHistoryPayload<ExtArgs>
+      fields: Prisma.DocumentChecklistHistoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DocumentChecklistHistoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChecklistHistoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DocumentChecklistHistoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChecklistHistoryPayload>
+        }
+        findFirst: {
+          args: Prisma.DocumentChecklistHistoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChecklistHistoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DocumentChecklistHistoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChecklistHistoryPayload>
+        }
+        findMany: {
+          args: Prisma.DocumentChecklistHistoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChecklistHistoryPayload>[]
+        }
+        create: {
+          args: Prisma.DocumentChecklistHistoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChecklistHistoryPayload>
+        }
+        createMany: {
+          args: Prisma.DocumentChecklistHistoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DocumentChecklistHistoryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChecklistHistoryPayload>[]
+        }
+        delete: {
+          args: Prisma.DocumentChecklistHistoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChecklistHistoryPayload>
+        }
+        update: {
+          args: Prisma.DocumentChecklistHistoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChecklistHistoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.DocumentChecklistHistoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DocumentChecklistHistoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DocumentChecklistHistoryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChecklistHistoryPayload>[]
+        }
+        upsert: {
+          args: Prisma.DocumentChecklistHistoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChecklistHistoryPayload>
+        }
+        aggregate: {
+          args: Prisma.DocumentChecklistHistoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDocumentChecklistHistory>
+        }
+        groupBy: {
+          args: Prisma.DocumentChecklistHistoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DocumentChecklistHistoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DocumentChecklistHistoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DocumentChecklistHistoryCountAggregateOutputType> | number
         }
       }
     }
@@ -2621,12 +2696,25 @@ export const DocumentChecklistScalarFieldEnum = {
   isRequired: 'isRequired',
   order: 'order',
   instructions: 'instructions',
+  content: 'content',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type DocumentChecklistScalarFieldEnum = (typeof DocumentChecklistScalarFieldEnum)[keyof typeof DocumentChecklistScalarFieldEnum]
+
+
+export const DocumentChecklistHistoryScalarFieldEnum = {
+  id: 'id',
+  checklistItemId: 'checklistItemId',
+  userId: 'userId',
+  content: 'content',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type DocumentChecklistHistoryScalarFieldEnum = (typeof DocumentChecklistHistoryScalarFieldEnum)[keyof typeof DocumentChecklistHistoryScalarFieldEnum]
 
 
 export const DocumentScalarFieldEnum = {
@@ -3432,6 +3520,7 @@ export type GlobalOmitConfig = {
   project?: Prisma.ProjectOmit
   projectActivity?: Prisma.ProjectActivityOmit
   documentChecklist?: Prisma.DocumentChecklistOmit
+  documentChecklistHistory?: Prisma.DocumentChecklistHistoryOmit
   document?: Prisma.DocumentOmit
   documentChunk?: Prisma.DocumentChunkOmit
   organizationMetrics?: Prisma.OrganizationMetricsOmit

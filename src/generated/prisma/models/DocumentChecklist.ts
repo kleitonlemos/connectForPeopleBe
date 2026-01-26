@@ -41,6 +41,7 @@ export type DocumentChecklistMinAggregateOutputType = {
   isRequired: boolean | null
   order: number | null
   instructions: string | null
+  content: string | null
   status: $Enums.DocumentStatus | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -53,6 +54,7 @@ export type DocumentChecklistMaxAggregateOutputType = {
   isRequired: boolean | null
   order: number | null
   instructions: string | null
+  content: string | null
   status: $Enums.DocumentStatus | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -65,6 +67,7 @@ export type DocumentChecklistCountAggregateOutputType = {
   isRequired: number
   order: number
   instructions: number
+  content: number
   status: number
   createdAt: number
   updatedAt: number
@@ -87,6 +90,7 @@ export type DocumentChecklistMinAggregateInputType = {
   isRequired?: true
   order?: true
   instructions?: true
+  content?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -99,6 +103,7 @@ export type DocumentChecklistMaxAggregateInputType = {
   isRequired?: true
   order?: true
   instructions?: true
+  content?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -111,6 +116,7 @@ export type DocumentChecklistCountAggregateInputType = {
   isRequired?: true
   order?: true
   instructions?: true
+  content?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -210,6 +216,7 @@ export type DocumentChecklistGroupByOutputType = {
   isRequired: boolean
   order: number
   instructions: string | null
+  content: string | null
   status: $Enums.DocumentStatus
   createdAt: Date
   updatedAt: Date
@@ -245,11 +252,13 @@ export type DocumentChecklistWhereInput = {
   isRequired?: Prisma.BoolFilter<"DocumentChecklist"> | boolean
   order?: Prisma.IntFilter<"DocumentChecklist"> | number
   instructions?: Prisma.StringNullableFilter<"DocumentChecklist"> | string | null
+  content?: Prisma.StringNullableFilter<"DocumentChecklist"> | string | null
   status?: Prisma.EnumDocumentStatusFilter<"DocumentChecklist"> | $Enums.DocumentStatus
   createdAt?: Prisma.DateTimeFilter<"DocumentChecklist"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DocumentChecklist"> | Date | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   documents?: Prisma.DocumentListRelationFilter
+  history?: Prisma.DocumentChecklistHistoryListRelationFilter
 }
 
 export type DocumentChecklistOrderByWithRelationInput = {
@@ -259,11 +268,13 @@ export type DocumentChecklistOrderByWithRelationInput = {
   isRequired?: Prisma.SortOrder
   order?: Prisma.SortOrder
   instructions?: Prisma.SortOrderInput | Prisma.SortOrder
+  content?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   project?: Prisma.ProjectOrderByWithRelationInput
   documents?: Prisma.DocumentOrderByRelationAggregateInput
+  history?: Prisma.DocumentChecklistHistoryOrderByRelationAggregateInput
 }
 
 export type DocumentChecklistWhereUniqueInput = Prisma.AtLeast<{
@@ -277,11 +288,13 @@ export type DocumentChecklistWhereUniqueInput = Prisma.AtLeast<{
   isRequired?: Prisma.BoolFilter<"DocumentChecklist"> | boolean
   order?: Prisma.IntFilter<"DocumentChecklist"> | number
   instructions?: Prisma.StringNullableFilter<"DocumentChecklist"> | string | null
+  content?: Prisma.StringNullableFilter<"DocumentChecklist"> | string | null
   status?: Prisma.EnumDocumentStatusFilter<"DocumentChecklist"> | $Enums.DocumentStatus
   createdAt?: Prisma.DateTimeFilter<"DocumentChecklist"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DocumentChecklist"> | Date | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   documents?: Prisma.DocumentListRelationFilter
+  history?: Prisma.DocumentChecklistHistoryListRelationFilter
 }, "id" | "projectId_documentType">
 
 export type DocumentChecklistOrderByWithAggregationInput = {
@@ -291,6 +304,7 @@ export type DocumentChecklistOrderByWithAggregationInput = {
   isRequired?: Prisma.SortOrder
   order?: Prisma.SortOrder
   instructions?: Prisma.SortOrderInput | Prisma.SortOrder
+  content?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -311,6 +325,7 @@ export type DocumentChecklistScalarWhereWithAggregatesInput = {
   isRequired?: Prisma.BoolWithAggregatesFilter<"DocumentChecklist"> | boolean
   order?: Prisma.IntWithAggregatesFilter<"DocumentChecklist"> | number
   instructions?: Prisma.StringNullableWithAggregatesFilter<"DocumentChecklist"> | string | null
+  content?: Prisma.StringNullableWithAggregatesFilter<"DocumentChecklist"> | string | null
   status?: Prisma.EnumDocumentStatusWithAggregatesFilter<"DocumentChecklist"> | $Enums.DocumentStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"DocumentChecklist"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"DocumentChecklist"> | Date | string
@@ -322,11 +337,13 @@ export type DocumentChecklistCreateInput = {
   isRequired?: boolean
   order?: number
   instructions?: string | null
+  content?: string | null
   status?: $Enums.DocumentStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutDocumentChecklistInput
   documents?: Prisma.DocumentCreateNestedManyWithoutChecklistItemInput
+  history?: Prisma.DocumentChecklistHistoryCreateNestedManyWithoutChecklistItemInput
 }
 
 export type DocumentChecklistUncheckedCreateInput = {
@@ -336,10 +353,12 @@ export type DocumentChecklistUncheckedCreateInput = {
   isRequired?: boolean
   order?: number
   instructions?: string | null
+  content?: string | null
   status?: $Enums.DocumentStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutChecklistItemInput
+  history?: Prisma.DocumentChecklistHistoryUncheckedCreateNestedManyWithoutChecklistItemInput
 }
 
 export type DocumentChecklistUpdateInput = {
@@ -348,11 +367,13 @@ export type DocumentChecklistUpdateInput = {
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutDocumentChecklistNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutChecklistItemNestedInput
+  history?: Prisma.DocumentChecklistHistoryUpdateManyWithoutChecklistItemNestedInput
 }
 
 export type DocumentChecklistUncheckedUpdateInput = {
@@ -362,10 +383,12 @@ export type DocumentChecklistUncheckedUpdateInput = {
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutChecklistItemNestedInput
+  history?: Prisma.DocumentChecklistHistoryUncheckedUpdateManyWithoutChecklistItemNestedInput
 }
 
 export type DocumentChecklistCreateManyInput = {
@@ -375,6 +398,7 @@ export type DocumentChecklistCreateManyInput = {
   isRequired?: boolean
   order?: number
   instructions?: string | null
+  content?: string | null
   status?: $Enums.DocumentStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -386,6 +410,7 @@ export type DocumentChecklistUpdateManyMutationInput = {
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -398,6 +423,7 @@ export type DocumentChecklistUncheckedUpdateManyInput = {
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -425,6 +451,7 @@ export type DocumentChecklistCountOrderByAggregateInput = {
   isRequired?: Prisma.SortOrder
   order?: Prisma.SortOrder
   instructions?: Prisma.SortOrder
+  content?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -441,6 +468,7 @@ export type DocumentChecklistMaxOrderByAggregateInput = {
   isRequired?: Prisma.SortOrder
   order?: Prisma.SortOrder
   instructions?: Prisma.SortOrder
+  content?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -453,6 +481,7 @@ export type DocumentChecklistMinOrderByAggregateInput = {
   isRequired?: Prisma.SortOrder
   order?: Prisma.SortOrder
   instructions?: Prisma.SortOrder
+  content?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -460,6 +489,11 @@ export type DocumentChecklistMinOrderByAggregateInput = {
 
 export type DocumentChecklistSumOrderByAggregateInput = {
   order?: Prisma.SortOrder
+}
+
+export type DocumentChecklistScalarRelationFilter = {
+  is?: Prisma.DocumentChecklistWhereInput
+  isNot?: Prisma.DocumentChecklistWhereInput
 }
 
 export type DocumentChecklistNullableScalarRelationFilter = {
@@ -517,6 +551,20 @@ export type EnumDocumentStatusFieldUpdateOperationsInput = {
   set?: $Enums.DocumentStatus
 }
 
+export type DocumentChecklistCreateNestedOneWithoutHistoryInput = {
+  create?: Prisma.XOR<Prisma.DocumentChecklistCreateWithoutHistoryInput, Prisma.DocumentChecklistUncheckedCreateWithoutHistoryInput>
+  connectOrCreate?: Prisma.DocumentChecklistCreateOrConnectWithoutHistoryInput
+  connect?: Prisma.DocumentChecklistWhereUniqueInput
+}
+
+export type DocumentChecklistUpdateOneRequiredWithoutHistoryNestedInput = {
+  create?: Prisma.XOR<Prisma.DocumentChecklistCreateWithoutHistoryInput, Prisma.DocumentChecklistUncheckedCreateWithoutHistoryInput>
+  connectOrCreate?: Prisma.DocumentChecklistCreateOrConnectWithoutHistoryInput
+  upsert?: Prisma.DocumentChecklistUpsertWithoutHistoryInput
+  connect?: Prisma.DocumentChecklistWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentChecklistUpdateToOneWithWhereWithoutHistoryInput, Prisma.DocumentChecklistUpdateWithoutHistoryInput>, Prisma.DocumentChecklistUncheckedUpdateWithoutHistoryInput>
+}
+
 export type DocumentChecklistCreateNestedOneWithoutDocumentsInput = {
   create?: Prisma.XOR<Prisma.DocumentChecklistCreateWithoutDocumentsInput, Prisma.DocumentChecklistUncheckedCreateWithoutDocumentsInput>
   connectOrCreate?: Prisma.DocumentChecklistCreateOrConnectWithoutDocumentsInput
@@ -539,10 +587,12 @@ export type DocumentChecklistCreateWithoutProjectInput = {
   isRequired?: boolean
   order?: number
   instructions?: string | null
+  content?: string | null
   status?: $Enums.DocumentStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   documents?: Prisma.DocumentCreateNestedManyWithoutChecklistItemInput
+  history?: Prisma.DocumentChecklistHistoryCreateNestedManyWithoutChecklistItemInput
 }
 
 export type DocumentChecklistUncheckedCreateWithoutProjectInput = {
@@ -551,10 +601,12 @@ export type DocumentChecklistUncheckedCreateWithoutProjectInput = {
   isRequired?: boolean
   order?: number
   instructions?: string | null
+  content?: string | null
   status?: $Enums.DocumentStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutChecklistItemInput
+  history?: Prisma.DocumentChecklistHistoryUncheckedCreateNestedManyWithoutChecklistItemInput
 }
 
 export type DocumentChecklistCreateOrConnectWithoutProjectInput = {
@@ -593,9 +645,82 @@ export type DocumentChecklistScalarWhereInput = {
   isRequired?: Prisma.BoolFilter<"DocumentChecklist"> | boolean
   order?: Prisma.IntFilter<"DocumentChecklist"> | number
   instructions?: Prisma.StringNullableFilter<"DocumentChecklist"> | string | null
+  content?: Prisma.StringNullableFilter<"DocumentChecklist"> | string | null
   status?: Prisma.EnumDocumentStatusFilter<"DocumentChecklist"> | $Enums.DocumentStatus
   createdAt?: Prisma.DateTimeFilter<"DocumentChecklist"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DocumentChecklist"> | Date | string
+}
+
+export type DocumentChecklistCreateWithoutHistoryInput = {
+  id?: string
+  documentType: $Enums.DocumentType
+  isRequired?: boolean
+  order?: number
+  instructions?: string | null
+  content?: string | null
+  status?: $Enums.DocumentStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  project: Prisma.ProjectCreateNestedOneWithoutDocumentChecklistInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutChecklistItemInput
+}
+
+export type DocumentChecklistUncheckedCreateWithoutHistoryInput = {
+  id?: string
+  projectId: string
+  documentType: $Enums.DocumentType
+  isRequired?: boolean
+  order?: number
+  instructions?: string | null
+  content?: string | null
+  status?: $Enums.DocumentStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutChecklistItemInput
+}
+
+export type DocumentChecklistCreateOrConnectWithoutHistoryInput = {
+  where: Prisma.DocumentChecklistWhereUniqueInput
+  create: Prisma.XOR<Prisma.DocumentChecklistCreateWithoutHistoryInput, Prisma.DocumentChecklistUncheckedCreateWithoutHistoryInput>
+}
+
+export type DocumentChecklistUpsertWithoutHistoryInput = {
+  update: Prisma.XOR<Prisma.DocumentChecklistUpdateWithoutHistoryInput, Prisma.DocumentChecklistUncheckedUpdateWithoutHistoryInput>
+  create: Prisma.XOR<Prisma.DocumentChecklistCreateWithoutHistoryInput, Prisma.DocumentChecklistUncheckedCreateWithoutHistoryInput>
+  where?: Prisma.DocumentChecklistWhereInput
+}
+
+export type DocumentChecklistUpdateToOneWithWhereWithoutHistoryInput = {
+  where?: Prisma.DocumentChecklistWhereInput
+  data: Prisma.XOR<Prisma.DocumentChecklistUpdateWithoutHistoryInput, Prisma.DocumentChecklistUncheckedUpdateWithoutHistoryInput>
+}
+
+export type DocumentChecklistUpdateWithoutHistoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  documentType?: Prisma.EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+  isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  project?: Prisma.ProjectUpdateOneRequiredWithoutDocumentChecklistNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutChecklistItemNestedInput
+}
+
+export type DocumentChecklistUncheckedUpdateWithoutHistoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  documentType?: Prisma.EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+  isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutChecklistItemNestedInput
 }
 
 export type DocumentChecklistCreateWithoutDocumentsInput = {
@@ -604,10 +729,12 @@ export type DocumentChecklistCreateWithoutDocumentsInput = {
   isRequired?: boolean
   order?: number
   instructions?: string | null
+  content?: string | null
   status?: $Enums.DocumentStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutDocumentChecklistInput
+  history?: Prisma.DocumentChecklistHistoryCreateNestedManyWithoutChecklistItemInput
 }
 
 export type DocumentChecklistUncheckedCreateWithoutDocumentsInput = {
@@ -617,9 +744,11 @@ export type DocumentChecklistUncheckedCreateWithoutDocumentsInput = {
   isRequired?: boolean
   order?: number
   instructions?: string | null
+  content?: string | null
   status?: $Enums.DocumentStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  history?: Prisma.DocumentChecklistHistoryUncheckedCreateNestedManyWithoutChecklistItemInput
 }
 
 export type DocumentChecklistCreateOrConnectWithoutDocumentsInput = {
@@ -644,10 +773,12 @@ export type DocumentChecklistUpdateWithoutDocumentsInput = {
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutDocumentChecklistNestedInput
+  history?: Prisma.DocumentChecklistHistoryUpdateManyWithoutChecklistItemNestedInput
 }
 
 export type DocumentChecklistUncheckedUpdateWithoutDocumentsInput = {
@@ -657,9 +788,11 @@ export type DocumentChecklistUncheckedUpdateWithoutDocumentsInput = {
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  history?: Prisma.DocumentChecklistHistoryUncheckedUpdateManyWithoutChecklistItemNestedInput
 }
 
 export type DocumentChecklistCreateManyProjectInput = {
@@ -668,6 +801,7 @@ export type DocumentChecklistCreateManyProjectInput = {
   isRequired?: boolean
   order?: number
   instructions?: string | null
+  content?: string | null
   status?: $Enums.DocumentStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -679,10 +813,12 @@ export type DocumentChecklistUpdateWithoutProjectInput = {
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   documents?: Prisma.DocumentUpdateManyWithoutChecklistItemNestedInput
+  history?: Prisma.DocumentChecklistHistoryUpdateManyWithoutChecklistItemNestedInput
 }
 
 export type DocumentChecklistUncheckedUpdateWithoutProjectInput = {
@@ -691,10 +827,12 @@ export type DocumentChecklistUncheckedUpdateWithoutProjectInput = {
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutChecklistItemNestedInput
+  history?: Prisma.DocumentChecklistHistoryUncheckedUpdateManyWithoutChecklistItemNestedInput
 }
 
 export type DocumentChecklistUncheckedUpdateManyWithoutProjectInput = {
@@ -703,6 +841,7 @@ export type DocumentChecklistUncheckedUpdateManyWithoutProjectInput = {
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -715,10 +854,12 @@ export type DocumentChecklistUncheckedUpdateManyWithoutProjectInput = {
 
 export type DocumentChecklistCountOutputType = {
   documents: number
+  history: number
 }
 
 export type DocumentChecklistCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   documents?: boolean | DocumentChecklistCountOutputTypeCountDocumentsArgs
+  history?: boolean | DocumentChecklistCountOutputTypeCountHistoryArgs
 }
 
 /**
@@ -738,6 +879,13 @@ export type DocumentChecklistCountOutputTypeCountDocumentsArgs<ExtArgs extends r
   where?: Prisma.DocumentWhereInput
 }
 
+/**
+ * DocumentChecklistCountOutputType without action
+ */
+export type DocumentChecklistCountOutputTypeCountHistoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DocumentChecklistHistoryWhereInput
+}
+
 
 export type DocumentChecklistSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -746,11 +894,13 @@ export type DocumentChecklistSelect<ExtArgs extends runtime.Types.Extensions.Int
   isRequired?: boolean
   order?: boolean
   instructions?: boolean
+  content?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   documents?: boolean | Prisma.DocumentChecklist$documentsArgs<ExtArgs>
+  history?: boolean | Prisma.DocumentChecklist$historyArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentChecklistCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["documentChecklist"]>
 
@@ -761,6 +911,7 @@ export type DocumentChecklistSelectCreateManyAndReturn<ExtArgs extends runtime.T
   isRequired?: boolean
   order?: boolean
   instructions?: boolean
+  content?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -774,6 +925,7 @@ export type DocumentChecklistSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   isRequired?: boolean
   order?: boolean
   instructions?: boolean
+  content?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -787,15 +939,17 @@ export type DocumentChecklistSelectScalar = {
   isRequired?: boolean
   order?: boolean
   instructions?: boolean
+  content?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DocumentChecklistOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "documentType" | "isRequired" | "order" | "instructions" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["documentChecklist"]>
+export type DocumentChecklistOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "documentType" | "isRequired" | "order" | "instructions" | "content" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["documentChecklist"]>
 export type DocumentChecklistInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   documents?: boolean | Prisma.DocumentChecklist$documentsArgs<ExtArgs>
+  history?: boolean | Prisma.DocumentChecklist$historyArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentChecklistCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DocumentChecklistIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -810,6 +964,7 @@ export type $DocumentChecklistPayload<ExtArgs extends runtime.Types.Extensions.I
   objects: {
     project: Prisma.$ProjectPayload<ExtArgs>
     documents: Prisma.$DocumentPayload<ExtArgs>[]
+    history: Prisma.$DocumentChecklistHistoryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -818,6 +973,7 @@ export type $DocumentChecklistPayload<ExtArgs extends runtime.Types.Extensions.I
     isRequired: boolean
     order: number
     instructions: string | null
+    content: string | null
     status: $Enums.DocumentStatus
     createdAt: Date
     updatedAt: Date
@@ -1217,6 +1373,7 @@ export interface Prisma__DocumentChecklistClient<T, Null = never, ExtArgs extend
   readonly [Symbol.toStringTag]: "PrismaPromise"
   project<T extends Prisma.ProjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectDefaultArgs<ExtArgs>>): Prisma.Prisma__ProjectClient<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   documents<T extends Prisma.DocumentChecklist$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocumentChecklist$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  history<T extends Prisma.DocumentChecklist$historyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocumentChecklist$historyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentChecklistHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1252,6 +1409,7 @@ export interface DocumentChecklistFieldRefs {
   readonly isRequired: Prisma.FieldRef<"DocumentChecklist", 'Boolean'>
   readonly order: Prisma.FieldRef<"DocumentChecklist", 'Int'>
   readonly instructions: Prisma.FieldRef<"DocumentChecklist", 'String'>
+  readonly content: Prisma.FieldRef<"DocumentChecklist", 'String'>
   readonly status: Prisma.FieldRef<"DocumentChecklist", 'DocumentStatus'>
   readonly createdAt: Prisma.FieldRef<"DocumentChecklist", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"DocumentChecklist", 'DateTime'>
@@ -1672,6 +1830,30 @@ export type DocumentChecklist$documentsArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.DocumentScalarFieldEnum | Prisma.DocumentScalarFieldEnum[]
+}
+
+/**
+ * DocumentChecklist.history
+ */
+export type DocumentChecklist$historyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DocumentChecklistHistory
+   */
+  select?: Prisma.DocumentChecklistHistorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DocumentChecklistHistory
+   */
+  omit?: Prisma.DocumentChecklistHistoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentChecklistHistoryInclude<ExtArgs> | null
+  where?: Prisma.DocumentChecklistHistoryWhereInput
+  orderBy?: Prisma.DocumentChecklistHistoryOrderByWithRelationInput | Prisma.DocumentChecklistHistoryOrderByWithRelationInput[]
+  cursor?: Prisma.DocumentChecklistHistoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DocumentChecklistHistoryScalarFieldEnum | Prisma.DocumentChecklistHistoryScalarFieldEnum[]
 }
 
 /**

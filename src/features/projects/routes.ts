@@ -18,6 +18,11 @@ export async function projectsRoutes(app: FastifyInstance): Promise<void> {
   app.get('/:id/progress', { preHandler: [authenticate] }, projectsController.getProgress);
   app.get('/:id/checklist', { preHandler: [authenticate] }, projectsController.getChecklist);
   app.get('/:id/activities', { preHandler: [authenticate] }, projectsController.getActivities);
+  app.put(
+    '/checklist/:itemId/text',
+    { preHandler: [authenticate, authorize('SUPER_ADMIN', 'ADMIN', 'CONSULTANT', 'CLIENT')] },
+    projectsController.updateChecklistItemText
+  );
   app.post(
     '/:id/resend-onboarding-reminder',
     { preHandler: [authenticate, authorize('SUPER_ADMIN', 'ADMIN', 'CONSULTANT')] },

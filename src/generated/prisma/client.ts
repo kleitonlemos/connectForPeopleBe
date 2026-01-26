@@ -80,6 +80,11 @@ export type ProjectActivity = Prisma.ProjectActivityModel
  */
 export type DocumentChecklist = Prisma.DocumentChecklistModel
 /**
+ * Model DocumentChecklistHistory
+ * 
+ */
+export type DocumentChecklistHistory = Prisma.DocumentChecklistHistoryModel
+/**
  * Model Document
  * 
  */

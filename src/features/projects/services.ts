@@ -289,7 +289,10 @@ export const projectsService = {
     });
 
     for (const item of checklistItems) {
-      if (item.documents.length > 0 && item.status === 'PENDING') {
+      const hasContent = item.content && item.content.trim().length > 0;
+      const hasDocuments = item.documents.length > 0;
+
+      if ((hasContent || hasDocuments) && item.status === 'PENDING') {
         await prisma.documentChecklist.update({
           where: { id: item.id },
           data: { status: 'UPLOADED' },
@@ -321,7 +324,7 @@ export const projectsService = {
           where: { id: projectId },
           data: {
             progress: newProgress,
-            stage: newStage as any
+            stage: newStage as any,
           },
         });
       }
@@ -446,6 +449,37 @@ export const projectsService = {
         return item;
       })
     );
+  },
+
+  async updateChecklistItemText(
+    id: string,
+    content: string,
+    userId: string
+  ): Promise<DocumentChecklist> {
+    const item = await prisma.documentChecklist.findUnique({
+      where: { id },
+      include: { documents: true },
+    });
+
+    if (!item) {
+      throw new NotFoundError('Item do checklist');
+    }
+
+    const updatedItem = await projectsRepository.updateChecklistItem(id, {
+      content,
+      status: 'UPLOADED',
+    });
+
+    await projectsRepository.createChecklistHistory({
+      checklistItem: { connect: { id } },
+      user: { connect: { id: userId } },
+      content,
+      status: 'UPLOADED',
+    });
+
+    await this.syncChecklistStatus(item.projectId);
+
+    return updatedItem;
   },
 
   async getActivities(id: string): Promise<ProjectActivity[]> {

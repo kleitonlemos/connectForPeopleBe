@@ -69,6 +69,13 @@ export const projectsController = {
     success(reply, { message: 'Processamento de lembretes concluído' });
   },
 
+  async updateChecklistItemText(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const { itemId } = request.params as { itemId: string };
+    const { content } = request.body as { content: string };
+    const item = await projectsService.updateChecklistItemText(itemId, content, request.user.id);
+    success(reply, item);
+  },
+
   async delete(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const { id } = request.params as { id: string };
     await projectsService.delete(id);

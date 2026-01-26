@@ -59,6 +59,7 @@ export const ModelName = {
   Project: 'Project',
   ProjectActivity: 'ProjectActivity',
   DocumentChecklist: 'DocumentChecklist',
+  DocumentChecklistHistory: 'DocumentChecklistHistory',
   Document: 'Document',
   DocumentChunk: 'DocumentChunk',
   OrganizationMetrics: 'OrganizationMetrics',
@@ -250,12 +251,25 @@ export const DocumentChecklistScalarFieldEnum = {
   isRequired: 'isRequired',
   order: 'order',
   instructions: 'instructions',
+  content: 'content',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type DocumentChecklistScalarFieldEnum = (typeof DocumentChecklistScalarFieldEnum)[keyof typeof DocumentChecklistScalarFieldEnum]
+
+
+export const DocumentChecklistHistoryScalarFieldEnum = {
+  id: 'id',
+  checklistItemId: 'checklistItemId',
+  userId: 'userId',
+  content: 'content',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type DocumentChecklistHistoryScalarFieldEnum = (typeof DocumentChecklistHistoryScalarFieldEnum)[keyof typeof DocumentChecklistHistoryScalarFieldEnum]
 
 
 export const DocumentScalarFieldEnum = {

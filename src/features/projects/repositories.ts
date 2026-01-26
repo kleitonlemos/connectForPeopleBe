@@ -89,8 +89,35 @@ export const projectsRepository = {
           },
           orderBy: { createdAt: 'desc' },
         },
+        history: {
+          include: {
+            user: {
+              select: {
+                firstName: true,
+                lastName: true,
+              },
+            },
+          },
+          orderBy: { createdAt: 'desc' },
+        },
       },
       orderBy: { order: 'asc' },
+    });
+  },
+
+  async updateChecklistItem(
+    id: string,
+    data: Prisma.DocumentChecklistUpdateInput
+  ): Promise<DocumentChecklist> {
+    return prisma.documentChecklist.update({
+      where: { id },
+      data,
+    });
+  },
+
+  async createChecklistHistory(data: Prisma.DocumentChecklistHistoryCreateInput) {
+    return prisma.documentChecklistHistory.create({
+      data,
     });
   },
 
@@ -113,15 +140,5 @@ export const projectsRepository = {
       })),
     });
     return result.count;
-  },
-
-  async updateChecklistItem(
-    id: string,
-    data: Prisma.DocumentChecklistUpdateInput
-  ): Promise<DocumentChecklist> {
-    return prisma.documentChecklist.update({
-      where: { id },
-      data,
-    });
   },
 };

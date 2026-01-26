@@ -255,6 +255,7 @@ model User {
     notifications        Notification[]
     auditLogs            AuditLog[]
     sessions             Session[]
+    checklistHistory     DocumentChecklistHistory[]
 
     @@unique([tenantId, email])
     @@index([tenantId])
@@ -362,16 +363,33 @@ model DocumentChecklist {
     isRequired   Boolean        @default(true)
     order        Int            @default(0)
     instructions String?
+    content      String?        @db.Text
     status       DocumentStatus @default(PENDING)
     createdAt    DateTime       @default(now())
     updatedAt    DateTime       @updatedAt
 
-    project   Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    project   Project                    @relation(fields: [projectId], references: [id], onDelete: Cascade)
     documents Document[]
+    history   DocumentChecklistHistory[]
 
     @@unique([projectId, documentType])
     @@index([projectId])
     @@map("document_checklists")
+}
+
+model DocumentChecklistHistory {
+    id              String   @id @default(uuid())
+    checklistItemId String
+    userId          String?
+    content         String?  @db.Text
+    status          String?
+    createdAt       DateTime @default(now())
+
+    checklistItem DocumentChecklist @relation(fields: [checklistItemId], references: [id], onDelete: Cascade)
+    user          User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+    @@index([checklistItemId])
+    @@map("document_checklist_history")
 }
 
 model Document {
