@@ -36,22 +36,16 @@ export const projectsService = {
     const finalFilters = { ...filters };
 
     if (userRole === 'CLIENT') {
-      if (userId) {
-        finalFilters.clientUserId = userId;
-      }
-      if (userOrganizationId) {
-        finalFilters.organizationId = userOrganizationId;
-      }
+      finalFilters.clientUserId = userId;
+      finalFilters.organizationId = userOrganizationId ?? undefined;
+      finalFilters.consultantId = undefined;
 
       if (!finalFilters.clientUserId && !finalFilters.organizationId) {
         return [];
       }
     } else if (userRole === 'CONSULTANT') {
-      if (userId) {
-        finalFilters.consultantId = userId;
-      } else {
-        return [];
-      }
+      finalFilters.consultantId = userId;
+      finalFilters.clientUserId = undefined;
     } else if (userRole === 'RESPONDENT') {
       return [];
     }
