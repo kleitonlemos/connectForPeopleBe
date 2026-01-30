@@ -28,17 +28,29 @@ import type { CreateProjectInput, UpdateProjectInput } from './validators.js';
 export const projectsService = {
   async list(
     tenantId: string,
-    filters?: { organizationId?: string; consultantId?: string },
+    filters?: { organizationId?: string; consultantId?: string; clientUserId?: string },
     userRole?: string,
-    userOrganizationId?: string
+    userOrganizationId?: string,
+    userId?: string
   ): Promise<Project[]> {
     const finalFilters = { ...filters };
 
     if (userRole === 'CLIENT') {
-      if (!userOrganizationId) {
+      if (userId) {
+        finalFilters.clientUserId = userId;
+      } else if (userOrganizationId) {
+        finalFilters.organizationId = userOrganizationId;
+      } else {
         return [];
       }
-      finalFilters.organizationId = userOrganizationId;
+    } else if (userRole === 'CONSULTANT') {
+      if (userId) {
+        finalFilters.consultantId = userId;
+      } else {
+        return [];
+      }
+    } else if (userRole === 'RESPONDENT') {
+      return [];
     }
 
     const projects = (await projectsRepository.findAll(tenantId, finalFilters)) as any[];

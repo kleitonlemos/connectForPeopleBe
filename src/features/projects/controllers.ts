@@ -16,7 +16,8 @@ export const projectsController = {
         consultantId,
       },
       request.user.role,
-      request.user.organizationId ?? undefined
+      request.user.organizationId ?? undefined,
+      request.user.id
     );
     success(reply, projects);
   },

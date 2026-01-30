@@ -10,13 +10,14 @@ import { prisma } from '../../config/database.js';
 export const projectsRepository = {
   async findAll(
     tenantId: string,
-    filters?: { organizationId?: string; consultantId?: string }
+    filters?: { organizationId?: string; consultantId?: string; clientUserId?: string }
   ): Promise<Project[]> {
     return prisma.project.findMany({
       where: {
         organization: { tenantId },
         ...(filters?.organizationId && { organizationId: filters.organizationId }),
         ...(filters?.consultantId && { consultantId: filters.consultantId }),
+        ...(filters?.clientUserId && { clientUserId: filters.clientUserId }),
       },
       include: {
         organization: { select: { id: true, name: true, logoUrl: true, logoPath: true } },
