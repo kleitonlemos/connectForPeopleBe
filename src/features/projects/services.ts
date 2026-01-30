@@ -38,9 +38,12 @@ export const projectsService = {
     if (userRole === 'CLIENT') {
       if (userId) {
         finalFilters.clientUserId = userId;
-      } else if (userOrganizationId) {
+      }
+      if (userOrganizationId) {
         finalFilters.organizationId = userOrganizationId;
-      } else {
+      }
+
+      if (!finalFilters.clientUserId && !finalFilters.organizationId) {
         return [];
       }
     } else if (userRole === 'CONSULTANT') {

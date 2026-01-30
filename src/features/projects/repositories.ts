@@ -12,13 +12,30 @@ export const projectsRepository = {
     tenantId: string,
     filters?: { organizationId?: string; consultantId?: string; clientUserId?: string }
   ): Promise<Project[]> {
+    const where: Prisma.ProjectWhereInput = {
+      organization: { tenantId },
+    };
+
+    if (filters?.consultantId) {
+      where.consultantId = filters.consultantId;
+    }
+
+    if (filters?.organizationId && filters?.clientUserId) {
+      where.OR = [
+        { organizationId: filters.organizationId },
+        { clientUserId: filters.clientUserId },
+      ];
+    } else {
+      if (filters?.organizationId) {
+        where.organizationId = filters.organizationId;
+      }
+      if (filters?.clientUserId) {
+        where.clientUserId = filters.clientUserId;
+      }
+    }
+
     return prisma.project.findMany({
-      where: {
-        organization: { tenantId },
-        ...(filters?.organizationId && { organizationId: filters.organizationId }),
-        ...(filters?.consultantId && { consultantId: filters.consultantId }),
-        ...(filters?.clientUserId && { clientUserId: filters.clientUserId }),
-      },
+      where,
       include: {
         organization: { select: { id: true, name: true, logoUrl: true, logoPath: true } },
         consultant: { select: { id: true, firstName: true, lastName: true } },
